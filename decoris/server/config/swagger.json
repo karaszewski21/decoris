@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ata",
+    "description": "",
+    "version": "1.0"
+  },
+  "components": {
+    "schemas": {
+      "ProductStatus": {
+        "type": "integer",
+        "enum": [1, 2, 3]
+      }
+    },
+
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "produces": ["application/json"],
+  "paths": {
+    "/api/clients/get-clients": {
+      "post": {
+        "tags": ["client"],
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  },
+                  "business_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "voivodeships": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "cities": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "countries": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+
+    "/api/clients/get-client/{client_name}": {
+      "post": {
+        "tags": ["client"],
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "client_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+
+    "/api/clients/add-client": {
+      "post": {
+        "tags": ["client"],
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "nip": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "web_page": {
+                    "type": "string"
+                  },
+                  "phone_number": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "post_code": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "voivodeship": {
+                    "type": "string"
+                  },
+                  "notes": {
+                    "type": "string"
+                  },
+                  "business_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "aluminium_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "aluminium_fittings": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "pcv_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "pcv_fittings": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    }
+  }
+}

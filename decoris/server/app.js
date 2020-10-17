@@ -1,17 +1,20 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const winston = require("./config/winston");
+const router = require("./routes");
+const app = express();
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerDocument = require("./config/swagger.json");
 
-var router = require("./routes");
-
-var app = express();
-
-app.use(logger("dev"));
+app.use(morgan("combined", { stream: winston.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router(app);
 
