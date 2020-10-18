@@ -1,5 +1,6 @@
 const clientsService = require("../lib/client/clientService");
 const logger = require("../config/winston");
+const { companies } = require("../db/models");
 
 class ClientsController {
   constructor() {}
@@ -52,9 +53,14 @@ class ClientsController {
 
   async deleteClientById(req, res) {
     try {
-      res.send("delte" + req.params.id);
+      const client = await companies.findOne({
+        where: { name: req.params.name },
+      });
+
+      await companies.destroy({ where: { id: client.id } });
+      res.send(client.id);
     } catch (error) {
-      res.status(404).send(error);
+      res.status(404).send(`message: ${error.message}`);
     }
   }
 }

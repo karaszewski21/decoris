@@ -212,6 +212,23 @@
         },
         "responses": {}
       }
+    },
+    "/api/clients/delete-client/{client_name}": {
+      "delete": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "client_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
     }
   }
 }
