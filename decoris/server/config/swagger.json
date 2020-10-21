@@ -24,6 +24,23 @@
 
   "produces": ["application/json"],
   "paths": {
+    "/api/clients/get-client/{id}": {
+      "get": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/api/clients/get-clients": {
       "post": {
         "tags": ["client"],
@@ -41,6 +58,14 @@
                   "offset": {
                     "type": "integer",
                     "fromat": "int64"
+                  },
+                  "name": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
                   },
                   "business_profiles": {
                     "type": "array",
@@ -84,43 +109,6 @@
       }
     },
 
-    "/api/clients/get-client/{client_name}": {
-      "post": {
-        "tags": ["client"],
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "limit": {
-                    "type": "integer",
-                    "fromat": "int64"
-                  },
-                  "offset": {
-                    "type": "integer",
-                    "fromat": "int64"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "client_name",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-
     "/api/clients/add-client": {
       "post": {
         "tags": ["client"],
@@ -155,20 +143,54 @@
                   "city": {
                     "type": "string"
                   },
-                  "country": {
-                    "type": "string"
-                  },
                   "voivodeship": {
                     "type": "string"
                   },
-                  "notes": {
+                  "country": {
                     "type": "string"
+                  },
+                  "employees": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "surname": {
+                          "type": "string"
+                        },
+                        "phone_number": {
+                          "type": "string"
+                        },
+                        "fax": {
+                          "type": "string"
+                        },
+                        "name_position": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "notes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "createdNote": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   },
                   "business_profiles": {
                     "type": "array",
                     "items": {
                       "name": {
-                        "type": "sting"
+                        "type": "string"
                       }
                     }
                   },
@@ -176,7 +198,7 @@
                     "type": "array",
                     "items": {
                       "name": {
-                        "type": "sting"
+                        "type": "string"
                       }
                     }
                   },
@@ -192,7 +214,7 @@
                     "type": "array",
                     "items": {
                       "name": {
-                        "type": "sting"
+                        "type": "string"
                       }
                     }
                   },
@@ -200,7 +222,7 @@
                     "type": "array",
                     "items": {
                       "name": {
-                        "type": "sting"
+                        "type": "string"
                       }
                     }
                   }

@@ -1,13 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
-// const {
-//   cities,
-//   voivodeships,
-//   countries,
-//   notes,
-//   companies,
-// } = require("../models");
 
 module.exports = (sequelize, DataTypes) => {
   class companies extends Model {
@@ -16,19 +9,32 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate() {
-      // companies.belongsTo(cities);
-      // companies.belongsTo(voivodeships, { as: "voivodesships" });
-      // companies.belongsTo(countries);
-      // companies.belongsTo(notes);
+    static associate(models) {
+      models.companies.belongsTo(models.cities);
+      models.companies.belongsTo(models.countries);
+      models.companies.belongsTo(models.notes);
+      models.companies.belongsTo(models.voivodeships);
+
+      models.companies.belongsToMany(models.aluminium_profiles, {
+        through: models.companies_aluminium_profiles,
+      });
+      models.companies.belongsToMany(models.aluminium_fittings, {
+        through: models.companies_aluminium_fittings,
+      });
+      models.companies.belongsToMany(models.pcv_fittings, {
+        through: models.companies_pcv_fittings,
+      });
+      models.companies.belongsToMany(models.pcv_profiles, {
+        through: models.companies_pcv_profiles,
+      });
+
+      models.companies.belongsToMany(models.business_profiles, {
+        through: models.companies_business_profiles,
+      });
     }
   }
   companies.init(
     {
-      // id: {
-      //   type: DataTypes.UUID,
-      //   defaultValue: sequelize.UUIDV4,
-      // },
       name: DataTypes.STRING,
       nip: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -36,9 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       phone_number: DataTypes.STRING,
       address: DataTypes.STRING,
       post_code: DataTypes.STRING,
-      city_id: DataTypes.INTEGER,
+      city_id: { type: DataTypes.INTEGER },
       country_id: DataTypes.INTEGER,
-      voivodesship_id: DataTypes.INTEGER,
+      voivodeship_id: DataTypes.INTEGER,
       note_id: DataTypes.INTEGER,
     },
     {

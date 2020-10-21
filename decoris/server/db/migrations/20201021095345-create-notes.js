@@ -1,5 +1,4 @@
 "use strict";
-const { DataTypes } = require("sequelize");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("notes", {
@@ -10,7 +9,22 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       text: {
-        type: DataTypes.TEXT,
+        type: Sequelize.TEXT,
+      },
+      createdNote: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.DATE.NOW,
+      },
+      company_id: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: "companies",
+          },
+          key: "id",
+        },
+        onDelete: "CASCADE",
       },
     });
   },

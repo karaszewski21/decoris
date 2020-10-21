@@ -10,7 +10,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING(100),
-        allowNull: true,
+        allowNull: false,
       },
       surname: {
         type: Sequelize.STRING(100),
@@ -37,6 +37,7 @@ module.exports = {
       },
       company_id: {
         type: Sequelize.UUID,
+        allowNull: false,
         references: {
           model: {
             tableName: "companies",

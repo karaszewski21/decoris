@@ -5,6 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert("cities", [
       { name: "Bytow" },
       { name: "Warszawa" },
+      { name: "Uga" },
     ]);
   },
   down: (queryInterface, Sequelize) => {

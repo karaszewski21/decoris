@@ -48,23 +48,23 @@ module.exports = {
         },
         onDelete: "SET NULL",
       },
+      voivodeship_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: "voivodeships",
+          },
+          key: "id",
+        },
+        onDelete: "SET NULL",
+      },
       country_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
           model: {
             tableName: "countries",
-          },
-          key: "id",
-        },
-        onDelete: "SET NULL",
-      },
-      voivodesship_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: "voivodeships",
           },
           key: "id",
         },

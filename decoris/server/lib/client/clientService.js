@@ -1,23 +1,6 @@
-const {
-  cities,
-  voivodeships,
-  countries,
-  notes,
-  companies,
-  pcv_profiles,
-  pcv_fittings,
-  aluminium_fittings,
-  aluminium_profiles,
-  business_profiles,
-  databaseProvider,
-  companies_aluminium_fittings,
-  companies_aluminium_profiles,
-  companies_business_profiles,
-  companies_pcv_fittings,
-  companies_pcv_profiles,
-} = require("../../db/models");
+const models = require("../../db/models");
 
-const { Op } = require("sequelize");
+const { Op, QueryTypes, Sequelize } = require("sequelize");
 
 class ClientsService {
   #locationCompany = { city: null, voivodeship: null, country: null };
@@ -29,75 +12,112 @@ class ClientsService {
     pcvFittings: [],
   };
   constructor() {}
+
+  async getCompanyById(id) {
+    models.companies.associate(models);
+    const company = models.companies.findByPk(id);
+
+    return company;
+  }
+
   async getFilteredClientsListByParametrs(parametrs) {
     console.log(parametrs);
     try {
-      //companies.belongsTo(cities);
-      //   companies.belongsTo(voivodeships, { as: "voivodesships" });
-      companies.belongsTo(countries);
-      //   companies.belongsTo(notes);
-      companies.belongsToMany(business_profiles, {
-        through: companies_business_profiles,
-      });
+      models.companies.associate(models);
 
-      let countriesList = await countries.findAll({
-        where: { name: parametrs.countries },
-      });
+      let bodyQuery = { include: [] };
 
-      let businessProfiles = await business_profiles.findAll({
-        where: { name: parametrs.business_profiles },
-      });
-
-      let businessProfilesIDs = businessProfiles.map((value) => {
-        return value.id;
-      });
-
-      let countriesIDs = countriesList.map((value) => {
-        return value.id;
-      });
-      console.log(businessProfilesIDs);
-
-      business_profiles.belongsToMany(companies, {
-        through: companies_business_profiles,
-      });
-
-      const companiesList = await companies.findAndCountAll({
-        attributes: ["name", "nip", "address"],
-        include: [
-          {
-            model: business_profiles,
-            through: { attributes: [] },
-            where: { id: businessProfilesIDs },
-          },
-          {
-            model: countries,
-            where: { id: countriesIDs },
-          },
-        ],
-      });
-      return companiesList;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async getFilteredClientsListByName(name, paging) {
-    try {
-      companies.belongsTo(cities);
-      // companies.belongsTo(voivodeships, { as: "voivodesships" });
-      companies.belongsTo(countries);
-      companies.belongsTo(notes);
-
-      const companiesList = await companies.findAndCountAll({
-        attributes: ["name", "nip", "address"],
-        include: [cities, countries, notes],
-        where: {
+      console.log(bodyQuery);
+      if (parametrs.name.length !== 0) {
+        bodyQuery.where = {
           name: {
-            [Op.regexp]: name,
+            [Op.regexp]: parametrs.name,
           },
+        };
+      }
+
+      if (parametrs.countries.length !== 0) {
+        bodyQuery.include.push({
+          model: models.countries,
+          required: true,
+          where: { name: parametrs.countries },
+        });
+      } else {
+        bodyQuery.include.push({
+          model: models.countries,
+          required: true,
+        });
+      }
+
+      if (parametrs.cities.length !== 0) {
+        bodyQuery.include.push({
+          model: models.cities,
+          required: true,
+          where: { name: parametrs.cities },
+        });
+      } else {
+        bodyQuery.include.push({
+          model: models.cities,
+          required: true,
+        });
+      }
+
+      if (parametrs.business_profiles.length !== 0) {
+        bodyQuery.include.push({
+          model: models.business_profiles,
+          through: { attributes: [] },
+          where: { name: parametrs.business_profiles },
+        });
+      } else {
+        bodyQuery.include.push({
+          model: models.business_profiles,
+          through: { attributes: [] },
+        });
+      }
+
+      if (parametrs.voivodeships.length !== 0) {
+        bodyQuery.include.push({
+          model: models.voivodeships,
+          required: true,
+          where: { name: parametrs.voivodeships },
+        });
+      } else {
+        bodyQuery.include.push({
+          model: models.voivodeships,
+          required: true,
+        });
+      }
+
+      bodyQuery.include.push(
+        {
+          model: models.business_profiles,
+          through: { attributes: [] },
         },
-        limit: paging.limit,
-        offset: paging.offset,
+        {
+          model: models.aluminium_profiles,
+          through: { attributes: [] },
+        },
+        {
+          model: models.aluminium_fittings,
+          through: { attributes: [] },
+        },
+        {
+          model: models.pcv_fittings,
+          through: { attributes: [] },
+        },
+        {
+          model: models.pcv_profiles,
+          through: { attributes: [] },
+        }
+      );
+
+      console.log(bodyQuery);
+      const companiesList = await models.models.companies.findAndCountAll({
+        attributes: ["name", "nip", "address"],
+        include: bodyQuery.include,
+        where: bodyQuery.where,
+        limit: parametrs.limit,
+        offset: parametrs.offset,
       });
 
       return companiesList;
@@ -108,13 +128,13 @@ class ClientsService {
 
   async createCompany(body) {
     const transaction = await databaseProvider.transaction();
-    companies.belongsTo(notes);
+    models.companies.belongsTo(notes);
     try {
       await this.complateLocationCompany(body);
       await this.complateBusinessProfiles(body);
       await this.complateProfilesAndFittings(body);
 
-      const company = await companies.create(
+      const company = await models.companies.create(
         {
           name: body.name,
           nip: body.nip,
@@ -124,11 +144,10 @@ class ClientsService {
           address: body.address,
           post_code: body.post_code,
           city_id: this.#locationCompany.city.id,
-          voivodesship_id: this.#locationCompany.voivodeship
+          voivodeship_id: this.#locationCompany.voivodeship
             ? this.#locationCompany.voivodeship.id
             : this.#locationCompany.voivodeship,
           country_id: this.#locationCompany.country.id,
-          note: { text: body.notes },
         },
 
         {
@@ -138,7 +157,7 @@ class ClientsService {
       );
 
       for (const businessProfile of this.#businessProfiles) {
-        await companies_business_profiles.create(
+        await models.companies_business_profiles.create(
           {
             company_id: company.id,
             business_profile_id: businessProfile.id,
@@ -151,7 +170,7 @@ class ClientsService {
 
       for (const aluminiumProfile of this.#profilesAndFittings
         .aluminiumProfiles) {
-        await companies_aluminium_profiles.create(
+        await models.companies_aluminium_profiles.create(
           {
             company_id: company.id,
             aluminium_profile_id: aluminiumProfile.id,
@@ -164,7 +183,7 @@ class ClientsService {
 
       for (const aluminiumFitting of this.#profilesAndFittings
         .aluminiumFittings) {
-        await companies_aluminium_fittings.create(
+        await models.companies_aluminium_fittings.create(
           {
             company_id: company.id,
             aluminium_fitting_id: aluminiumFitting.id,
@@ -176,7 +195,7 @@ class ClientsService {
       }
 
       for (const pcvFitting of this.#profilesAndFittings.pcvFittings) {
-        await companies_pcv_fittings.create(
+        await models.companies_pcv_fittings.create(
           {
             company_id: company.id,
             pcv_fitting_id: pcvFitting.id,
@@ -187,7 +206,7 @@ class ClientsService {
         );
 
         for (const pcvProfile of this.#profilesAndFittings.pcvProfiles) {
-          await companies_pcv_profiles.create(
+          await models.companies_pcv_profiles.create(
             {
               company_id: company.id,
               pcv_profile_id: pcvProfile.id,
@@ -207,23 +226,37 @@ class ClientsService {
     }
   }
 
-  resetPrivateField() {
-    console.log("reset");
-    this.#locationCompany = { city: null, voivodeship: null, country: null };
-    this.#businessProfiles = [];
-    this.#profilesAndFittings = {
-      aluminiumProfiles: [],
-      aluminiumFittings: [],
-      pcvProfiles: [],
-      pcvFittings: [],
-    };
-    console.log(this.#businessProfiles);
+  async deleteClientByName(nameCompany) {
+    const transaction = await databaseProvider.transaction();
+
+    try {
+      const company = await models.companies.findOne({
+        where: { name: nameCompany },
+      });
+
+      await models.notes.destroy({
+        where: { id: company.note_id },
+        transaction: transaction,
+      });
+
+      await models.companies.destroy({
+        where: { id: company.id },
+        transaction: transaction,
+      });
+
+      await transaction.commit();
+
+      return company.id;
+    } catch (error) {
+      await transaction.rollback();
+      throw new Error(error);
+    }
   }
 
   async complateBusinessProfiles(body) {
     try {
       for (const name of body.business_profiles) {
-        const businessProfile = await business_profiles.findOne({
+        const businessProfile = await models.business_profiles.findOne({
           where: { name: name },
         });
 
@@ -251,7 +284,7 @@ class ClientsService {
   async validateProfiles(body) {
     try {
       for (const name of body.aluminium_profiles) {
-        const aluminiumProfile = await aluminium_profiles.findOne({
+        const aluminiumProfile = await models.aluminium_profiles.findOne({
           where: { name: name },
         });
 
@@ -265,7 +298,7 @@ class ClientsService {
       }
 
       for (const name of body.pcv_profiles) {
-        const pcvProfile = await pcv_profiles.findOne({
+        const pcvProfile = await models.pcv_profiles.findOne({
           where: { name: name },
         });
 
@@ -282,7 +315,7 @@ class ClientsService {
   async validateFittings(body) {
     try {
       for (const name of body.aluminium_fittings) {
-        const aluminiumFitting = await aluminium_fittings.findOne({
+        const aluminiumFitting = await models.aluminium_fittings.findOne({
           where: { name: name },
         });
 
@@ -296,7 +329,7 @@ class ClientsService {
       }
 
       for (const name of body.pcv_fittings) {
-        const pcvFitting = await pcv_fittings.findOne({
+        const pcvFitting = await models.pcv_fittings.findOne({
           where: { name: name },
         });
 
@@ -328,7 +361,7 @@ class ClientsService {
 
   async validateCountry(body) {
     try {
-      const country = await countries.findOne({
+      const country = await models.countries.findOne({
         where: { name: body.country },
       });
 
@@ -344,7 +377,7 @@ class ClientsService {
 
   async validateCity(body) {
     try {
-      const city = await cities.findOne({
+      const city = await models.cities.findOne({
         where: { name: body.city },
       });
 
@@ -360,7 +393,7 @@ class ClientsService {
 
   async validateVoivodeship(body) {
     try {
-      const voivodeship = await voivodeships.findOne({
+      const voivodeship = await models.voivodeships.findOne({
         where: { name: body.voivodeship },
       });
 

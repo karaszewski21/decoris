@@ -10,6 +10,7 @@ module.exports = {
       },
       company_id: {
         type: Sequelize.UUID,
+        allowNull: false,
         references: {
           model: {
             tableName: "companies",
@@ -20,6 +21,7 @@ module.exports = {
       },
       pcv_profile_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: {
             tableName: "pcv_profiles",
