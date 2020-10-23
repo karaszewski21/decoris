@@ -12,8 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.companies.belongsTo(models.cities);
       models.companies.belongsTo(models.countries);
-      models.companies.belongsTo(models.notes);
       models.companies.belongsTo(models.voivodeships);
+      models.companies.hasMany(models.notes);
+      models.companies.hasMany(models.empolyees);
 
       models.companies.belongsToMany(models.aluminium_profiles, {
         through: models.companies_aluminium_profiles,
@@ -45,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
       city_id: { type: DataTypes.INTEGER },
       country_id: DataTypes.INTEGER,
       voivodeship_id: DataTypes.INTEGER,
-      note_id: DataTypes.INTEGER,
     },
     {
       sequelize,
@@ -53,6 +53,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  companies.beforeCreate((company) => (company.id = uuidv4()));
+  //companies.beforeCreate((company) => (company.id = uuidv4()));
   return companies;
 };

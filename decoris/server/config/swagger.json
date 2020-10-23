@@ -119,36 +119,42 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "parametrs": {
+                    "typ": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "nip": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "web_page": {
+                        "type": "string"
+                      },
+                      "phone_number": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      },
+                      "post_code": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "voivodeship": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      }
+                    }
                   },
-                  "nip": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "web_page": {
-                    "type": "string"
-                  },
-                  "phone_number": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "post_code": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
-                  },
-                  "voivodeship": {
-                    "type": "string"
-                  },
-                  "country": {
-                    "type": "string"
-                  },
+
                   "employees": {
                     "type": "array",
                     "items": {
@@ -177,9 +183,6 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "createdNote": {
-                          "type": "string"
-                        },
                         "text": {
                           "type": "string"
                         }
@@ -235,13 +238,42 @@
         "responses": {}
       }
     },
-    "/api/clients/delete-client/{client_name}": {
+    "/api/clients/update-client/{id}": {
+      "put": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+    "/api/clients/delete-client/{id}": {
       "delete": {
         "tags": ["client"],
         "description": "",
         "parameters": [
           {
-            "name": "client_name",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {

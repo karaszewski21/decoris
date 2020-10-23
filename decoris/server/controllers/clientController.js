@@ -16,6 +16,23 @@ class ClientsController {
       res.status(404).send(error.message);
     }
   }
+
+  async updateClientById(req, res) {
+    logger.log("info", ">>> updateClientById");
+    try {
+      const client = await new clientsService().updateCompanyById(
+        req.params.id,
+        req.body
+      );
+
+      res.send(client);
+      logger.log("info", "<<< updateClientById");
+    } catch (error) {
+      logger.log("error", `${error.message} ${req.url}`);
+      res.status(404).send(error.message);
+    }
+  }
+
   async getFilteredClientsListByParametrs(req, res) {
     logger.log("info", ">>> getClientsList");
     try {
@@ -42,18 +59,10 @@ class ClientsController {
     }
   }
 
-  async updateClient(req, res) {
+  async deleteClientById(req, res) {
     try {
-      res.send("update" + req.params.id);
-    } catch (error) {
-      res.status(404).send(error);
-    }
-  }
-
-  async deleteClientByName(req, res) {
-    try {
-      const clientId = await new clientsService().deleteClientByName(
-        req.params.name
+      const clientId = await new clientsService().deleteClientById(
+        req.params.id
       );
       res.send(clientId);
     } catch (error) {

@@ -50,4 +50,6 @@ module.exports = {
   pcv_fittings: require("./pcv_fittings")(sequelize, DataTypes),
   pcv_profiles: require("./pcv_profiles")(sequelize, DataTypes),
   voivodeships: require("./voivodeships")(sequelize, DataTypes),
+  position_empolyees: require("./position_employees")(sequelize, DataTypes),
+  empolyees: require("./employee")(sequelize, DataTypes),
 };

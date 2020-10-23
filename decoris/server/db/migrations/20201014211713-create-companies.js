@@ -70,17 +70,6 @@ module.exports = {
         },
         onDelete: "SET NULL",
       },
-      note_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: {
-            tableName: "notes",
-          },
-          key: "id",
-        },
-        onDelete: "SET NULL",
-      },
     });
   },
   down: async (queryInterface, Sequelize) => {

@@ -11,7 +11,7 @@ module.exports = {
       text: {
         type: Sequelize.TEXT,
       },
-      createdNote: {
+      created_note: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.DATE.NOW,
       },

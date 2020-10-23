@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/get-client/:id", clientController.getClientById);
 router.post("/get-clients", clientController.getFilteredClientsListByParametrs);
 router.post("/add-client", clientController.createClient);
-router.put("/update-client/:id", clientController.updateClient);
-router.delete("/delete-client/:name", clientController.deleteClientByName);
+router.put("/update-client/:id", clientController.updateClientById);
+router.delete("/delete-client/:id", clientController.deleteClientById);
 
 module.exports = router;
