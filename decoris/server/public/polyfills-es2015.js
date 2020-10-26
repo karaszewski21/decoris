@@ -3026,17 +3026,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!********************************!*\
   !*** multi ./src/polyfills.ts ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/patryk/Desktop/kuba-sokolowski/decoris/client/decoris/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /home/patryk/Desktop/kuba-sokolowski/decoris/client/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })
 
-},[[1,"runtime"]]]);
-//# sourceMappingURL=polyfills.js.map
+},[[2,"runtime"]]]);
+//# sourceMappingURL=polyfills-es2015.js.map

@@ -1,0 +1,288 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ata",
+    "description": "",
+    "version": "1.0"
+  },
+  "components": {
+    "schemas": {
+      "ProductStatus": {
+        "type": "integer",
+        "enum": [1, 2, 3]
+      }
+    },
+
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "produces": ["application/json"],
+  "paths": {
+    "/api/clients/get-client/{id}": {
+      "get": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/clients/get-clients": {
+      "post": {
+        "tags": ["client"],
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "fromat": "int64"
+                  },
+                  "name": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "business_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "voivodeships": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "cities": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "countries": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+
+    "/api/clients/add-client": {
+      "post": {
+        "tags": ["client"],
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parametrs": {
+                    "typ": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "nip": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "web_page": {
+                        "type": "string"
+                      },
+                      "phone_number": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      },
+                      "post_code": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "voivodeship": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      }
+                    }
+                  },
+
+                  "employees": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "surname": {
+                          "type": "string"
+                        },
+                        "phone_number": {
+                          "type": "string"
+                        },
+                        "fax": {
+                          "type": "string"
+                        },
+                        "name_position": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "notes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "business_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "aluminium_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "aluminium_fittings": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "sting"
+                      }
+                    }
+                  },
+                  "pcv_profiles": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "pcv_fittings": {
+                    "type": "array",
+                    "items": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+    "/api/clients/update-client/{id}": {
+      "put": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+    "/api/clients/delete-client/{id}": {
+      "delete": {
+        "tags": ["client"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
