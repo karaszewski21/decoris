@@ -432,17 +432,17 @@ module.exports = content.locals || {};
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!*******************************!*\
   !*** multi ./src/styles.scss ***!
   \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/patryk/Desktop/kuba-sokolowski/decoris/client/decoris/src/styles.scss */"./src/styles.scss");
+module.exports = __webpack_require__(/*! /home/patryk/Desktop/kuba-sokolowski/decoris/client/src/styles.scss */"./src/styles.scss");
 
 
 /***/ })
 
-},[[2,"runtime"]]]);
-//# sourceMappingURL=styles.js.map
+},[[3,"runtime"]]]);
+//# sourceMappingURL=styles-es2015.js.map

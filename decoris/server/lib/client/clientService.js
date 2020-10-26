@@ -1,5 +1,6 @@
 const models = require("../../db/models");
 const CompanyCreator = require("./companyCreator");
+const CompanyUpdater = require("./companyUpdater");
 
 const { Op, QueryTypes, Sequelize } = require("sequelize");
 
@@ -9,6 +10,7 @@ class ClientsService {
   async getCompanyById(id) {
     models.companies.associate(models);
     const company = models.companies.findByPk(id, {
+      attributes: ["id", "name", "nip", "address"],
       include: [
         models.cities,
         models.voivodeships,
@@ -27,35 +29,14 @@ class ClientsService {
   }
 
   async updateCompanyById(id, body) {
-    const transaction = await models.databaseProvider.transaction();
     try {
-      console.log(body);
       models.companies.associate(models);
+      const companyUpdater = new CompanyUpdater();
+      await companyUpdater.updateCompanyById(id, body);
 
-      Promise.all([
-        models.companies.update(body, {
-          where: { id: id },
-          transaction: transaction,
-        }),
-        models.cities.update(body, {
-          where: { id: id },
-          transaction: transaction,
-        }),
-        models.voivodeships.update(body, {
-          where: { id: id },
-          transaction: transaction,
-        }),
-        models.countries.update(body, {
-          where: { id: id },
-          transaction: transaction,
-        }),
-      ]);
-
-      transaction.commit();
-      const company = this.getCompanyById(id);
+      const company = await this.getCompanyById(id);
       return company;
     } catch (error) {
-      transaction.rollback();
       throw new Error(error);
     }
   }
