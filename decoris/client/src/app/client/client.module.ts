@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { ClientRoutingModule } from './client-routing.module';
-import { ClientComponent } from './client/client.component';
-
+import { ClientRoutingModule } from "./client-routing.module";
+import { ClientComponent } from "./client/client.component";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [ClientComponent],
-  imports: [
-    CommonModule,
-    ClientRoutingModule
-  ]
+  imports: [CommonModule, ClientRoutingModule, SharedModule],
 })
-export class ClientModule { }
+export class ClientModule {}

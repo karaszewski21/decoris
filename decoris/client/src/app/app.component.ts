@@ -8,4 +8,5 @@ import { Router } from "@angular/router";
 })
 export class AppComponent {
   title = "decoris";
+  hide = true;
 }
