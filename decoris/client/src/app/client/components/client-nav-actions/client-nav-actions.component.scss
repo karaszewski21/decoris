@@ -1,0 +1,15 @@
+.client-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  &__button-new-client {
+    margin: 10px;
+  }
+  &__spacer {
+    flex-grow: 1;
+  }
+  &__file-download {
+    margin: 10px;
+  }
+}

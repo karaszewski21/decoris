@@ -1,0 +1,27 @@
+.client-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(12, 105, 105);
+  box-shadow: 0 0 4px black;
+  margin: 20px;
+  flex-wrap: wrap;
+
+  &__market {
+    flex-basis: 100%;
+    margin: 10px;
+  }
+  &__list-buttons {
+    flex-basis: 100%;
+    margin: 10px;
+  }
+}
+
+.nav-market {
+  display: flex;
+  justify-content: center;
+}
+.nav-list-buttons {
+  display: flex;
+  justify-content: center;
+}

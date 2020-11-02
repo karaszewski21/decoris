@@ -1,0 +1,52 @@
+.content-dialog {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    flex-basis: 100%;
+  }
+  &__title {
+    flex-basis: 100%;
+  }
+  &__forms {
+    flex-basis: 100%;
+  }
+  &__footer {
+    flex-basis: 100%;
+  }
+}
+
+.dialog-header {
+  display: flex;
+
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+
+.dialog-title {
+  display: flex;
+
+  &__name {
+  }
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+
+.dialog-forms {
+  display: flex;
+
+  &_input {
+    margin: 10px;
+  }
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+
+.dialog-footer {
+  &__spacer {
+    flex-grow: 1;
+  }
+}

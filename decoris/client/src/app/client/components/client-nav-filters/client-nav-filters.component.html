@@ -1,0 +1,46 @@
+<div class="nav-filters">
+  <mat-form-field appearance="outline" class="nav-filters__name-company">
+    <mat-label>Nazwa firmy</mat-label>
+    <input matInput placeholder="Nazwa firmy" />
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="nav-filters__business-profile">
+    <mat-label>Profil dzialalnosci</mat-label>
+    <mat-select [formControl]="businessProfiles" multiple>
+      <mat-option
+        *ngFor="let businessProfile of businessProfilesList"
+        [value]="businessProfile"
+        >{{ businessProfile }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="nav-filters__name-city">
+    <mat-label>Miasto</mat-label>
+    <mat-select [formControl]="cities" multiple>
+      <mat-option *ngFor="let city of citiesList" [value]="city">{{
+        city
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="nav-filters__name-voivodeship">
+    <mat-label>Wojewodztwo</mat-label>
+    <mat-select [formControl]="voivedeships" multiple>
+      <mat-option
+        *ngFor="let voivedeship of voivedeshipsList"
+        [value]="voivedeship"
+        >{{ voivedeship }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    mat-icon-button
+    aria-label="Example icon-button with heart icon"
+    class="nav-filters__button-refresh"
+  >
+    <mat-icon>refresh</mat-icon>
+  </button>
+</div>

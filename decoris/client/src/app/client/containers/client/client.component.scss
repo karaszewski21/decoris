@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+
+.client-content {
+  display: flex;
+  flex-direction: column;
+
+  &__client-nav {
+    height: 50px;
+    // margin: 20px;
+    flex-basis: 100%;
+  }
+  &__client-toolbar {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+  &__nav-filters {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+  &__client-list {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+}
+
+.toolbar__actions {
+  display: flex;
+  //  justify-content: center;
+}
+
+// .btn {
+//   width: auto;
+//   height: auto;
+// }
+
+// .buttons {
+//   display: inline;
+// }
+
+.toolbarNav {
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+}

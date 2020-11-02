@@ -1,0 +1,25 @@
+.nav-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  &__name-company {
+    // flex-basis: 100%;
+    margin: 0 10px 10px;
+  }
+  &__business-profile {
+    // flex-basis: 100%;
+    margin: 5px 10px 10px;
+  }
+  &__name-city {
+    //  flex-basis: 100%;
+    margin: 5px 10px 10px;
+  }
+  &__name-voivodeship {
+    //   flex-basis: 100%;
+    margin: 5px 10px 10px;
+  }
+  &__button-refresh {
+    //   flex-basis: 100%;
+    margin: 5px 10px 10px;
+  }
+}

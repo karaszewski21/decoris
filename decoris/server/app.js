@@ -8,7 +8,9 @@ const app = express();
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerDocument = require("./config/swagger.json");
+const cors = require("cors");
 
+app.use(cors());
 app.use(morgan("combined", { stream: winston.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

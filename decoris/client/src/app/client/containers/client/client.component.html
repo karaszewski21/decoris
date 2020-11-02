@@ -1,91 +1,20 @@
+<!-- <ngx-spinner></ngx-spinner> -->
+
 <div class="client-content">
-  <div class="client-content__client-nav client-nav">
-    <p class="client-nav__market nav-market">Rynki</p>
-    <div class="client-nav__list-buttons nav-list-buttons">
-      <button
-        class="client-content__button-client-nav client-button"
-        mat-stroked-button
-      >
-        Wszystkie
-      </button>
-      <button
-        class="client-content__button-client-nav client-button"
-        mat-stroked-button
-      >
-        Polski
-      </button>
-      <button
-        class="client-content__button-client-nav client-button"
-        mat-stroked-button
-      >
-        Zagraniczny
-      </button>
-    </div>
-  </div>
+  <app-client-nav-market
+    class="client-content__client-nav"
+  ></app-client-nav-market>
+  <app-client-nav-actions
+    (openNewClientModalEvent)="openNewClientModal()"
+    class="client-content__client-toolbar"
+  ></app-client-nav-actions>
 
-  <div class="client-content__client-toolbar client-toolbar">
-    <div>
-      <button
-        class="client-toolbar__button-new-client client-button"
-        mat-stroked-button
-      >
-        Nowy klient
-      </button>
-      <div class="client-toolbar__actions toolbar__actions">
-        <mat-form-field appearance="outline">
-          <mat-label>Nazwa firmy</mat-label>
-          <input matInput placeholder="Nazwa firmy" />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        </mat-form-field>
+  <app-client-nav-filters
+    class="client-toolbar__nav-filters"
+  ></app-client-nav-filters>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Profil dzialalnosci</mat-label>
-          <mat-select [formControl]="businessProfiles" multiple>
-            <mat-option
-              *ngFor="let businessProfile of businessProfilesList"
-              [value]="businessProfile"
-              >{{ businessProfile }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Miasto</mat-label>
-          <mat-select [formControl]="cities" multiple>
-            <mat-option *ngFor="let city of citiesList" [value]="city">{{
-              city
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Wojewodztwo</mat-label>
-          <mat-select [formControl]="voivedeships" multiple>
-            <mat-option
-              *ngFor="let voivedeship of voivedeshipsList"
-              [value]="voivedeship"
-              >{{ voivedeship }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-
-        <button
-          mat-icon-button
-          aria-label="Example icon-button with heart icon"
-        >
-          <mat-icon>refresh</mat-icon>
-        </button>
-
-        <button
-          mat-icon-button
-          aria-label="Example icon-button with heart icon"
-        >
-          <mat-icon>file_download</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="client-content__client-list">
+  <app-client-list></app-client-list>
+  <!-- <div class="client-content__client-list">
     <h3>Version 1</h3>
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
@@ -387,5 +316,11 @@
       [pageSizeOptions]="[5, 10, 20]"
       showFirstLastButtons
     ></mat-paginator>
-  </div>
+  </div> -->
+
+  <!-- <div class="toolbarNav">
+    <button>home</button>
+    <button>filter</button>
+    <button>xx</button>
+  </div> -->
 </div>
