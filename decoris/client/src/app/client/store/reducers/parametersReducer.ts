@@ -45,14 +45,14 @@ export function parametersReducer(
   action: ParametersActions
 ) {
   switch (action.type) {
-    case ParametersActionTypes.GetParametrs: {
+    case ParametersActionTypes.GetParameters: {
       return {
         ...state,
         loading: action.payload.loading,
       };
     }
 
-    case ParametersActionTypes.GetParametrsSuccess: {
+    case ParametersActionTypes.GetParametersSuccess: {
       return {
         ...state,
         businessProfiles: action.payload.businessProfiles,

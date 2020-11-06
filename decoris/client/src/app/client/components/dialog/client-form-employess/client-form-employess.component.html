@@ -1,0 +1,73 @@
+<div class="employee-wrapper">
+  <div class="employee-wrapper__nav-employee nav-employee">
+    <button
+      mat-icon-button
+      class="nav-employee__button-add-employee"
+      (click)="addEmployee()"
+    >
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </div>
+  <div class="employee-wrapper__form-employee">
+    <mat-hint>Nowy pracownik</mat-hint>
+    <mat-divider></mat-divider>
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+        <mat-label>Imie</mat-label>
+        <input matInput formControlName="name" placeholder="Imie pracownika" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nazwisko</mat-label>
+        <input
+          matInput
+          formControlName="surname"
+          placeholder="Nazwisko pracownik"
+        />
+      </mat-form-field>
+      <div class="employee-wrapper__spacer"></div>
+      <mat-form-field>
+        <mat-label>Numer Telefonu</mat-label>
+        <input
+          matInput
+          formControlName="phone_number"
+          placeholder="Numer tel."
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Fax</mat-label>
+        <input matInput formControlName="fax" placeholder="Fax" />
+      </mat-form-field>
+      <div class="employee-wrapper__spacer"></div>
+      <mat-form-field>
+        <mat-label>Stanowisko</mat-label>
+        <input
+          matInput
+          formControlName="positionEmpolyee"
+          placeholder="Stanowisko pracownika"
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="employee-wrapper__list-employee list-employee">
+    <mat-hint>Lista pracownikow</mat-hint>
+    <mat-divider></mat-divider>
+    <div class="employee-wrapper__spacer"></div>
+
+    <ul>
+      <li *ngFor="let employee of employeeList.values()">
+        {{ employee.name }}
+        {{ employee.surname }}
+        {{ employee.phone_number }}
+        {{ employee.fax }}
+        {{ employee.positionEmpolyee }}
+        <button mat-icon-button (click)="updateEmployee(employee.id)">
+          <mat-icon>person_outlin</mat-icon>
+        </button>
+        <button mat-icon-button (click)="removeEmployee(employee.id)">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+      </li>
+    </ul>
+    <mat-divider></mat-divider>
+  </div>
+</div>

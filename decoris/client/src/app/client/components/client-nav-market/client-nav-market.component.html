@@ -1,8 +1,26 @@
 <div class="client-nav">
   <p class="client-nav__market nav-market">Rynki</p>
   <div class="client-nav__list-buttons nav-list-buttons">
-    <button class="client-button" mat-stroked-button>Wszystkie</button>
-    <button class="client-button" mat-stroked-button>Polski</button>
-    <button class="client-button" mat-stroked-button>Zagraniczny</button>
+    <button
+      class="client-button"
+      mat-stroked-button
+      (click)="selectedMarket('polish')"
+    >
+      Polski
+    </button>
+    <button
+      class="client-button"
+      mat-stroked-button
+      (click)="selectedMarket('foreign')"
+    >
+      Zagraniczny
+    </button>
+    <button
+      class="client-button"
+      mat-stroked-button
+      (click)="selectedMarket('all')"
+    >
+      Wszystkie
+    </button>
   </div>
 </div>

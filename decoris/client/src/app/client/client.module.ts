@@ -17,7 +17,13 @@ import {
   ParametersClientEffects,
 } from "./store";
 import { ClientNavFiltersComponent } from "./components/client-nav-filters/client-nav-filters.component";
-import { ClientDialogComponent } from "./components/dialog/client-dialog/client-dialog.component";
+import { ClientFormBaseParametersComponent } from "./components/dialog/client-form-base-parameters/client-form-base-parameters.component";
+import { ClientFormLocationComponent } from "./components/dialog/client-form-location/client-form-location.component";
+import { ClientFormBusinessProfileComponent } from "./components/dialog/client-form-business-profile/client-form-business-profile.component";
+import { ClientFormEmployessComponent } from "./components/dialog/client-form-employess/client-form-employess.component";
+import { ClientFormFittingsProfilesComponent } from "./components/dialog/client-form-fittings-profiles/client-form-fittings-profiles.component";
+import { ClientFormNotesComponent } from "./components/dialog/client-form-notes/client-form-notes.component";
+import { ClientDialogComponent } from "./containers/client-dialog/client-dialog.component";
 
 @NgModule({
   declarations: [
@@ -27,6 +33,12 @@ import { ClientDialogComponent } from "./components/dialog/client-dialog/client-
     ClientListComponent,
     ClientNavFiltersComponent,
     ClientDialogComponent,
+    ClientFormBaseParametersComponent,
+    ClientFormLocationComponent,
+    ClientFormBusinessProfileComponent,
+    ClientFormEmployessComponent,
+    ClientFormFittingsProfilesComponent,
+    ClientFormNotesComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +51,11 @@ import { ClientDialogComponent } from "./components/dialog/client-dialog/client-
     }),
     EffectsModule.forFeature([ClientEffects, ParametersClientEffects]),
   ],
-  entryComponents: [],
+  // entryComponents: [
+  //   ClientFormBaseParametersComponent,
+  //   ClientFormLocationComponent,
+  //   ClientFormBusinessProfileComponent,
+  //   ClientFormEmployessComponent,
+  // ],
 })
 export class ClientModule {}

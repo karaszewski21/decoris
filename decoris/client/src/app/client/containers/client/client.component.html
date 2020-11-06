@@ -1,8 +1,9 @@
-<!-- <ngx-spinner></ngx-spinner> -->
+<ngx-spinner></ngx-spinner>
 
 <div class="client-content">
   <app-client-nav-market
     class="client-content__client-nav"
+    (selectedMarketEvent)="selectedMarket($event)"
   ></app-client-nav-market>
   <app-client-nav-actions
     (openNewClientModalEvent)="openNewClientModal()"

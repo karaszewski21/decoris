@@ -7,3 +7,4 @@ export * from "./fittings";
 export * from "./country";
 export * from "./employee";
 export * from "./positionEmployee";
+export * from "./note";

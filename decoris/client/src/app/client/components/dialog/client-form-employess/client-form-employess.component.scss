@@ -1,0 +1,22 @@
+.employee-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  &__spacer {
+    flex-basis: 100%;
+  }
+  &__nav-employee {
+    flex-basis: 100%;
+  }
+  &__form-employee {
+    flex-basis: 100%;
+  }
+  &__list-employee {
+    flex-basis: 100%;
+  }
+}
+
+.list-employee {
+  display: flex;
+  flex-direction: column;
+}

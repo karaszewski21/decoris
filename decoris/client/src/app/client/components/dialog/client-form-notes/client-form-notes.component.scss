@@ -1,0 +1,45 @@
+.note-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  &__spacer {
+    flex-basis: 100%;
+  }
+  &__form-text {
+    flex-basis: 100%;
+  }
+  &__button-note-add {
+    flex-basis: 100%;
+  }
+  &__note-list {
+    flex-basis: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.form-text {
+  display: flex;
+  flex-direction: column;
+
+  &__area {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+
+.note-list {
+  display: flex;
+  flex-direction: row;
+  &__text-note {
+    flex-basis: 100%;
+  }
+  &__date-note {
+    flex-basis: 100%;
+  }
+  &___button-update-note {
+    flex-grow: 1;
+  }
+  &___button-remove-note {
+    flex-grow: 1;
+  }
+}

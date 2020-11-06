@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Action } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
-import { Actions, Effect, ofType, createEffect } from "@ngrx/effects";
+import { Actions, Effect, createEffect, ofType } from "@ngrx/effects";
+import { Action } from "@ngrx/store";
 import { ParametersClientService } from "../../../core/services/parameters/client/parameters-client.service";
 import {
   GetCitiesByCountry,
@@ -31,22 +31,20 @@ export class ParametersClientEffects {
   ) {}
 
   @Effect()
-  getClientParameters$: Observable<Action> = this.actions$.pipe(
-    ofType<GetParameters>(ParametersActionTypes.GetParametrs),
-    switchMap(() => this.parametersClientService.getParameters()),
-    tap((value) => console.log(value)),
+  public getClientParameters$: Observable<Action> = this.actions$.pipe(
+    ofType<GetParameters>(ParametersActionTypes.GetParameters),
+    mergeMap(() => this.parametersClientService.getParameters()),
     handleParametersClient()
   );
 
   @Effect()
-  getCitiesByCompanyId$: Observable<Action> = this.actions$.pipe(
+  public getCitiesByCompanyId$: Observable<Action> = this.actions$.pipe(
     ofType<GetCitiesByCountry>(ParametersActionTypes.GetCitiesByCountry),
-    switchMap((action) =>
-      this.parametersClientService.getCitiesByCompanyId(
-        action.payload.companyId
+    mergeMap((action) =>
+      this.parametersClientService.getCitiesByCountryId(
+        action.payload.countriesIds
       )
     ),
-    tap((value) => console.log(value)),
     handleSelectedCitiesByCompany()
   );
 }
@@ -90,8 +88,16 @@ const handleSelectedCitiesByCompany = () => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
       let { cities: citiesList } = response;
+      console.log(response);
+      let cities: City[] = response.map((value) => {
+        return {
+          id: value.id,
+          name: value.name,
+          voivodeship: value.voivodeship,
+        };
+      });
 
-      let cities: City[] = citiesList;
+      console.log(cities);
 
       return new GetCitiesByCountrySuccess({ loading: false, cities });
     })

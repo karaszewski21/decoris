@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label>Adres siedziby</mat-label>
+    <input
+      matInput
+      formControlName="address"
+      placeholder="Nazwa ulic numer ulicy"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Kod pocztowy</mat-label>
+    <input matInput formControlName="post_code" placeholder="xx-xxx" required />
+  </mat-form-field>
+</form>

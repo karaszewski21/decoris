@@ -1,0 +1,108 @@
+<div class="content-dialog">
+  <div mat-dialog-actions class="content-dialog__header dialog-header">
+    <div class="dialog-header__spacer"></div>
+    <button mat-icon-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="content-dialog__title dialog-title">
+    <div class="dialog-title__spacer"></div>
+    <p mat-dialog-title class="dialog-title__name">{{ data.title }}</p>
+    <div class="dialog-title__spacer"></div>
+  </div>
+
+  <div mat-dialog-content class="content-dialog__forms dialog-forms">
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+      <mat-step
+        [stepControl]="baseParametersCompanyFormGroup"
+        errorMessage="Nazwa firmy jest obowiazkowa"
+      >
+        <ng-template matStepLabel>Dane podstawowe klienta</ng-template>
+        <app-client-form-base-parameters
+          [formGroup]="baseParametersCompanyFormGroup"
+        ></app-client-form-base-parameters>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="locationCompanyFormGroup">
+        <ng-template matStepLabel>Lokalizacja klienta</ng-template>
+        <app-client-form-location
+          [formGroup]="locationCompanyFormGroup"
+          [countryList]="countryList"
+          (selectedCountryEvent)="selectedCountry($event)"
+          (selectedCityEvent)="selectedCity($event)"
+          [cityList]="cityList"
+          [voivodeshipList]="voivodeshipList"
+          [disabledCity]="disabledCity"
+          [selectedVoivodeship] = "selectedVoivodeship"
+        ></app-client-form-location>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="businessProfileCompanyFormGroup">
+        <ng-template matStepLabel>Profil Biznesowy</ng-template>
+        <app-client-form-business-profile
+          [formGroup]="businessProfileCompanyFormGroup"
+        ></app-client-form-business-profile>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="fittingsProfilessFormGroup">
+        <ng-template matStepLabel>Okucia i profile</ng-template>
+        <app-client-form-fittings-profiles
+          [formGroup]="fittingsProfilessFormGroup"
+        ></app-client-form-fittings-profiles>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="employeesCompanyFormGroup">
+        <ng-template matStepLabel>Pracownicy</ng-template>
+        <app-client-form-employess
+          [formGroup]="employeesCompanyFormGroup"
+          (addEmployeeEvent)="addEmployees()"
+          (updateEmployeeEvent)="updateEmployee($event)"
+          (removeEmployeeEvent)="removeEmployee($event)"
+          [employeeList]="employeeList"
+        ></app-client-form-employess>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="notesCompanyFormGroup">
+        <ng-template matStepLabel>Notatki</ng-template>
+        <app-client-form-notes
+          [formGroup]="notesCompanyFormGroup"
+          [noteList]="noteList"
+          (updateNoteEvent)="updateNote($event)"
+          (removeNoteEvent)="removeNote($event)"
+          (addNoteEvent)="addNote()"
+        ></app-client-form-notes>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+
+  <div mat-dialog-actions class="content-dialog__footer dialog-footer">
+    <div class="dialog-footer__spacer"></div>
+    <button mat-button cdkFocusInitial (click)="onSaveAndCloseClick()">
+      Zapisz
+    </button>
+  </div>
+</div>

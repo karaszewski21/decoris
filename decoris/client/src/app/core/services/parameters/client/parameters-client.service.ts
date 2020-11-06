@@ -16,11 +16,13 @@ export class ParametersClientService {
 
     return parameters;
   }
-  getCitiesByCompanyId(companyId): Observable<any> {
-    const cities = this.httpClient.get<any>(
-      `${environment.apiUrl}parameters/get-cities/${companyId}`
+  getCitiesByCountryId(countriesIds): Observable<any> {
+    const cities = this.httpClient.post<any>(
+      `${environment.apiUrl}parameters/get-cities`,
+      { countriesIds: countriesIds }
     );
 
+    console.log(cities);
     return cities;
   }
 }

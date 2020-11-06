@@ -21,21 +21,22 @@ class ParametersController {
   }
 
   async getCitiesByCountry(req, res) {
-    const countryId = req.params.countryId;
+    console.log(req.body.countriesIds);
+    const countriesIds = req.body.countriesIds;
     logger.log(
       "info",
-      `>>> ParametersController >>> getCitiesByCountry(${countryId})`
+      `>>> ParametersController >>> getCitiesByCountry(${countriesIds})`
     );
     try {
       const parameters = await new ParametersService().getCitiesByCountryId(
-        countryId
+        countriesIds
       );
       res.send(parameters);
       logger.log("info", "<<< ParametersController <<< getCitiesByCountry");
     } catch (error) {
       logger.log(
         "error",
-        `${error.message} ${req.url} ParametersController >>> getCitiesByCountry(${countryId})`
+        `${error.message} ${req.url} ParametersController >>> getCitiesByCountry(${countriesIds})`
       );
       res.status(404).send(error.message);
     }

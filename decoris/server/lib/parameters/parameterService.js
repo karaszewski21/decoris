@@ -37,13 +37,13 @@ class ParametersService {
     }
   }
 
-  async getCitiesByCountryId(countryId) {
+  async getCitiesByCountryId(countriesIds) {
     logger.log("info", ">>> ParametersService >>> getCitiesByCountryId");
     try {
       models.cities.associate(models);
 
       const cities = models.cities.findAll({
-        where: { country_id: countryId },
+        where: { country_id: countriesIds },
         include: [models.voivodeships],
       });
 

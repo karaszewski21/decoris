@@ -12,19 +12,19 @@ import {
 } from "../../../interfaces/client";
 
 export enum ParametersActionTypes {
-  GetParametrs = "get cities, voivodeships, countries, business profiles [Parametr]",
-  GetParametrsSuccess = "get parametrs is successfully [Parametr]",
-  GetCitiesByCountry = "get cities, voivodeships, countries, business profiles [Parametr]",
+  GetParameters = "get parametrs: cities, voivodeships, countries, business profiles [Parametr]",
+  GetParametersSuccess = "get parametrs cities, voivodeships, countries, business profiles is successfully [Parametr]",
+  GetCitiesByCountry = "get cities by country [Parametr]",
   GetCitiesByCountrySuccess = "get cities by country is successfully [Parametr]",
 }
 
 export class GetParameters implements Action {
-  readonly type = ParametersActionTypes.GetParametrs;
+  readonly type = ParametersActionTypes.GetParameters;
   constructor(public readonly payload: { loading: true }) {}
 }
 
 export class GetParametersSuccess implements Action {
-  readonly type = ParametersActionTypes.GetParametrsSuccess;
+  readonly type = ParametersActionTypes.GetParametersSuccess;
   constructor(
     public readonly payload: {
       businessProfiles: BusinessProfile[];
@@ -42,7 +42,9 @@ export class GetParametersSuccess implements Action {
 
 export class GetCitiesByCountry implements Action {
   readonly type = ParametersActionTypes.GetCitiesByCountry;
-  constructor(public readonly payload: { loading: true; companyId: number }) {}
+  constructor(
+    public readonly payload: { loading: true; countriesIds: number[] }
+  ) {}
 }
 
 export class GetCitiesByCountrySuccess implements Action {

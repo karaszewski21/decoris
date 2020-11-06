@@ -1,0 +1,41 @@
+<div class="note-wrapper">
+  <div class="note-wrapper__button-note-add">
+    <button mat-icon-button (click)="addNote()">
+      <mat-icon>note_add</mat-icon>
+    </button>
+  </div>
+  <div class="note-wrapper__form-text form-text">
+    <form [formGroup]="formGroup">
+      <mat-form-field appearance="fill" class="form-text__area">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput formControlName="text"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <mat-hint>Notatki</mat-hint>
+  <mat-divider></mat-divider>
+  <div class="note-wrapper__note-list">
+    <ul>
+      <li *ngFor="let note of noteList.values()" class="note-list">
+        <p class="note-list__text-note">{{ note.text }}</p>
+        <div class="note-wrapper__spacer"></div>
+        <p class="note-list__date-note">{{ note.createdNote }}</p>
+        <div class="note-wrapper__spacer"></div>
+        <button
+          mat-icon-button
+          class="note-list__button-update-note"
+          (click)="updateNote(note.text)"
+        >
+          <mat-icon>update</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="note-list__button-remove-note"
+          (click)="removeNote(note.text)"
+        >
+          <mat-icon>remove</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
