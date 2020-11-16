@@ -12,6 +12,7 @@ import {
   PcvProfile,
   AluminiumFitting,
   PcvFitting,
+  PositionEmployee,
 } from "../../../interfaces/client";
 
 export interface ParametersState {
@@ -24,6 +25,7 @@ export interface ParametersState {
   pcvProfiles: PcvProfile[];
   aluminiumFittings: AluminiumFitting[];
   pcvFittings: PcvFitting[];
+  positionEmployees: PositionEmployee[];
   loading: boolean;
 }
 
@@ -37,6 +39,7 @@ const initialState: ParametersState = {
   pcvProfiles: [],
   aluminiumFittings: [],
   pcvFittings: [],
+  positionEmployees: [],
   loading: false,
 };
 
@@ -63,6 +66,7 @@ export function parametersReducer(
         pcvProfiles: action.payload.pcvProfiles,
         aluminiumFittings: action.payload.aluminiumFittings,
         pcvFittings: action.payload.pcvFittings,
+        positionEmployees: action.payload.positionEmployees,
         loading: action.payload.loading,
       };
     }

@@ -9,6 +9,7 @@ import {
   PcvProfile,
   AluminiumFitting,
   PcvFitting,
+  PositionEmployee,
 } from "../../../interfaces/client";
 
 export enum ParametersActionTypes {
@@ -35,6 +36,7 @@ export class GetParametersSuccess implements Action {
       pcvProfiles: PcvProfile[];
       aluminiumFittings: AluminiumFitting[];
       pcvFittings: PcvFitting[];
+      positionEmployees: PositionEmployee[];
       loading: false;
     }
   ) {}

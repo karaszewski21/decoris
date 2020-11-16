@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       models.companies.belongsToMany(models.business_profiles, {
-        through: models.companies_business_profiles,
+        through: { model: models.companies_business_profiles },
       });
     }
   }

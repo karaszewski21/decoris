@@ -1,0 +1,35 @@
+{
+  "company": {
+    "parameters": {
+      "name": "Teshh2szxzxt",
+      "nip": "string",
+      "email": "string",
+      "web_page": "string",
+      "phone_number": "string",
+      "address": "string",
+      "post_code": "string",
+      "city": "Warszawa",
+      "voivodeship": "Mazowieckie",
+      "country": "Polska"
+    },
+    "employees": [
+      {
+        "name": "string",
+        "surname": "string",
+        "phone_number": "string",
+        "fax": "string",
+        "positionEmployee": { "name": "Szef" }
+      }
+    ],
+    "notes": [
+      {
+        "text": "string"
+      }
+    ],
+    "business_profiles": ["Hurtownia"],
+    "aluminium_profiles": ["Aluprof"],
+    "aluminium_fittings": ["Master"],
+    "pcv_profiles": ["Aluplast"],
+    "pcv_fittings": ["Winkhaus"]
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormControl } from "@angular/forms";
 
 @Component({
@@ -7,6 +7,8 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./client-nav-filters.component.scss"],
 })
 export class ClientNavFiltersComponent implements OnInit {
+  @Input() filterList: Map<string, any[]>;
+  @Output() getFilterListEvent = new EventEmitter();
   businessProfiles = new FormControl();
   businessProfilesList: string[] = ["XXX", "XXXX", "XXX"];
 
@@ -18,5 +20,7 @@ export class ClientNavFiltersComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getFilterListEvent.emit();
+  }
 }

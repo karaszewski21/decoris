@@ -38,13 +38,17 @@
         <input matInput formControlName="fax" placeholder="Fax" />
       </mat-form-field>
       <div class="employee-wrapper__spacer"></div>
-      <mat-form-field>
+
+      <mat-form-field appearance="fill">
         <mat-label>Stanowisko</mat-label>
-        <input
-          matInput
-          formControlName="positionEmpolyee"
-          placeholder="Stanowisko pracownika"
-        />
+        <mat-select [formControl]="positionEmployeeControl">
+          <mat-option
+            *ngFor="let positionEmployee of positionEmployeeList"
+            [value]="positionEmployee"
+          >
+            {{ positionEmployee.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </form>
   </div>
@@ -54,12 +58,12 @@
     <div class="employee-wrapper__spacer"></div>
 
     <ul>
-      <li *ngFor="let employee of employeeList.values()">
+      <li *ngFor="let employee of selectedEmployeeList.values()">
         {{ employee.name }}
         {{ employee.surname }}
         {{ employee.phone_number }}
         {{ employee.fax }}
-        {{ employee.positionEmpolyee }}
+        {{ employee.positionEmployee.name }}
         <button mat-icon-button (click)="updateEmployee(employee.id)">
           <mat-icon>person_outlin</mat-icon>
         </button>

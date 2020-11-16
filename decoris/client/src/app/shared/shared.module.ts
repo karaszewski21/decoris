@@ -49,9 +49,10 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { FooterComponent } from "./components/footer/footer.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [FooterComponent],
   imports: [CommonModule, MatNativeDateModule],
   exports: [
     MatNativeDateModule,
@@ -102,6 +103,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     ReactiveFormsModule,
     FormsModule,
     NgxSpinnerModule,
+    FooterComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

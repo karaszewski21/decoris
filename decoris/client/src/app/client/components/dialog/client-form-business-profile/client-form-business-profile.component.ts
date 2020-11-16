@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormGroup, FormControl } from "@angular/forms";
+import { BusinessProfile } from "../../../../interfaces/client";
 
 @Component({
   selector: "app-client-form-business-profile",
@@ -8,7 +9,20 @@ import { FormGroup } from "@angular/forms";
 })
 export class ClientFormBusinessProfileComponent implements OnInit {
   @Input() formGroup: FormGroup;
+  @Input() businessProfileList: BusinessProfile[];
+  @Input() selectedBusinessProfileList: string[];
+  @Input() businessProfileControl: FormControl;
+
+  @Output() selectedBusinessProfileEvent = new EventEmitter<
+    BusinessProfile[]
+  >();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.businessProfileControl.setValue(this.selectedBusinessProfileList);
+  }
+
+  selectedBusinessProfile(value) {
+    this.selectedBusinessProfileEvent.emit(value);
+  }
 }

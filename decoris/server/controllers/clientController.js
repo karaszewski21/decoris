@@ -8,8 +8,11 @@ class ClientsController {
   async getClientById(req, res) {
     logger.log("info", ">>> getClientById");
     try {
-      const client = await new clientsService().getCompanyById(req.params.id);
-      res.send(client);
+      if (req.params.id) {
+        const client = await new clientsService().getCompanyById(req.params.id);
+        res.send(client);
+      }
+
       logger.log("info", "<<< getClientById");
     } catch (error) {
       logger.log("error", `${error.message} ${req.url}`);
@@ -17,16 +20,16 @@ class ClientsController {
     }
   }
 
-  async updateClientById(req, res) {
-    logger.log("info", ">>> updateClientById");
+  async updateClient(req, res) {
+    let bodyCompany = req.body;
     try {
-      const client = await new clientsService().updateCompanyById(
-        req.params.id,
-        req.body
-      );
+      if (bodyCompany.company) {
+        const client = await new clientsService().updateCompany(bodyCompany);
 
-      res.send(client);
-      logger.log("info", "<<< updateClientById");
+        res.send(client);
+      } else {
+        throw new Error(`${bodyCompany}`);
+      }
     } catch (error) {
       logger.log("error", `${error.message} ${req.url}`);
       res.status(404).send(error.message);

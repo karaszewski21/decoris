@@ -10,12 +10,25 @@ import { environment } from "../../../../environments/environment";
 export class ClientService {
   constructor(private httpClient: HttpClient) {}
 
-  getClients(parametrs): Observable<Company[]> {
+  getClients(parameters): Observable<Company[]> {
     let companies: Observable<Company[]>;
 
     companies = this.httpClient.post<Company[]>(
       `${environment.apiUrl}clients/get-clients`,
-      parametrs
+      parameters
+    );
+
+    return companies;
+  }
+
+  addClient(company): Observable<Company[]> {
+    let companies: Observable<Company[]>;
+
+    console.log(company);
+
+    companies = this.httpClient.post<Company[]>(
+      `${environment.apiUrl}clients/add-client`,
+      company
     );
 
     return companies;

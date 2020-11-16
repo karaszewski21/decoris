@@ -16,7 +16,7 @@
   <mat-divider></mat-divider>
   <div class="note-wrapper__note-list">
     <ul>
-      <li *ngFor="let note of noteList.values()" class="note-list">
+      <li *ngFor="let note of selectedNoteList.values()" class="note-list">
         <p class="note-list__text-note">{{ note.text }}</p>
         <div class="note-wrapper__spacer"></div>
         <p class="note-list__date-note">{{ note.createdNote }}</p>

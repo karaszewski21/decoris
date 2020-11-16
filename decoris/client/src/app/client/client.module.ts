@@ -24,6 +24,7 @@ import { ClientFormEmployessComponent } from "./components/dialog/client-form-em
 import { ClientFormFittingsProfilesComponent } from "./components/dialog/client-form-fittings-profiles/client-form-fittings-profiles.component";
 import { ClientFormNotesComponent } from "./components/dialog/client-form-notes/client-form-notes.component";
 import { ClientDialogComponent } from "./containers/client-dialog/client-dialog.component";
+import { ClientNavSearchComponent } from './components/client-nav-search/client-nav-search.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ClientDialogComponent } from "./containers/client-dialog/client-dialog.
     ClientFormEmployessComponent,
     ClientFormFittingsProfilesComponent,
     ClientFormNotesComponent,
+    ClientNavSearchComponent,
   ],
   imports: [
     CommonModule,

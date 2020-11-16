@@ -21,6 +21,7 @@ import {
   PcvProfile,
   AluminiumFitting,
   PcvFitting,
+  PositionEmployee,
 } from "../../../interfaces/client";
 
 @Injectable()
@@ -59,6 +60,7 @@ const handleParametersClient = () => (source: Observable<any>) =>
         aluminiumFittings: aluminiumFittingsList,
         pcvProfiles: pcvProfilesList,
         pcvFittings: pcvFittingsList,
+        positionEmployees: positionEmployeesList,
       } = response;
 
       let cities: City[] = [];
@@ -69,6 +71,7 @@ const handleParametersClient = () => (source: Observable<any>) =>
       let aluminiumFittings: AluminiumFitting[] = aluminiumFittingsList;
       let pcvProfiles: PcvProfile[] = pcvProfilesList;
       let pcvFittings: PcvFitting[] = pcvFittingsList;
+      let positionEmployees: PositionEmployee[] = positionEmployeesList;
 
       return new GetParametersSuccess({
         loading: false,
@@ -80,6 +83,7 @@ const handleParametersClient = () => (source: Observable<any>) =>
         pcvProfiles,
         aluminiumFittings,
         pcvFittings,
+        positionEmployees,
       });
     })
   );

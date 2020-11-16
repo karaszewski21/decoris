@@ -119,7 +119,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "parametrs": {
+                  "parameters": {
                     "typ": "object",
                     "properties": {
                       "name": {
@@ -172,8 +172,14 @@
                         "fax": {
                           "type": "string"
                         },
-                        "name_position": {
-                          "type": "string"
+                        "positionEmployee": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Szef"
+                            }
+                          }
                         }
                       }
                     }
@@ -238,30 +244,150 @@
         "responses": {}
       }
     },
-    "/api/clients/update-client/{id}": {
+    "/api/clients/update-client": {
       "put": {
         "tags": ["client"],
         "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": "string"
-                }
+                  "company": {
+                    "properties": {
+                      "parameters": {
+                        "typ": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "bd8e08ee-8a8a-4e73-8100-8892109d6e83"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "takie tam"
+                          },
+                          "nip": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "web_page": {
+                            "type": "string"
+                          },
+                          "phone_number": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "post_code": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "voivodeship": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          }
+                        }
+                      },
+
+                      "employees": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Zbychu"
+                            },
+                            "surname": {
+                              "type": "string",
+                              "example": "Gadek"
+                            },
+                            "phone_number": {
+                              "type": "string",
+                              "example": "500771639"
+                            },
+                            "fax": {
+                              "type": "string"
+                            },
+                            "positionEmployee": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "Szef"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "notes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "example": "sdfdffd sjsjs"
+                            }
+                          }
+                        }
+                      },
+                      "business_profiles": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [],
+                          "default": "Hurtownia"
+                        }
+                      },
+                      "aluminium_profiles": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [],
+                          "default": "Aluprof"
+                        }
+                      },
+                      "aluminium_fittings": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [],
+                          "default": "Master"
+                        }
+                      },
+                      "pcv_profiles": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [],
+                          "default": "Aluplast"
+                        }
+                      },
+                      "pcv_fittings": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [],
+                          "default": "Winkhaus"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["status"]
               }
-            }
+            },
+            "collectionFormat": "multi"
           }
         },
         "responses": {}
@@ -282,6 +408,21 @@
           }
         ],
         "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "ArrayOfNames": {
+      "type": "array",
+      "items": {
+        "minItems": 1,
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
       }
     }
   }

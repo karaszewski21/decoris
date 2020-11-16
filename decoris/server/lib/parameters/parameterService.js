@@ -14,7 +14,7 @@ class ParametersService {
       const aluminiumFittings = await models.aluminium_fittings.findAll();
       const pcvProfiles = await models.pcv_profiles.findAll();
       const pcvFittings = await models.pcv_fittings.findAll();
-      const positionEmpolyess = await models.position_empolyees.findAll();
+      const positionEmployees = await models.position_empolyees.findAll();
 
       logger.log("info", "<<< ParametersService <<< getParameters");
 
@@ -26,7 +26,7 @@ class ParametersService {
         aluminiumFittings: aluminiumFittings,
         pcvProfiles: pcvProfiles,
         pcvFittings: pcvFittings,
-        positionEmpolyess: positionEmpolyess,
+        positionEmployees: positionEmployees,
       };
     } catch (error) {
       logger.log(

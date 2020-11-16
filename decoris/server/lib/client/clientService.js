@@ -2,9 +2,9 @@ const models = require("../../db/models");
 const CompanyCreator = require("./companyCreator");
 const CompanyUpdater = require("./companyUpdater");
 
-const { Op, QueryTypes, Sequelize } = require("sequelize");
+const { Op } = require("sequelize");
 
-class ClientsService {
+module.exports = class ClientsService {
   constructor() {}
 
   async getCompanyById(id) {
@@ -28,40 +28,65 @@ class ClientsService {
     return company;
   }
 
-  async updateCompanyById(id, body) {
+  async updateCompany(body) {
+    let { company } = body;
     try {
-      models.companies.associate(models);
-      const companyUpdater = new CompanyUpdater();
-      await companyUpdater.updateCompanyById(id, body);
+      const existCompany = await models.companies.findByPk(
+        company.parameters.id
+      );
 
-      const company = await this.getCompanyById(id);
+      if (existCompany) {
+        const companyUpdater = new CompanyUpdater();
+        return await companyUpdater.updateCompany(company);
+      } else {
+        throw new Error(`company id ${company.parameters.id} not exist`);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async createCompany(body) {
+    try {
+      const company = await new CompanyCreator().createCompany(body);
+
       return company;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getFilteredClientsListByParametrs(parametrs) {
-    console.log(parametrs);
+  async deleteClientById(id) {
+    let company = models.companies.findByPk(id);
+
+    if (company) {
+      await company.destroy({ where: { id: company.id } });
+      return company.id;
+    } else {
+      throw new Error(`Client by ID '${id}' not exist in database`);
+    }
+  }
+
+  async getFilteredClientsListByParametrs(parameters) {
+    console.log(parameters);
     try {
       models.companies.associate(models);
 
       let bodyQuery = { include: [] };
 
-      console.log(bodyQuery);
-      if (parametrs.name.length !== 0) {
+      if (parameters.name.length !== 0) {
         bodyQuery.where = {
           name: {
-            [Op.regexp]: parametrs.name,
+            [Op.regexp]: parameters.name,
           },
         };
       }
 
-      if (parametrs.countries.length !== 0) {
+      if (parameters.countries.length !== 0) {
         bodyQuery.include.push({
           model: models.countries,
           required: true,
-          where: { name: parametrs.countries },
+          where: { name: parameters.countries },
         });
       } else {
         bodyQuery.include.push({
@@ -70,11 +95,11 @@ class ClientsService {
         });
       }
 
-      if (parametrs.cities.length !== 0) {
+      if (parameters.cities.length !== 0) {
         bodyQuery.include.push({
           model: models.cities,
           required: true,
-          where: { name: parametrs.cities },
+          where: { name: parameters.cities },
         });
       } else {
         bodyQuery.include.push({
@@ -83,29 +108,31 @@ class ClientsService {
         });
       }
 
-      if (parametrs.business_profiles.length !== 0) {
-        bodyQuery.include.push({
-          model: models.business_profiles,
-          through: { attributes: [] },
-          where: { name: parametrs.business_profiles },
-        });
-      } else {
-        bodyQuery.include.push({
-          model: models.business_profiles,
-          through: { attributes: [] },
-        });
+      if (parameters.countries[0] === "Polska") {
+        if (parameters.voivodeships.length !== 0) {
+          bodyQuery.include.push({
+            model: models.voivodeships,
+            required: true,
+            where: { name: parameters.voivodeships },
+          });
+        } else {
+          bodyQuery.include.push({
+            model: models.voivodeships,
+            required: true,
+          });
+        }
       }
 
-      if (parametrs.voivodeships.length !== 0) {
+      if (parameters.business_profiles.length !== 0) {
         bodyQuery.include.push({
-          model: models.voivodeships,
-          required: true,
-          where: { name: parametrs.voivodeships },
+          model: models.business_profiles,
+          through: { attributes: [] },
+          where: { name: parameters.business_profiles },
         });
       } else {
         bodyQuery.include.push({
-          model: models.voivodeships,
-          required: true,
+          model: models.business_profiles,
+          through: { attributes: [] },
         });
       }
 
@@ -134,41 +161,17 @@ class ClientsService {
         }
       );
 
-      console.log(bodyQuery);
-      const companiesList = await models.companies.findAndCountAll({
+      const companiesList = await models.companies.findAll({
         attributes: ["id", "name", "nip", "address"],
         include: bodyQuery.include,
         where: bodyQuery.where,
-        limit: parametrs.limit,
-        offset: parametrs.offset,
+        limit: parameters.limit,
+        offset: parameters.offset,
       });
 
-      return companiesList;
+      return { rows: companiesList };
     } catch (error) {
       throw new Error(error);
     }
   }
-
-  async createCompany(body) {
-    try {
-      const company = await new CompanyCreator().addCompaniesToDatabase(body);
-
-      return company;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async deleteClientById(id) {
-    let company = models.companies.findByPk(id);
-
-    if (company) {
-      await company.destroy({ where: { id: company.id } });
-      return company.id;
-    } else {
-      throw new Error(`Client by ID '${id}' not exist in database`);
-    }
-  }
-}
-
-module.exports = ClientsService;
+};

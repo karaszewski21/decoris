@@ -9,7 +9,9 @@ export class ClientNavMarketComponent implements OnInit {
   @Output() selectedMarketEvent = new EventEmitter<string>();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   selectedMarket(nameMarket: string) {
     this.selectedMarketEvent.emit(nameMarket);

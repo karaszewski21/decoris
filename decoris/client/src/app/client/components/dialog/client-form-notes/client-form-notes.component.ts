@@ -9,7 +9,7 @@ import { Note } from "../../../../interfaces/client";
 })
 export class ClientFormNotesComponent implements OnInit {
   @Input() formGroup: FormGroup;
-  @Input() noteList: Map<string, Note>;
+  @Input() selectedNoteList: Map<string, Note>;
   @Output() updateNoteEvent = new EventEmitter<string>();
   @Output() removeNoteEvent = new EventEmitter<string>();
   @Output() addNoteEvent = new EventEmitter();

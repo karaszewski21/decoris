@@ -27,8 +27,8 @@ export class ClientFormLocationComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.countryControl = new FormControl();
-    this.cityControl = new FormControl();
+    // this.countryControl = new FormControl();
+    // this.cityControl = new FormControl();
     this.voivodeshipControl = new FormControl();
 
     this.countryControl.valueChanges.subscribe((country) => {

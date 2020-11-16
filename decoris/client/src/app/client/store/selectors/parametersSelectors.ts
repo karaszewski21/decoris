@@ -36,6 +36,11 @@ export const getPcvFittings = createSelector(
   (state) => state.parametersReducer.pcvFittings
 );
 
+export const getPositionEmployees = createSelector(
+  getParametrsState,
+  (state) => state.parametersReducer.positionEmployees
+);
+
 export const getParametersLoading = createSelector(
   getParametrsState,
   (state) => state.parametersReducer.loading

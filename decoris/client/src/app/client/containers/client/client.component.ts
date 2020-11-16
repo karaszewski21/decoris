@@ -9,37 +9,24 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ClientService } from "../../../core/services/client/client.service";
 import { Store, select } from "@ngrx/store";
 import { SetFilters } from "../../store/actions/filtersAction";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import {
-  BusinessProfile,
-  Voivodeship,
-  City,
-  Country,
-  Company,
-  Employee,
-  PositionEmployee,
-} from "../../../interfaces/client";
+import { MatDialog } from "@angular/material/dialog";
 import {
   GetClients,
   getCountries,
   getBusinessProfiles,
   getVoivodeships,
   getParametersLoading,
-  getAluminiumProfiles,
-  getAluminiumFittings,
-  getPcvProfiles,
-  getPcvFittings,
+  getCities,
+  getClients,
+  getClientsLoading,
 } from "../../store";
 
-import {
-  GetParameters,
-  ParametersActionTypes,
-  GetCitiesByCountry,
-} from "../../store/actions";
+import { GetParameters, GetCitiesByCountry } from "../../store/actions";
 import { Subscription, merge } from "rxjs";
 import { map } from "rxjs/operators";
 import { CountryEnum } from "../../../core/enums/client/countries";
 import { ClientDialogComponent } from "../client-dialog/client-dialog.component";
+import { Company } from "../../../interfaces/client";
 
 @Component({
   selector: "app-client",
@@ -48,10 +35,15 @@ import { ClientDialogComponent } from "../client-dialog/client-dialog.component"
 })
 export class ClientComponent implements OnInit, OnDestroy {
   filterRequest: any;
-  parameters: Map<string, any[]> = new Map();
-  subscriptionParametrs: Subscription;
+  clients: Company[];
+  filterList: Map<string, any[]> = new Map();
+  subscriptionParameters: Subscription;
+  subscriptionClients: Subscription;
 
   getParametersLoading$ = this.store.select(getParametersLoading);
+  getClientsLoading$ = this.store.select(getClientsLoading);
+
+  clientList$ = this.store.pipe(select(getClients));
 
   countries$ = this.store.pipe(
     select(getCountries),
@@ -67,6 +59,13 @@ export class ClientComponent implements OnInit, OnDestroy {
     })
   );
 
+  cities$ = this.store.pipe(
+    select(getCities),
+    map((cities) => {
+      return { key: "cities", list: cities };
+    })
+  );
+
   businessProfiles$ = this.store.pipe(
     select(getBusinessProfiles),
     map((businessProfiles) => {
@@ -74,43 +73,6 @@ export class ClientComponent implements OnInit, OnDestroy {
         key: "businessProfiles",
         list: businessProfiles,
       };
-    })
-  );
-
-  aluminiumProfiles$ = this.store.pipe(
-    select(getAluminiumProfiles),
-    map((aluminiumProfiles) => {
-      return {
-        key: "aluminiumProfiles",
-        list: aluminiumProfiles,
-      };
-    })
-  );
-
-  aluminiumFittings$ = this.store.pipe(
-    select(getAluminiumFittings),
-    map((aluminiumFittings) => {
-      return {
-        key: "aluminiumFittings",
-        list: aluminiumFittings,
-      };
-    })
-  );
-
-  pcvProfiles$ = this.store.pipe(
-    select(getPcvProfiles),
-    map((pcvProfiles) => {
-      return {
-        key: "pcvProfiles",
-        list: pcvProfiles,
-      };
-    })
-  );
-
-  pcvFittings$ = this.store.pipe(
-    select(getPcvFittings),
-    map((pcvFittings) => {
-      return { key: "pcvFittings", list: pcvFittings };
     })
   );
 
@@ -122,8 +84,6 @@ export class ClientComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.spinner.show();
-
     this.filterRequest = {
       limit: 10,
       offset: 0,
@@ -134,25 +94,35 @@ export class ClientComponent implements OnInit, OnDestroy {
       countries: ["Polska"],
     };
 
-    this.store.dispatch(new SetFilters(this.filterRequest));
+    //this.store.dispatch(new SetFilters(this.filterRequest));
+    // this.store.dispatch(new GetParameters({ loading: true }));
+    //   this.store.dispatch(new GetClients({ loading: true }));
+    // this.store.dispatch(
+    //   new GetCitiesByCountry({ loading: true, countriesIds: [1] })
+    // );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionParameters.unsubscribe();
+    this.subscriptionClients.unsubscribe();
+    this.filterRequest = {};
+  }
+
+  getFilterList() {
     this.store.dispatch(new GetParameters({ loading: true }));
-    this.store.dispatch(new GetClients({ loading: true }));
     this.store.dispatch(
       new GetCitiesByCountry({ loading: true, countriesIds: [1] })
     );
-
+    this.spinner.show();
     this.getParametersLoading$.subscribe((loading) => {
       if (!loading) {
-        this.subscriptionParametrs = merge(
+        this.subscriptionParameters = merge(
           this.countries$,
           this.voivodeships$,
           this.businessProfiles$,
-          this.aluminiumProfiles$,
-          this.aluminiumFittings$,
-          this.pcvProfiles$,
-          this.pcvFittings$
+          this.cities$
         ).subscribe((value) => {
-          this.parameters.set(value.key, value.list);
+          this.filterList.set(value.key, value.list);
 
           this.spinner.hide();
         });
@@ -160,22 +130,36 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscriptionParametrs.unsubscribe();
-    this.filterRequest = {};
+  getCompanyList() {
+    this.store.dispatch(new GetClients({ loading: true }));
+    this.store.dispatch(new SetFilters(this.filterRequest));
+    this.spinner.show();
+
+    this.getClientsLoading$.subscribe((loading) => {
+      if (!loading) {
+        this.subscriptionClients = this.clientList$.subscribe((clients) => {
+          this.clients = clients;
+          console.log(this.clients);
+          this.spinner.hide();
+        });
+      }
+    });
   }
 
   selectedMarket(nameMarket) {
     let countries;
     switch (nameMarket) {
       case "polish":
-        countries = this.parameters
+        countries = this.filterList
           .get("countries")
           .filter((value) => value.name === CountryEnum.polish)
           .map((value) => value.name);
 
         this.store.dispatch(
-          new SetFilters({ ...this.filterRequest, countries })
+          new SetFilters({
+            ...this.filterRequest,
+            countries,
+          })
         );
         this.store.dispatch(
           new GetCitiesByCountry({ loading: true, countriesIds: [1] })
@@ -183,7 +167,7 @@ export class ClientComponent implements OnInit, OnDestroy {
         break;
 
       case "foreign":
-        countries = this.parameters
+        countries = this.filterList
           .get("countries")
           .filter((value) => value.name !== CountryEnum.polish)
           .map((value) => value.name);
@@ -197,7 +181,7 @@ export class ClientComponent implements OnInit, OnDestroy {
         break;
 
       case "all":
-        countries = this.parameters.get("countries").map((value) => value.name);
+        countries = this.filterList.get("countries").map((value) => value.name);
 
         this.store.dispatch(
           new SetFilters({ ...this.filterRequest, countries })
@@ -216,12 +200,14 @@ export class ClientComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ClientDialogComponent, {
       data: {
         title: "Nowy klient",
-        company: {},
-        parameters: this.parameters,
+        company: null,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      this.spinner.show();
+      this.clientService.addClient(result).subscribe((value) => {
+        this.spinner.hide();
+      });
     });
   }
 
@@ -232,11 +218,14 @@ export class ClientComponent implements OnInit, OnDestroy {
       data: {
         title: "Nowy klient",
         company: {},
-        parameters: this.parameters,
+        parameters: this.filterList,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
+      this.spinner.show();
       console.log(result);
+      // this.clientService.addClient(result);
+      this.spinner.hide();
     });
   }
 }

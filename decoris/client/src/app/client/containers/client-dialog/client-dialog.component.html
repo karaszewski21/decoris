@@ -31,13 +31,15 @@
         <ng-template matStepLabel>Lokalizacja klienta</ng-template>
         <app-client-form-location
           [formGroup]="locationCompanyFormGroup"
+          [cityControl]="cityControl"
+          [countryControl]="countryControl"
           [countryList]="countryList"
           (selectedCountryEvent)="selectedCountry($event)"
           (selectedCityEvent)="selectedCity($event)"
           [cityList]="cityList"
           [voivodeshipList]="voivodeshipList"
           [disabledCity]="disabledCity"
-          [selectedVoivodeship] = "selectedVoivodeship"
+          [selectedVoivodeship]="selectedVoivodeship"
         ></app-client-form-location>
         <div>
           <button mat-button matStepperPrevious>Back</button>
@@ -46,9 +48,13 @@
       </mat-step>
 
       <mat-step [stepControl]="businessProfileCompanyFormGroup">
-        <ng-template matStepLabel>Profil Biznesowy</ng-template>
+        <ng-template matStepLabel>Profile Biznesowe</ng-template>
         <app-client-form-business-profile
           [formGroup]="businessProfileCompanyFormGroup"
+          [businessProfileList]="businessProfileList"
+          [selectedBusinessProfileList]="selectedBusinessProfileList"
+          [businessProfileControl]="businessProfileControl"
+          (selectedBusinessProfileEvent)="selectedBusinessProfile($event)"
         ></app-client-form-business-profile>
         <div>
           <button mat-button matStepperPrevious>Back</button>
@@ -60,6 +66,22 @@
         <ng-template matStepLabel>Okucia i profile</ng-template>
         <app-client-form-fittings-profiles
           [formGroup]="fittingsProfilessFormGroup"
+          [aluminiumProfileList]="aluminiumProfileList"
+          [selectedAluminiumProfileList]="selectedAluminiumProfileList"
+          [aluminiumProfileControl]="aluminiumProfileControl"
+          [aluminiumFittingList]="aluminiumFittingList"
+          [selectedAluminiumFittingList]="selectedAluminiumFittingList"
+          [aluminiumFittingControl]="aluminiumFittingControl"
+          [pcvProfileList]="pcvProfileList"
+          [selectedPcvProfileList]="selectedPcvProfileList"
+          [pcvProfileControl]="pcvProfileControl"
+          [pcvFittingList]="pcvFittingList"
+          [selectedPcvFittingList]="selectedPcvFittingList"
+          [pcvFittingControl]="pcvFittingControl"
+          (selectedAluminiumProfileEvent)="selectedAluminiumProfile($event)"
+          (selectedAluminiumFittingEvent)="selectedAluminiumFitting($event)"
+          (selectedPcvProfileEvent)="selectedPcvProfile($event)"
+          (selectedPcvFittingEvent)="selectedPcvFitting($event)"
         ></app-client-form-fittings-profiles>
         <div>
           <button mat-button matStepperPrevious>Back</button>
@@ -71,10 +93,12 @@
         <ng-template matStepLabel>Pracownicy</ng-template>
         <app-client-form-employess
           [formGroup]="employeesCompanyFormGroup"
+          [positionEmployeeControl]="positionEmployeeControl"
+          [positionEmployeeList]="positionEmployeeList"
           (addEmployeeEvent)="addEmployees()"
           (updateEmployeeEvent)="updateEmployee($event)"
           (removeEmployeeEvent)="removeEmployee($event)"
-          [employeeList]="employeeList"
+          [selectedEmployeeList]="selectedEmployeeList"
         ></app-client-form-employess>
         <div>
           <button mat-button matStepperPrevious>Back</button>
@@ -86,14 +110,13 @@
         <ng-template matStepLabel>Notatki</ng-template>
         <app-client-form-notes
           [formGroup]="notesCompanyFormGroup"
-          [noteList]="noteList"
+          [selectedNoteList]="selectedNoteList"
           (updateNoteEvent)="updateNote($event)"
           (removeNoteEvent)="removeNote($event)"
           (addNoteEvent)="addNote()"
         ></app-client-form-notes>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
         </div>
       </mat-step>
     </mat-vertical-stepper>

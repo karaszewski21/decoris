@@ -15,10 +15,22 @@
   <mat-form-field appearance="fill">
     <mat-label>Miasto</mat-label>
     <mat-select [disabled]="disabledCity" [formControl]="cityControl">
-      <mat-option *ngFor="let city of cityList.values()" [value]="city">
+      <mat-option *ngFor="let city of cityList" [value]="city">
         {{ city.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <p>{{ selectedVoivodeship?.name }}</p>
+  <div *ngIf="selectedVoivodeship?.name">
+    <p>Wojewodztow</p>
+    <p>{{ selectedVoivodeship?.name }}</p>
+  </div>
+
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Adres siedziby</mat-label>
+    <input matInput placeholder="np. ul. Nowaka 5" formControlName="address" />
+  </mat-form-field>
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Kod pocztowy</mat-label>
+    <input matInput placeholder="np. 22-222" formControlName="post_code" />
+  </mat-form-field>
 </form>

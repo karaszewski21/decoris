@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   notes.init(
     {
       text: DataTypes.TEXT,
-      created_note: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+      created_note: DataTypes.DATE,
       company_id: DataTypes.UUID,
     },
     {
