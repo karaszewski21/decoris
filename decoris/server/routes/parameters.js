@@ -5,9 +5,7 @@ const router = express.Router();
 
 router.get("/get-parameters", parametersController.getParameters);
 router.post("/get-cities", parametersController.getCitiesByCountry);
-// router.post("/get-clients", clientController.getFilteredClientsListByParametrs);
-// router.post("/add-client", clientController.createClient);
-// router.put("/update-client/:id", clientController.updateClientById);
-// router.delete("/delete-client/:id", clientController.deleteClientById);
+router.post("/add-client-parameter", parametersController.addOrUpdateParameter);
+router.delete("/delete-client-parameter", parametersController.deleteParameter);
 
 module.exports = router;

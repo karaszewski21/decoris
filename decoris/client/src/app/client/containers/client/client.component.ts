@@ -8,7 +8,7 @@ import {
 import { NgxSpinnerService } from "ngx-spinner";
 import { ClientService } from "../../../core/services/client/client.service";
 import { Store, select } from "@ngrx/store";
-import { SetFilters } from "../../store/actions/filtersAction";
+import { SetFilters } from "../../../core/store";
 import { MatDialog } from "@angular/material/dialog";
 import {
   GetClients,
@@ -19,14 +19,15 @@ import {
   getCities,
   getClients,
   getClientsLoading,
-} from "../../store";
+} from "../../../core/store";
 
-import { GetParameters, GetCitiesByCountry } from "../../store/actions";
+import { GetParameters, GetCitiesByCountry } from "../../../core/store";
 import { Subscription, merge } from "rxjs";
 import { map } from "rxjs/operators";
 import { CountryEnum } from "../../../core/enums/client/countries";
 import { ClientDialogComponent } from "../client-dialog/client-dialog.component";
-import { Company } from "../../../interfaces/client";
+import { Company, City, Voivodeship } from "../../../interfaces/client";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-client",
@@ -35,10 +36,19 @@ import { Company } from "../../../interfaces/client";
 })
 export class ClientComponent implements OnInit, OnDestroy {
   filterRequest: any;
+  totalCountCompanyPaginator: number;
+  pageSizePaginator: number;
+  pageSizeOptionsPaginator: number[];
+
   clients: Company[];
   filterList: Map<string, any[]> = new Map();
   subscriptionParameters: Subscription;
   subscriptionClients: Subscription;
+
+  nameCompanyFilterControl: FormControl;
+  businessProfilesFilterControl: FormControl;
+  citiesFilterControl: FormControl;
+  voivedeshipsFilterControl: FormControl;
 
   getParametersLoading$ = this.store.select(getParametersLoading);
   getClientsLoading$ = this.store.select(getClientsLoading);
@@ -94,20 +104,27 @@ export class ClientComponent implements OnInit, OnDestroy {
       countries: ["Polska"],
     };
 
-    //this.store.dispatch(new SetFilters(this.filterRequest));
-    // this.store.dispatch(new GetParameters({ loading: true }));
-    //   this.store.dispatch(new GetClients({ loading: true }));
-    // this.store.dispatch(
-    //   new GetCitiesByCountry({ loading: true, countriesIds: [1] })
-    // );
+    this.initControls();
+    this.initParametersPaginator();
   }
-
   ngOnDestroy(): void {
     this.subscriptionParameters.unsubscribe();
     this.subscriptionClients.unsubscribe();
     this.filterRequest = {};
   }
 
+  initControls() {
+    this.nameCompanyFilterControl = new FormControl();
+    this.businessProfilesFilterControl = new FormControl();
+    this.citiesFilterControl = new FormControl();
+    this.voivedeshipsFilterControl = new FormControl();
+  }
+
+  initParametersPaginator() {
+    this.pageSizeOptionsPaginator = [5, 10, 25, 100];
+    this.totalCountCompanyPaginator = 5;
+    this.pageSizePaginator = 5;
+  }
   getFilterList() {
     this.store.dispatch(new GetParameters({ loading: true }));
     this.store.dispatch(
@@ -139,7 +156,6 @@ export class ClientComponent implements OnInit, OnDestroy {
       if (!loading) {
         this.subscriptionClients = this.clientList$.subscribe((clients) => {
           this.clients = clients;
-          console.log(this.clients);
           this.spinner.hide();
         });
       }
@@ -204,28 +220,161 @@ export class ClientComponent implements OnInit, OnDestroy {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.spinner.show();
-      this.clientService.addClient(result).subscribe((value) => {
-        this.spinner.hide();
-      });
+      if (result) {
+        this.spinner.show();
+        this.clientService.addClient(result).subscribe((value) => {
+          this.getCompanyList();
+          this.spinner.hide();
+        });
+      }
     });
   }
 
-  selectedCitiesByCompany() {}
-
-  openUpdateClientModal() {
+  openUpdateClientModal(company) {
+    this.spinner.show();
     const dialogRef = this.dialog.open(ClientDialogComponent, {
       data: {
-        title: "Nowy klient",
-        company: {},
-        parameters: this.filterList,
+        title: company.name,
+        company: company,
       },
     });
+
     dialogRef.afterClosed().subscribe((result) => {
-      this.spinner.show();
-      console.log(result);
-      // this.clientService.addClient(result);
+      if (result) {
+        this.spinner.show();
+        this.clientService.updateClient(result).subscribe((value) => {
+          this.getCompanyList();
+          this.spinner.hide();
+        });
+      }
+    });
+  }
+
+  deleteClient(companyId) {
+    this.spinner.show();
+    console.log(companyId);
+    this.clientService.deleteClient(companyId).subscribe((value) => {
+      console.log(value);
+      this.getCompanyList();
       this.spinner.hide();
     });
+  }
+
+  selectedCitiesFilter(selectedCities: City[]): void {
+    if (selectedCities.length === 0) {
+      this.resetFilter();
+    } else {
+      this.filterList.set(
+        "voivodeships",
+        selectedCities.map((city) => city.voivodeship)
+      );
+    }
+  }
+  selectedVoivedeshipsFilter(selectedVoivedeships: Voivodeship[]): void {
+    if (selectedVoivedeships.length === 0) {
+      this.resetFilter();
+    } else {
+      let selectedNameVoivedeships = selectedVoivedeships.map(
+        (voivedeship) => voivedeship.name
+      );
+      this.filterList.set(
+        "cities",
+        [...this.filterList.get("cities")].filter((city) => {
+          let cityBelongToVoivedeship = selectedNameVoivedeships.includes(
+            city.voivodeship.name
+          );
+
+          if (cityBelongToVoivedeship) {
+            return city;
+          }
+        })
+      );
+    }
+  }
+
+  resetFilter(): void {
+    this.getParametersLoading$.subscribe((loading) => {
+      if (!loading) {
+        merge(this.voivodeships$, this.cities$).subscribe((value) => {
+          this.filterList.set(value.key, value.list);
+
+          this.spinner.hide();
+        });
+      }
+    });
+  }
+
+  startFilter() {
+    console.log(this.businessProfilesFilterControl.value);
+    console.log(this.citiesFilterControl.value);
+    console.log(this.voivedeshipsFilterControl.value);
+
+    this.filterRequest = {
+      limit: 10,
+      offset: 0,
+      name: [],
+      business_profiles:
+        this.businessProfilesFilterControl.value === null
+          ? []
+          : this.businessProfilesFilterControl.value.map(
+              (businessProfiles) => businessProfiles.name
+            ),
+      cities:
+        this.citiesFilterControl.value === null
+          ? []
+          : this.citiesFilterControl.value.map((cities) => cities.name),
+      voivodeships:
+        this.voivedeshipsFilterControl.value === null
+          ? []
+          : this.voivedeshipsFilterControl.value.map(
+              (voivedeships) => voivedeships.name
+            ),
+      countries: ["Polska"],
+    };
+
+    console.log(this.filterRequest);
+
+    this.getCompanyList();
+  }
+
+  selectedNameCompanyFilter(name) {
+    console.log(name);
+
+    if (name !== "") {
+      this.filterRequest = {
+        limit: 10,
+        offset: 0,
+        name: [name],
+        business_profiles: [],
+        voivodeships: [],
+        cities: [],
+        countries: ["Polska"],
+      };
+      this.getCompanyList();
+    } else {
+      this.filterRequest = {
+        limit: 10,
+        offset: 0,
+        name: [],
+        business_profiles: [],
+        voivodeships: [],
+        cities: [],
+        countries: ["Polska"],
+      };
+      this.getCompanyList();
+    }
+  }
+  paginator(paginatorInfo) {
+    this.filterRequest = {
+      ...this.filterRequest,
+      limit: paginatorInfo.pageSize,
+      offset:
+        paginatorInfo.pageSize * paginatorInfo.pageIndex -
+        paginatorInfo.pageSize,
+    };
+
+    console.log(this.filterRequest);
+    console.log(paginatorInfo);
+    this.getCompanyList();
   }
 }

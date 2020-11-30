@@ -1,0 +1,24 @@
+<mat-form-field appearance="fill">
+  <mat-label>Wojewodztwa</mat-label>
+  <mat-select (selectionChange)="selectedVoivodeship($event)">
+    <mat-option
+      *ngFor="let voivodeship of voivodeships$ | async"
+      [value]="voivodeship"
+    >
+      {{ voivodeship.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa wojewodztwa</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa wojewodztwa"
+    [formControl]="voivodeshipControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+<button mat-icon-button (click)="saveVoivodeship()">
+  <mat-icon>save</mat-icon>
+</button>

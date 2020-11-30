@@ -15,7 +15,7 @@ import {
   parametersReducer,
   ClientEffects,
   ParametersClientEffects,
-} from "./store";
+} from "../core/store";
 import { ClientNavFiltersComponent } from "./components/client-nav-filters/client-nav-filters.component";
 import { ClientFormBaseParametersComponent } from "./components/dialog/client-form-base-parameters/client-form-base-parameters.component";
 import { ClientFormLocationComponent } from "./components/dialog/client-form-location/client-form-location.component";
@@ -24,7 +24,8 @@ import { ClientFormEmployessComponent } from "./components/dialog/client-form-em
 import { ClientFormFittingsProfilesComponent } from "./components/dialog/client-form-fittings-profiles/client-form-fittings-profiles.component";
 import { ClientFormNotesComponent } from "./components/dialog/client-form-notes/client-form-notes.component";
 import { ClientDialogComponent } from "./containers/client-dialog/client-dialog.component";
-import { ClientNavSearchComponent } from './components/client-nav-search/client-nav-search.component';
+import { ClientNavSearchComponent } from "./components/client-nav-search/client-nav-search.component";
+import { ClientPaginatorComponent } from "./components/client-paginator/client-paginator.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ClientNavSearchComponent } from './components/client-nav-search/client-
     ClientFormFittingsProfilesComponent,
     ClientFormNotesComponent,
     ClientNavSearchComponent,
+    ClientPaginatorComponent,
   ],
   imports: [
     CommonModule,

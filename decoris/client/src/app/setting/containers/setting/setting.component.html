@@ -1,0 +1,32 @@
+<div class="setting-wrapper">
+  <ng-container *ngTemplateOutlet="settingMenuList"></ng-container>
+  <ng-container *ngTemplateOutlet="settingTabs"></ng-container>
+</div>
+
+<div class="setting-wrapper-mobile" [@slide]="activePanel">
+  <ng-container
+    *ngTemplateOutlet="settingMenuList"
+    select="[leftPanel]"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="settingTabs"
+    select="[rightPanel]"
+  ></ng-container>
+</div>
+
+<ng-template #settingMenuList>
+  <app-setting-list
+    class="setting-wrapper__list"
+    [settingGroups]="settingGroups"
+    (selectSettingEvent)="selectSetting($event)"
+  ></app-setting-list>
+</ng-template>
+
+<ng-template #settingTabs>
+  <app-setting-tabs
+    class="setting-wrapper__tabs"
+    [selectedSetting]="selectedSetting"
+    (backEvent)="backToMenuSetting()"
+    (saveEvent)="save($event)"
+  ></app-setting-tabs>
+</ng-template>

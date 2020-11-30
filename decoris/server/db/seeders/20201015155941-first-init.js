@@ -86,7 +86,7 @@ module.exports = {
             name: "Winkhaus",
           },
           {
-            name: "Siegeia",
+            name: "Siegenia",
           },
         ]),
         { transaction: t },

@@ -18,9 +18,12 @@ import { CountryEnum } from "../../../core/enums/client/countries";
 })
 export class ClientListComponent implements OnInit, OnChanges {
   @Input() companyList: Company[];
+  @Input() displayedColumns: string[];
+
   @Output() getCompanyListEvent = new EventEmitter();
   @Output() toggleColumnVoivodeshipOrCountryEvent = new EventEmitter();
-  @Input() displayedColumns: string[];
+  @Output() updateCompanyEvent = new EventEmitter();
+  @Output() deleteClientEvent = new EventEmitter<string>();
 
   dataSource: MatTableDataSource<Company>;
   constructor() {}
@@ -38,8 +41,15 @@ export class ClientListComponent implements OnInit, OnChanges {
     this.getCompanyListEvent.emit();
   }
 
+  updateCompany(element) {
+    this.updateCompanyEvent.emit(element);
+  }
+
+  deleteCompany(companyId) {
+    this.deleteClientEvent.emit(companyId);
+  }
+
   toggleColumn(selectedCountry) {
-    console.log(selectedCountry);
     if (selectedCountry.country.name === CountryEnum.polish) {
       this.displayedColumns = [
         "name",

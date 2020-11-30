@@ -27,7 +27,10 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="locationCompanyFormGroup">
+      <mat-step
+        [stepControl]="locationCompanyFormGroup"
+        errorMessage="Nazwa panstwa i miasta jest obowiazkowa"
+      >
         <ng-template matStepLabel>Lokalizacja klienta</ng-template>
         <app-client-form-location
           [formGroup]="locationCompanyFormGroup"
@@ -37,7 +40,6 @@
           (selectedCountryEvent)="selectedCountry($event)"
           (selectedCityEvent)="selectedCity($event)"
           [cityList]="cityList"
-          [voivodeshipList]="voivodeshipList"
           [disabledCity]="disabledCity"
           [selectedVoivodeship]="selectedVoivodeship"
         ></app-client-form-location>

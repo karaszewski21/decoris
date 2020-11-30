@@ -1,0 +1,50 @@
+<mat-form-field appearance="fill">
+  <mat-label>Panstwa</mat-label>
+  <mat-select (selectionChange)="selectedCountry($event)">
+    <mat-option *ngFor="let country of countries$ | async" [value]="country">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Miasta</mat-label>
+  <mat-select
+    [disabled]="disabledCitySelect"
+    (selectionChange)="selectedCity($event)"
+  >
+    <mat-option *ngFor="let city of cities$ | async" [value]="city">
+      {{ city.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill" *ngIf="showVoivodeshipSelect">
+  <mat-label>Wojewodztwa</mat-label>
+  <mat-select
+    [disabled]="disabledVoivodeshipSelect"
+    (selectionChange)="selectedVoivodeship($event)"
+    [formControl]="voivodeshipControl"
+    name="voivodeship"
+  >
+    <mat-option
+      *ngFor="let voivodeship of voivodeships$ | async"
+      [value]="voivodeship.name"
+    >
+      {{ voivodeship.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa miasta</mat-label>
+  <input matInput placeholder="Nazwa miasta" [formControl]="cityControl" />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="saveCity()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeCity()">
+  <mat-icon>delete icon</mat-icon>
+</button>

@@ -21,10 +21,10 @@ class ClientsController {
   }
 
   async updateClient(req, res) {
-    let bodyCompany = req.body;
+    let bodyCompany = req.body.company;
     try {
-      if (bodyCompany.company) {
-        const client = await new clientsService().updateCompany(bodyCompany);
+      if (bodyCompany[0]) {
+        const client = await new clientsService().updateCompany(bodyCompany[0]);
 
         res.send(client);
       } else {
@@ -64,10 +64,16 @@ class ClientsController {
 
   async deleteClientById(req, res) {
     try {
-      const clientId = await new clientsService().deleteClientById(
-        req.params.id
-      );
-      res.send(clientId);
+      const client = await new clientsService().deleteClientById(req.params.id);
+      res.send(client);
+    } catch (error) {
+      res.status(404).send(`message: ${error.message}`);
+    }
+  }
+  async importClient(req, res) {
+    try {
+      const client = await new clientsService().importClient();
+      res.send(client);
     } catch (error) {
       res.status(404).send(`message: ${error.message}`);
     }

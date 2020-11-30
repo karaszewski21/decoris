@@ -1,5 +1,9 @@
 <mat-form-field appearance="outline" class="nav-search">
   <mat-label>Nazwa firmy</mat-label>
-  <input matInput placeholder="Nazwa firmy" />
+  <input
+    matInput
+    placeholder="Nazwa firmy"
+    [formControl]="nameCompanyFilterControl"
+  />
   <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
 </mat-form-field>

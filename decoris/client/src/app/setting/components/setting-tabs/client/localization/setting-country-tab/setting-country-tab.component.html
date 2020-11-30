@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill">
+  <mat-label>Panstwa</mat-label>
+  <mat-select (selectionChange)="selectedCountry($event)" [value]="country">
+    <mat-option *ngFor="let country of countries$ | async" [value]="country">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa panstwa</mat-label>
+  <input matInput placeholder="Nazwa panstwa" [formControl]="countryControl" />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="saveCountry()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeCountry()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetCountry()">clear</button>

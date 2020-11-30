@@ -6,5 +6,5 @@ export interface Employee {
   surname: string;
   phone_number: string;
   fax: string;
-  positionEmployee: PositionEmployee;
+  position_employee: PositionEmployee;
 }

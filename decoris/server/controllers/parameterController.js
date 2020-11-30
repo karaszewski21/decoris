@@ -1,4 +1,4 @@
-const ParametersService = require("../lib/parameters/parameterService");
+const ClientParameterService = require("../lib/setting/client/clientParameterService");
 const logger = require("../config/winston");
 const { companies } = require("../db/models");
 
@@ -8,7 +8,7 @@ class ParametersController {
   async getParameters(req, res) {
     logger.log("info", ">>> ParametersController >>> getParameters");
     try {
-      const parameters = await new ParametersService().getParameters();
+      const parameters = await new ClientParameterService().getParameters();
       res.send(parameters);
       logger.log("info", "<<< ParametersController <<< getParameters");
     } catch (error) {
@@ -28,7 +28,7 @@ class ParametersController {
       `>>> ParametersController >>> getCitiesByCountry(${countriesIds})`
     );
     try {
-      const parameters = await new ParametersService().getCitiesByCountryId(
+      const parameters = await new ClientParameterService().getCitiesByCountryId(
         countriesIds
       );
       res.send(parameters);
@@ -39,6 +39,50 @@ class ParametersController {
         `${error.message} ${req.url} ParametersController >>> getCitiesByCountry(${countriesIds})`
       );
       res.status(404).send(error.message);
+    }
+  }
+
+  async addOrUpdateParameter(req, res) {
+    logger.log(
+      "info",
+      `>>> ParametersController >>> addOrUpdateParameter>> body: ${req.body}`
+    );
+    try {
+      console.log(req.body.parameter);
+
+      let result = await new ClientParameterService().modifyParameter(
+        req.body.parameter
+      );
+
+      logger.log("info", "<<< ParametersController <<< addOrUpdateParameter");
+      res.send(result);
+    } catch (error) {
+      logger.log(
+        "error",
+        `${error.message} ${req.url} ParametersController >>> addOrUpdateParameter`
+      );
+      throw new Error(error);
+    }
+  }
+
+  async deleteParameter(req, res) {
+    logger.log(
+      "info",
+      `>>> ParametersController >>> deleteParameter>> body: ${req.body}`
+    );
+    try {
+      let result = await new ClientParameterService().deleteParameter(
+        req.body.parameter
+      );
+
+      logger.log("info", "<<< ParametersController <<< deleteParameter");
+      res.send(result);
+    } catch (error) {
+      logger.log(
+        "error",
+        `${error.message} ${req.url} ParametersController >>> deleteParameter`
+      );
+      throw new Error(error);
     }
   }
 }

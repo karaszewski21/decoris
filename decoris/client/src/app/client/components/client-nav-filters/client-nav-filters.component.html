@@ -1,7 +1,7 @@
 <div class="nav-filters">
   <mat-form-field appearance="fill" class="nav-filters__business-profile">
     <mat-label>Profil dzialalnosci</mat-label>
-    <mat-select [formControl]="businessProfiles" multiple>
+    <mat-select [formControl]="businessProfilesFilterControl" multiple>
       <mat-option
         *ngFor="let businessProfile of filterList.get('businessProfiles')"
         [value]="businessProfile"
@@ -12,7 +12,7 @@
 
   <mat-form-field appearance="fill" class="nav-filters__name-city">
     <mat-label>Miasto</mat-label>
-    <mat-select [formControl]="cities" multiple>
+    <mat-select [formControl]="citiesFilterControl" multiple>
       <mat-option
         *ngFor="let city of filterList.get('cities')"
         [value]="city"
@@ -23,7 +23,7 @@
 
   <mat-form-field appearance="fill" class="nav-filters__name-voivodeship">
     <mat-label>Wojewodztwo</mat-label>
-    <mat-select [formControl]="voivedeships" multiple>
+    <mat-select [formControl]="voivedeshipsFilterControl" multiple>
       <mat-option
         *ngFor="let voivedeship of filterList.get('voivodeships')"
         [value]="voivedeship"
@@ -31,12 +31,20 @@
       >
     </mat-select>
   </mat-form-field>
-
   <button
     mat-icon-button
     aria-label="Example icon-button with heart icon"
     class="nav-filters__button-refresh"
+    (click)="resetFilter()"
   >
     <mat-icon>refresh</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    aria-label="Example icon-button with heart icon"
+    class="nav-filters__button-refresh"
+    (click)="startFilter()"
+  >
+    <mat-icon>filter_alt</mat-icon>
   </button>
 </div>

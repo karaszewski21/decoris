@@ -19,7 +19,9 @@
       <li *ngFor="let note of selectedNoteList.values()" class="note-list">
         <p class="note-list__text-note">{{ note.text }}</p>
         <div class="note-wrapper__spacer"></div>
-        <p class="note-list__date-note">{{ note.createdNote }}</p>
+        <p class="note-list__date-note">
+          {{ note.created_note | date: "dd-MM-yyyy" }}
+        </p>
         <div class="note-wrapper__spacer"></div>
         <button
           mat-icon-button

@@ -17,18 +17,39 @@ export class ClientService {
       `${environment.apiUrl}clients/get-clients`,
       parameters
     );
-
+    console.log(companies);
     return companies;
   }
 
   addClient(company): Observable<Company[]> {
     let companies: Observable<Company[]>;
 
-    console.log(company);
-
     companies = this.httpClient.post<Company[]>(
       `${environment.apiUrl}clients/add-client`,
       company
+    );
+
+    return companies;
+  }
+
+  updateClient(company): Observable<Company[]> {
+    let companies: Observable<Company[]>;
+
+    console.log(company);
+
+    companies = this.httpClient.put<Company[]>(
+      `${environment.apiUrl}clients/update-client`,
+      company
+    );
+
+    return companies;
+  }
+
+  deleteClient(companyId): Observable<string> {
+    let companies: Observable<string>;
+
+    companies = this.httpClient.delete<string>(
+      `${environment.apiUrl}clients/delete-client/${companyId}`
     );
 
     return companies;

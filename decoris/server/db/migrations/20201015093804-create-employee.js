@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
-      position_empolyee_id: {
+      position_employee_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {

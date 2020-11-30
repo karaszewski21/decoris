@@ -125,9 +125,9 @@ module.exports = class CompanyUpdater {
           name: parameter.name,
           nip: parameter.nip,
           address: parameter.address,
-          city_id: parameter.city.id,
-          voivodeship_id: parameter.voivodeship.id,
-          country_id: parameter.country.id,
+          city_id: parameter.city_id,
+          voivodeship_id: parameter.voivodeship_id,
+          country_id: parameter.country_id,
         },
         {
           where: { id: parameter.id },

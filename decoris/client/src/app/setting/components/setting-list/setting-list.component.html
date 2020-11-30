@@ -1,0 +1,15 @@
+<ng-container *ngFor="let settingGroup of settingGroups">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ settingGroup.label }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngFor="let setting of settingGroup.settings">
+        <button (click)="select([settingGroup.label, setting.label])">
+          {{ setting.label }}
+        </button>
+      </ng-container>
+    </mat-expansion-panel>
+    <mat-expansion-panel> </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>

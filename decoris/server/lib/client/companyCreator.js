@@ -39,7 +39,6 @@ class CompanyCreator {
           rejectedCompanies
         );
       } else {
-        await transaction.rollback();
         return [...rejectedCompanies];
       }
     } catch (error) {
@@ -94,7 +93,7 @@ class CompanyCreator {
           ...dataOfCompanyToInsert.get("notes"),
           ...notes.map((note) => {
             note.id = note.id ?? uuidv4();
-            note.created_note = note.createdNote ?? currentDate;
+            note.created_note = Date.now() ?? currentDate;
             note.company_id = parameters.id;
 
             return note;

@@ -2,8 +2,6 @@ const models = require("../../db/models");
 
 module.exports = class CompanyValidator {
   constructor() {
-    // this.filteredCompanies = new Map();
-    // this.rejectedCompanies = new Map();
     this.filteredCompanies = new Map();
     this.rejectedCompanies = new Map();
     this.tmpCompaniesList = [];
@@ -57,6 +55,8 @@ module.exports = class CompanyValidator {
   }
 
   async validateParameters(companies) {
+    this.filteredCompanies.clear();
+    this.rejectedCompanies.clear();
     try {
       for (const company of companies) {
         let generator = this.checkCorrectParametersGenerator(company);
@@ -97,10 +97,13 @@ module.exports = class CompanyValidator {
     );
     yield { item: tmpCity, name: company.parameters.city };
 
-    let tmpVoivodeship = this.voivodeshipsModel.find(
-      (voivodeship) => voivodeship.name === company.parameters.voivodeship
-    );
-    yield { item: tmpVoivodeship, name: company.parameters.voivodeship };
+    let tmpVoivodeship = null;
+    if (company.parameters.voivodeship) {
+      tmpVoivodeship = this.voivodeshipsModel.find(
+        (voivodeship) => voivodeship.name === company.parameters.voivodeship
+      );
+      yield { item: tmpVoivodeship, name: company.parameters.voivodeship };
+    }
 
     let tmpCountry = this.countriesModel.find(
       (country) => country.name === company.parameters.country
@@ -109,12 +112,12 @@ module.exports = class CompanyValidator {
 
     for (const employee of company.employees) {
       let tmpNamePosition = this.positionEmployeesModel.find(
-        (item) => item.name === employee.positionEmployee.name
+        (item) => item.name === employee.position_employee.name
       );
-      employee.position_empolyee_id = tmpNamePosition?.id;
+      employee.position_employee_id = tmpNamePosition?.id;
       this.tmpEmployeesList.push(employee);
 
-      yield { item: tmpNamePosition, name: employee.positionEmployee.name };
+      yield { item: tmpNamePosition, name: employee.position_employee.name };
     }
 
     for (const name of company.business_profiles) {
@@ -153,9 +156,12 @@ module.exports = class CompanyValidator {
       yield { item: pcvFitting, name: name };
     }
 
+    company.parameters.voivodeship_id = tmpVoivodeship
+      ? tmpVoivodeship.id
+      : null;
+
     company.parameters.city_id = tmpCity.id;
     company.parameters.country_id = tmpCountry.id;
-    company.parameters.voivodeship_id = tmpVoivodeship.id;
     company.employees = this.tmpEmployeesList;
     company.business_profiles = this.tmpBusinessProfilesList;
     company.aluminium_profiles = this.tmpAluminiumProfilesList;

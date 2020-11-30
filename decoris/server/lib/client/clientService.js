@@ -1,6 +1,7 @@
 const models = require("../../db/models");
 const CompanyCreator = require("./companyCreator");
 const CompanyUpdater = require("./companyUpdater");
+const CompanyImporter = require("./companyImporter");
 
 const { Op } = require("sequelize");
 
@@ -28,8 +29,8 @@ module.exports = class ClientsService {
     return company;
   }
 
-  async updateCompany(body) {
-    let { company } = body;
+  async updateCompany(company) {
+    // let { company } = body;
     try {
       const existCompany = await models.companies.findByPk(
         company.parameters.id
@@ -57,11 +58,11 @@ module.exports = class ClientsService {
   }
 
   async deleteClientById(id) {
-    let company = models.companies.findByPk(id);
+    let company = await models.companies.findByPk(id, { raw: true });
 
     if (company) {
-      await company.destroy({ where: { id: company.id } });
-      return company.id;
+      await models.companies.destroy({ where: { id: company.id } });
+      return company;
     } else {
       throw new Error(`Client by ID '${id}' not exist in database`);
     }
@@ -71,6 +72,7 @@ module.exports = class ClientsService {
     console.log(parameters);
     try {
       models.companies.associate(models);
+      models.empolyees.associate(models);
 
       let bodyQuery = { include: [] };
 
@@ -137,8 +139,15 @@ module.exports = class ClientsService {
       }
 
       bodyQuery.include.push(
-        models.empolyees,
         models.notes,
+        {
+          model: models.empolyees,
+          include: [
+            {
+              model: models.position_empolyees,
+            },
+          ],
+        },
         {
           model: models.business_profiles,
           through: { attributes: [] },
@@ -173,5 +182,9 @@ module.exports = class ClientsService {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async importClient() {
+    return await new CompanyImporter().importCompanies("csv");
   }
 };

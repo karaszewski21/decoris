@@ -2,20 +2,10 @@ import {
   Component,
   OnInit,
   Inject,
-  ViewChild,
-  ElementRef,
-  ViewContainerRef,
   AfterViewInit,
-  Injector,
-  Injectable,
+  TemplateRef,
 } from "@angular/core";
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  DialogPosition,
-} from "@angular/material/dialog";
-import { Client } from "../../../client/components/client-new-modal/client-new-modal.component";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "app-dialog",
@@ -23,28 +13,31 @@ import { Client } from "../../../client/components/client-new-modal/client-new-m
   styleUrls: ["./dialog.component.scss"],
 })
 export class DialogComponent implements OnInit, AfterViewInit {
-  clientInjector: Injector;
+  showConfirmButton: boolean = false;
+  showRejectButton: boolean = false;
+  showInformation: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    injector: Injector
-  ) {
-    this.clientInjector = Injector.create({
-      providers: [{ provide: Client, deps: [] }],
-      parent: injector,
-    });
-  }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
+  ngOnInit(): void {
+    console.log(this.data);
+    this.showConfirmButton = this.data.confirmButton.show;
+    this.showRejectButton = this.data.confirmButton.show;
+    this.showInformation = this.data.information.show;
+  }
   ngAfterViewInit(): void {}
 
-  CloseDialog() {
-    this.dialogRef.close();
+  closeDialog() {
+    this.dialogRef.close(null);
   }
 
-  SaveAndCloseDialog() {
-    const client: Client = this.clientInjector.get(Client);
-    this.dialogRef.close(client);
+  replace() {
+    this.dialogRef.close(true);
   }
-
-  ngOnInit(): void {}
+  add() {
+    this.dialogRef.close(false);
+  }
 }

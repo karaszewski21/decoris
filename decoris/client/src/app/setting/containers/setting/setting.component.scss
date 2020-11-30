@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+.setting-wrapper {
+  display: flex;
+
+  &__list {
+    flex-basis: 50%;
+  }
+
+  &__tabs {
+    flex-basis: 50%;
+  }
+}
+
+.setting-wrapper-mobile {
+  display: none;
+
+  &__list {
+    flex-basis: 50%;
+  }
+
+  &__tabs {
+    flex-basis: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .setting-wrapper {
+    display: none;
+  }
+  .setting-wrapper-mobile {
+    display: flex;
+    width: 200%;
+  }
+}

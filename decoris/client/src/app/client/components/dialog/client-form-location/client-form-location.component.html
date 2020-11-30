@@ -1,20 +1,15 @@
 <form [formGroup]="formGroup">
   <mat-form-field appearance="fill">
     <mat-label>Panstwo</mat-label>
-    <mat-select [formControl]="countryControl">
-      <mat-optgroup *ngFor="let group of countryList.keys()" [label]="group">
-        <mat-option
-          *ngFor="let country of countryList.get(group)"
-          [value]="country"
-        >
-          {{ country.name }}
-        </mat-option>
-      </mat-optgroup>
+    <mat-select [formControl]="countryControl" required>
+      <mat-option *ngFor="let country of countryList" [value]="country">
+        {{ country.name }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Miasto</mat-label>
-    <mat-select [disabled]="disabledCity" [formControl]="cityControl">
+    <mat-select [disabled]="disabledCity" [formControl]="cityControl" required>
       <mat-option *ngFor="let city of cityList" [value]="city">
         {{ city.name }}
       </mat-option>

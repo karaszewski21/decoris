@@ -8,5 +8,6 @@ router.post("/get-clients", clientController.getFilteredClientsListByParametrs);
 router.post("/add-client", clientController.createClient);
 router.put("/update-client", clientController.updateClient);
 router.delete("/delete-client/:id", clientController.deleteClientById);
+router.get("/import", clientController.importClient);
 
 module.exports = router;

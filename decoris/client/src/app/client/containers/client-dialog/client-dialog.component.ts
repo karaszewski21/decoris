@@ -40,7 +40,7 @@ import {
   getVoivodeships,
   getBusinessProfiles,
   getPositionEmployees,
-} from "../../store";
+} from "../../../core/store";
 import { map } from "rxjs/operators";
 import { Subscription, merge } from "rxjs";
 import { CountryEnum } from "../../../core/enums/client/countries";
@@ -58,6 +58,7 @@ import { CountryEnum } from "../../../core/enums/client/countries";
   ],
 })
 export class ClientDialogComponent implements OnInit, OnDestroy {
+  companyId: string = null;
   isLinear = false;
   currentDateTime = new Date();
   subscriptionParameters$: Subscription;
@@ -72,7 +73,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
   employeesCompanyFormGroup: FormGroup;
   notesCompanyFormGroup: FormGroup;
 
-  countryList: Map<string, Country[]> = new Map();
+  countryList: Country[];
   cityList: City[];
   countryControl: FormControl;
 
@@ -193,29 +194,15 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.spinner.show();
     let { company } = this.data;
-    this.initParameters();
     this.initControles(company);
+
+    this.initParameters();
     this.initSelectedParameters(company);
   }
 
   ngOnDestroy(): void {
     this.subscriptionCities$.unsubscribe();
     this.subscriptionParameters$.unsubscribe();
-  }
-  initSelectedParameters(company: any) {
-    if (company) {
-      this.selectedBusinessProfileList = company.BusinessProfiles;
-      this.selectedAluminiumProfileList = company.AluminiumProfiles;
-      this.selectedAluminiumFittingList = company.AluminiumFittings;
-      this.selectedPcvProfileList = company.PcvProfiles;
-      this.selectedPcvFittingList = company.PcvFittings;
-    } else {
-      this.selectedBusinessProfileList = [];
-      this.selectedAluminiumProfileList = [];
-      this.selectedAluminiumFittingList = [];
-      this.selectedPcvProfileList = [];
-      this.selectedPcvFittingList = [];
-    }
   }
 
   initParameters() {
@@ -249,18 +236,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     this.pcvFittingList = [...this.parameters.get("pcvFittings")];
     this.voivodeshipList = [...this.parameters.get("voivodeships")];
     this.positionEmployeeList = [...this.parameters.get("positionEmployees")];
-    this.countryList.set(
-      "polski",
-      [...this.parameters.get("countries")].filter(
-        (country) => country.name === CountryEnum.polish
-      )
-    );
-    this.countryList.set(
-      "zagraniczny",
-      [...this.parameters.get("countries")].filter(
-        (country) => country.name !== CountryEnum.polish
-      )
-    );
+    this.countryList = [...this.parameters.get("countries")];
   }
 
   initControles(company) {
@@ -269,9 +245,9 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     this.aluminiumFittingControl = new FormControl();
     this.pcvProfileControl = new FormControl();
     this.pcvFittingControl = new FormControl();
-    this.positionEmployeeControl = new FormControl();
-    this.countryControl = new FormControl();
-    this.cityControl = new FormControl();
+    this.positionEmployeeControl = new FormControl("", Validators.required);
+    this.countryControl = new FormControl("", Validators.required);
+    this.cityControl = new FormControl("", Validators.required);
 
     this.baseParametersCompanyFormGroup = this._companyFormBuilder.group({
       name: [company?.name ?? "", Validators.required],
@@ -309,6 +285,56 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  initSelectedParameters(company: any) {
+    if (company) {
+      this.companyId = company.id;
+
+      this.cityControl.setValue(
+        this.cityList.find((city) => city.name == company.city.name)
+      );
+      this.disabledCity = false;
+
+      this.countryControl.setValue(
+        this.countryList.find((country) => country.name == company.country.name)
+      );
+
+      this.selectedVoivodeship = company.voivodeship;
+
+      for (const employee of company.employees) {
+        this.selectedEmployeeList.set(employee.id, employee);
+      }
+
+      for (const note of company.notes) {
+        this.selectedNoteList.set(note.text, note);
+      }
+
+      this.selectedBusinessProfileList = company.business_profiles.map(
+        (value) => value.name
+      );
+
+      this.selectedAluminiumProfileList = company.aluminium_profiles.map(
+        (value) => value.name
+      );
+
+      this.selectedAluminiumFittingList = company.aluminium_fittings.map(
+        (value) => value.name
+      );
+
+      this.selectedPcvProfileList = company.pcv_profiles.map(
+        (value) => value.name
+      );
+      this.selectedPcvFittingList = company.pcv_fittings.map(
+        (value) => value.name
+      );
+    } else {
+      this.selectedBusinessProfileList = [];
+      this.selectedAluminiumProfileList = [];
+      this.selectedAluminiumFittingList = [];
+      this.selectedPcvProfileList = [];
+      this.selectedPcvFittingList = [];
+    }
+  }
+
   selectedCountry(country) {
     this.selectedVoivodeship = null;
     this.store.dispatch(
@@ -331,7 +357,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     const note: Note = {
       id: null,
       text: text,
-      createdNote: `${this.currentDateTime.getDate()}-${this.currentDateTime.getMonth()}-${this.currentDateTime.getFullYear()}`,
+      created_note: Date.now(),
     };
 
     this.selectedNoteList.set(note.text, note);
@@ -351,36 +377,44 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
   }
 
   addEmployees() {
-    let {
-      id,
-      name,
-      surname,
-      fax,
-      phone_number,
-    } = this.employeesCompanyFormGroup.value;
+    let valid =
+      this.employeesCompanyFormGroup.value.name !== "" &&
+      this.positionEmployeeControl.valid;
 
-    let {
-      id: positionEmployeeId,
-      name: namePositionEmpolyee,
-    } = this.positionEmployeeControl.value;
+    if (valid) {
+      let {
+        id,
+        name,
+        surname,
+        fax,
+        phone_number,
+      } = this.employeesCompanyFormGroup.value;
 
-    if (this.selectedEmployeeList.has(id)) {
-      this.removeEmployee(id);
-    }
-
-    const employee: Employee = {
-      id: uuidv4(),
-      name: name,
-      surname: surname,
-      phone_number: phone_number,
-      fax: fax,
-      positionEmployee: {
+      let {
         id: positionEmployeeId,
         name: namePositionEmpolyee,
-      },
-    };
+      } = this.positionEmployeeControl.value;
 
-    this.selectedEmployeeList.set(employee.id, employee);
+      if (this.selectedEmployeeList.has(id)) {
+        this.removeEmployee(id);
+      }
+
+      const employee: Employee = {
+        id: uuidv4(),
+        name: name,
+        surname: surname,
+        phone_number: phone_number,
+        fax: fax,
+        position_employee: {
+          id: positionEmployeeId,
+          name: namePositionEmpolyee,
+        },
+      };
+
+      this.selectedEmployeeList.set(employee.id, employee);
+    } else {
+      alert("pozycja");
+    }
   }
 
   updateEmployee(employeeId) {
@@ -392,7 +426,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
       surname: employee.surname,
       phone_number: employee.phone_number,
       fax: employee.fax,
-      positionEmpolyee: employee.positionEmployee.name,
+      positionEmpolyee: employee.position_employee.name,
     });
   }
 
@@ -418,21 +452,23 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
   }
 
   onCloseClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   onSaveAndCloseClick() {
-    console.log(
-      this.baseParametersCompanyFormGroup,
-      this.locationCompanyFormGroup,
-      this.selectedBusinessProfileList,
-      this.selectedAluminiumProfileList,
-      this.selectedAluminiumFittingList,
-      this.selectedPcvProfileList,
-      this.selectedPcvFittingList,
-      this.selectedEmployeeList,
-      this.selectedNoteList
-    );
+    let valid =
+      this.baseParametersCompanyFormGroup.valid &&
+      this.countryControl.valid &&
+      this.cityControl.valid;
+
+    if (valid) {
+      this.sendDataToServer();
+    } else {
+      alert("blad");
+    }
+  }
+
+  sendDataToServer() {
     let {
       name,
       nip,
@@ -442,38 +478,37 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     } = this.baseParametersCompanyFormGroup.value;
 
     let { address, post_code } = this.locationCompanyFormGroup.value;
-    console.log(this.countryControl.value);
     let { name: nameCountry } = this.countryControl.value;
-    console.log(this.cityControl.value);
-    let {
-      name: nameCity,
-      voivodeship: { name: nameVoivodeship },
-    } = this.cityControl.value;
+    let { voivodeship } = this.cityControl.value;
+    let { name: nameCity } = this.cityControl.value;
 
     let data = {
-      parameters: {
-        name: name,
-        nip: nip,
-        email: email,
-        web_page: web_page,
-        phone_number: phone_number,
-        address: address,
-        post_code: post_code,
-        city: nameCity,
-        voivodeship: nameVoivodeship,
-        country: nameCountry,
-      },
-      employees: [...this.selectedEmployeeList.values()],
-      notes: [...this.selectedNoteList.values()],
-      business_profiles: this.selectedBusinessProfileList,
-      aluminium_profiles: this.selectedAluminiumProfileList,
-      aluminium_fittings: this.selectedAluminiumFittingList,
-      pcv_profiles: this.selectedPcvProfileList,
-      pcv_fittings: this.selectedPcvFittingList,
+      company: [
+        {
+          parameters: {
+            id: this.companyId,
+            name: name,
+            nip: nip,
+            email: email,
+            web_page: web_page,
+            phone_number: phone_number,
+            address: address,
+            post_code: post_code,
+            city: nameCity,
+            voivodeship: voivodeship ? voivodeship.name : null,
+            country: nameCountry,
+          },
+          employees: [...this.selectedEmployeeList.values()],
+          notes: [...this.selectedNoteList.values()],
+          business_profiles: this.selectedBusinessProfileList,
+          aluminium_profiles: this.selectedAluminiumProfileList,
+          aluminium_fittings: this.selectedAluminiumFittingList,
+          pcv_profiles: this.selectedPcvProfileList,
+          pcv_fittings: this.selectedPcvFittingList,
+        },
+      ],
     };
 
-    console.log(data);
-
-    this.dialogRef.close([data]);
+    this.dialogRef.close(data);
   }
 }

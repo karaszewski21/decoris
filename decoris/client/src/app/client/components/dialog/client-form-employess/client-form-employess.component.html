@@ -59,11 +59,11 @@
 
     <ul>
       <li *ngFor="let employee of selectedEmployeeList.values()">
-        {{ employee.name }}
-        {{ employee.surname }}
-        {{ employee.phone_number }}
-        {{ employee.fax }}
-        {{ employee.positionEmployee.name }}
+        {{ employee?.name }}
+        {{ employee?.surname }}
+        {{ employee?.phone_number }}
+        {{ employee?.fax }}
+        {{ employee.position_employee?.name }}
         <button mat-icon-button (click)="updateEmployee(employee.id)">
           <mat-icon>person_outlin</mat-icon>
         </button>

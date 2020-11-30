@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.employee.belongsTo(position_empolyee);
+      models.position_empolyees.hasMany(models.empolyees);
+      models.empolyees.belongsTo(models.position_empolyees);
     }
   }
   employee.init(
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       surname: DataTypes.STRING,
       phone_number: DataTypes.STRING,
       fax: DataTypes.STRING,
-      position_empolyee_id: DataTypes.INTEGER,
+      position_employee_id: DataTypes.INTEGER,
       company_id: DataTypes.UUID,
     },
     {
