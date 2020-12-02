@@ -1,49 +1,17 @@
-<div class="wrapper">
-  <div class="header">
-    <span class="header__logo">Logo Decoris</span>
-    <span class="header__spacer"></span>
-    <span class="header__login-name">Jan Kowalski</span>
-    <button
-      class="header__button-account-circle"
-      mat-icon-button
-      aria-label="Example icon-button with heart icon"
-    >
-      <mat-icon class="header__icon-account-circle">account_circle</mat-icon>
-    </button>
-    <button
-      class="header__button-logout"
-      mat-icon-button
-      aria-label="Example icon-button with heart icon"
-    >
-      <mat-icon class="header__icon-logout">logout</mat-icon>
-    </button>
-  </div>
+<section class="main-content" *ngIf="isAuthenticated()">
+  <app-header
+    [showLogout]="!this.media.isActive('xs')"
+    class="main-content__header"
+    (openMenuEvent)="openMenu()"
+  ></app-header>
+  <app-menu
+    class="main-content__menu"
+    (navigatorEvent)="navigator($event)"
+    *ngIf="!this.media.isActive('xs')"
+  ></app-menu>
+  <router-outlet></router-outlet>
+</section>
 
-  <nav class="menu">
-    <!-- <button routerLink="/client">client</button> -->
-    <ul class="menu__list">
-      <li class="menu__item">
-        <button
-          class="menu__button-client"
-          mat-stroked-button
-          routerLink="/client"
-        >
-          Klienci
-        </button>
-      </li>
-      <span class="menu__spacer"></span>
-      <li class="menu__item">
-        <button
-          mat-icon-button
-          aria-label="Example icon-button with menu icon"
-          routerLink="/setting"
-        >
-          <mat-icon class="menu__icon-settings">settings_applications</mat-icon>
-        </button>
-      </li>
-    </ul>
-  </nav>
-  <section class="main-content">
-    <router-outlet></router-outlet>
-  </section>
-</div>
+<!-- <section *ngIf="!isAuthenticated()">
+  <router-outlet></router-outlet>
+</section> -->

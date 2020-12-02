@@ -30,6 +30,10 @@ module.exports = class ClientParameterCreator {
         case "pcvFitting":
           result = await this.createPcvFitting(parameter);
           break;
+        case "positionEmployee":
+          result = await this.createPositionEmployee(parameter);
+          break;
+
         default:
           result = null;
           break;
@@ -215,6 +219,27 @@ module.exports = class ClientParameterCreator {
       modifiedPcvFitting.parameter = "pcvFitting";
 
       return modifiedPcvFitting;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createPositionEmployee(positionEmployee) {
+    try {
+      let newPositionEmployee = await models.position_empolyees.create({
+        name: positionEmployee.value.name,
+      });
+
+      let modifiedPositionEmployee = await models.position_empolyees.findByPk(
+        newPositionEmployee.id,
+        {
+          raw: true,
+        }
+      );
+
+      modifiedPositionEmployee.parameter = "positionEmployee";
+
+      return modifiedPositionEmployee;
     } catch (error) {
       throw error;
     }

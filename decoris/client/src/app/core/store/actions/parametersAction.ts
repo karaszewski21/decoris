@@ -25,7 +25,7 @@ export enum ParametersActionTypes {
 
 export class GetParameters implements Action {
   readonly type = ParametersActionTypes.GetParameters;
-  constructor(public readonly payload: { loading: true }) {}
+  constructor(public readonly payload: { loading: boolean }) {}
 }
 
 export class GetParametersSuccess implements Action {
@@ -41,7 +41,7 @@ export class GetParametersSuccess implements Action {
       aluminiumFittings: AluminiumFitting[];
       pcvFittings: PcvFitting[];
       positionEmployees: PositionEmployee[];
-      loading: false;
+      loading: boolean;
     }
   ) {}
 }

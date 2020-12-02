@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-aluminium-profile-tab/setting-aluminium-profile-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-aluminium-profile-tab.component.min.css"
+}

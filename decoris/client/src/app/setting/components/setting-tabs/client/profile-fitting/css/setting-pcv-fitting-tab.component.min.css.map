@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-pcv-fitting-tab/setting-pcv-fitting-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-pcv-fitting-tab.component.min.css"
+}

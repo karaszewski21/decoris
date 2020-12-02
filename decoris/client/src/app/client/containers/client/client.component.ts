@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ViewChild,
-  OnDestroy,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ClientService } from "../../../core/services/client/client.service";
 import { Store, select } from "@ngrx/store";
@@ -26,8 +20,17 @@ import { Subscription, merge } from "rxjs";
 import { map } from "rxjs/operators";
 import { CountryEnum } from "../../../core/enums/client/countries";
 import { ClientDialogComponent } from "../client-dialog/client-dialog.component";
-import { Company, City, Voivodeship } from "../../../interfaces/client";
+import {
+  Company,
+  City,
+  Voivodeship,
+  Country,
+} from "../../../interfaces/client";
+import { MediaObserver } from "@angular/flex-layout";
 import { FormControl } from "@angular/forms";
+import { ClientEmployeesModalComponent } from "../../components/dialog/information/client-employees-modal/client-employees-modal.component";
+import { ClientNotesModalComponent } from "../../components/dialog/information/client-notes-modal/client-notes-modal.component";
+import { ClientProfilesFittingsModalComponent } from "../../components/dialog/information/client-profiles-fittings-modal/client-profiles-fittings-modal.component";
 
 @Component({
   selector: "app-client",
@@ -45,13 +48,14 @@ export class ClientComponent implements OnInit, OnDestroy {
   subscriptionParameters: Subscription;
   subscriptionClients: Subscription;
 
+  enableVoivedeshipsFilterControl: boolean;
   nameCompanyFilterControl: FormControl;
   businessProfilesFilterControl: FormControl;
   citiesFilterControl: FormControl;
   voivedeshipsFilterControl: FormControl;
 
-  getParametersLoading$ = this.store.select(getParametersLoading);
   getClientsLoading$ = this.store.select(getClientsLoading);
+  getParametersLoading$ = this.store.select(getParametersLoading);
 
   clientList$ = this.store.pipe(select(getClients));
 
@@ -90,7 +94,8 @@ export class ClientComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
     private clientService: ClientService,
     private store: Store,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public media: MediaObserver
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +111,10 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.initControls();
     this.initParametersPaginator();
+    this.getCompanyList();
+    this.getCityByCountries([{ id: 1, name: "Polska" }]);
+    this.enableVoivedeshipsFilterControl = true;
+    //  this.selectedMarket(CountryEnum.polish);
   }
   ngOnDestroy(): void {
     this.subscriptionParameters.unsubscribe();
@@ -125,19 +134,17 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.totalCountCompanyPaginator = 5;
     this.pageSizePaginator = 5;
   }
-  getFilterList() {
+  getParametersList() {
     this.store.dispatch(new GetParameters({ loading: true }));
-    this.store.dispatch(
-      new GetCitiesByCountry({ loading: true, countriesIds: [1] })
-    );
+
     this.spinner.show();
-    this.getParametersLoading$.subscribe((loading) => {
+    this.getClientsLoading$.subscribe((loading) => {
       if (!loading) {
         this.subscriptionParameters = merge(
           this.countries$,
           this.voivodeships$,
-          this.businessProfiles$,
-          this.cities$
+          this.businessProfiles$
+          //this.cities$
         ).subscribe((value) => {
           this.filterList.set(value.key, value.list);
 
@@ -147,15 +154,32 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
+  getCityByCountries(country: Country[]) {
+    this.store.dispatch(
+      new GetCitiesByCountry({
+        loading: true,
+        countriesIds: country.map((value) => value.id),
+      })
+    );
+    this.spinner.show();
+    this.cities$.subscribe((value) => {
+      console.log(value);
+      this.filterList.set(value.key, value.list);
+
+      this.spinner.hide();
+    });
+  }
+
   getCompanyList() {
+    this.spinner.show();
     this.store.dispatch(new GetClients({ loading: true }));
     this.store.dispatch(new SetFilters(this.filterRequest));
-    this.spinner.show();
 
     this.getClientsLoading$.subscribe((loading) => {
       if (!loading) {
         this.subscriptionClients = this.clientList$.subscribe((clients) => {
           this.clients = clients;
+          this.getParametersList();
           this.spinner.hide();
         });
       }
@@ -165,46 +189,74 @@ export class ClientComponent implements OnInit, OnDestroy {
   selectedMarket(nameMarket) {
     let countries;
     switch (nameMarket) {
-      case "polish":
+      case CountryEnum.polish:
         countries = this.filterList
           .get("countries")
           .filter((value) => value.name === CountryEnum.polish)
-          .map((value) => value.name);
+          .map((value) => {
+            return { id: value.id, name: value.name };
+          });
 
         this.store.dispatch(
           new SetFilters({
             ...this.filterRequest,
-            countries,
+            countries: countries.map((value) => value.name),
           })
         );
         this.store.dispatch(
-          new GetCitiesByCountry({ loading: true, countriesIds: [1] })
+          new GetCitiesByCountry({
+            loading: true,
+            countriesIds: countries.map((value) => value.id),
+          })
         );
+
+        this.enableVoivedeshipsFilterControl = true;
+        this.store.dispatch(new GetParameters({ loading: true }));
         break;
 
-      case "foreign":
+      case CountryEnum.foreign:
         countries = this.filterList
           .get("countries")
           .filter((value) => value.name !== CountryEnum.polish)
-          .map((value) => value.name);
+          .map((value) => {
+            return { id: value.id, name: value.name };
+          });
 
         this.store.dispatch(
-          new SetFilters({ ...this.filterRequest, countries })
+          new SetFilters({
+            ...this.filterRequest,
+            countries: countries.map((value) => value.name),
+          })
         );
         this.store.dispatch(
-          new GetCitiesByCountry({ loading: true, countriesIds: [2, 3] })
+          new GetCitiesByCountry({
+            loading: true,
+            countriesIds: countries.map((value) => value.id),
+          })
         );
+        this.enableVoivedeshipsFilterControl = false;
+        this.store.dispatch(new GetParameters({ loading: true }));
         break;
 
-      case "all":
-        countries = this.filterList.get("countries").map((value) => value.name);
+      case CountryEnum.all:
+        countries = this.filterList.get("countries").map((value) => {
+          return { id: value.id, name: value.name };
+        });
 
         this.store.dispatch(
-          new SetFilters({ ...this.filterRequest, countries })
+          new SetFilters({
+            ...this.filterRequest,
+            countries: countries.map((value) => value.name),
+          })
         );
         this.store.dispatch(
-          new GetCitiesByCountry({ loading: true, countriesIds: [1, 2, 3] })
+          new GetCitiesByCountry({
+            loading: true,
+            countriesIds: countries.map((value) => value.id),
+          })
         );
+        this.enableVoivedeshipsFilterControl = false;
+        this.store.dispatch(new GetParameters({ loading: true }));
         break;
 
       default:
@@ -232,6 +284,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   openUpdateClientModal(company) {
     this.spinner.show();
+
     const dialogRef = this.dialog.open(ClientDialogComponent, {
       data: {
         title: company.name,
@@ -293,7 +346,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   resetFilter(): void {
-    this.getParametersLoading$.subscribe((loading) => {
+    this.getClientsLoading$.subscribe((loading) => {
       if (!loading) {
         merge(this.voivodeships$, this.cities$).subscribe((value) => {
           this.filterList.set(value.key, value.list);
@@ -376,5 +429,38 @@ export class ClientComponent implements OnInit, OnDestroy {
     console.log(this.filterRequest);
     console.log(paginatorInfo);
     this.getCompanyList();
+  }
+
+  openNotesModal(notes) {
+    this.dialog.open(ClientNotesModalComponent, {
+      data: {
+        notes: notes,
+      },
+    });
+  }
+
+  openEmployeesModal(employees) {
+    this.dialog.open(ClientEmployeesModalComponent, {
+      data: {
+        employees: employees,
+      },
+    });
+  }
+
+  openProfilesAndFittingsModal(values) {
+    let {
+      aluminium_profiles,
+      aluminium_fittings,
+      pcv_profiles,
+      pcv_fittings,
+    } = values;
+    this.dialog.open(ClientProfilesFittingsModalComponent, {
+      data: {
+        aluminiumProfiles: aluminium_profiles,
+        aluminiumFittings: aluminium_fittings,
+        pcvProfiles: pcv_profiles,
+        pcvFittings: pcv_fittings,
+      },
+    });
   }
 }

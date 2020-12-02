@@ -12,17 +12,19 @@
 
   <div class="client-wrapper__nav-filters nav-filters">
     <app-client-nav-search
+      *ngIf="!this.media.isActive('xs')"
       class="nav-filters__search"
       [nameCompanyFilterControl]="nameCompanyFilterControl"
       (selectedNameCompanyFilterEvent)="selectedNameCompanyFilter($event)"
     ></app-client-nav-search>
     <app-client-nav-filters
+      *ngIf="!this.media.isActive('xs')"
       class="nav-filters__filters"
       [filterList]="filterList"
       [businessProfilesFilterControl]="businessProfilesFilterControl"
       [citiesFilterControl]="citiesFilterControl"
       [voivedeshipsFilterControl]="voivedeshipsFilterControl"
-      (getFilterListEvent)="getFilterList()"
+      [enableVoivedeshipsFilterControl]="enableVoivedeshipsFilterControl"
       (resetFilterEvent)="resetFilter()"
       (startFilterEvent)="startFilter()"
       (selectedCitiesFilterEvent)="selectedCitiesFilter($event)"
@@ -32,9 +34,11 @@
 
   <app-client-list
     [companyList]="clients"
-    (getCompanyListEvent)="getCompanyList()"
     (updateCompanyEvent)="openUpdateClientModal($event)"
     (deleteClientEvent)="deleteClient($event)"
+    (employeesModalEvent)="openEmployeesModal($event)"
+    (notesModalEvent)="openNotesModal($event)"
+    (profilesFittingssModalEvent)="openProfilesAndFittingsModal($event)"
   ></app-client-list>
   <app-client-paginator
     [totalCountCompanyPaginator]="totalCountCompanyPaginator"
@@ -43,4 +47,14 @@
     (paginatorEvent)="paginator($event)"
   ></app-client-paginator>
 </div>
-<app-footer></app-footer>
+<app-footer *ngIf="this.media.isActive('xs')">
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>home</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</app-footer>

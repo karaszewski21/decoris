@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-employees-modal/client-employees-modal.component.scss"
+    ],
+    "names": [],
+    "file": "client-employees-modal.component.min.css"
+}

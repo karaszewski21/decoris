@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-form-location/client-form-location.component.scss"
+    ],
+    "names": [],
+    "file": "client-form-location.component.min.css"
+}

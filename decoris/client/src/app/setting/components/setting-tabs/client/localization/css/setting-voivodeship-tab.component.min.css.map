@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-voivodeship-tab/setting-voivodeship-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-voivodeship-tab.component.min.css"
+}

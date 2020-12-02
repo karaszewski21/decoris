@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACd,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,SAAS,EAAE,IAAI;CAWhB;;AATE,AAAD,kCAAoB,CAAC;EACnB,MAAM,EAAE,IAAI;CACb;;AACA,AAAD,uBAAS,CAAC;EACR,SAAS,EAAE,CAAC;CACb;;AACA,AAAD,8BAAgB,CAAC;EACf,MAAM,EAAE,IAAI;CACb",
+    "sources": [
+        "../client-nav-actions/client-nav-actions.component.scss"
+    ],
+    "names": [],
+    "file": "client-nav-actions.component.min.css"
+}

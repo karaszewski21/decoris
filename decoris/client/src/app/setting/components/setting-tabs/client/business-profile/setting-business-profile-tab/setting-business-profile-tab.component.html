@@ -1,1 +1,31 @@
-<p>setting-business-profile-tab works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Profile biznesowe</mat-label>
+  <mat-select
+    (selectionChange)="selectedBusinessProfile($event)"
+    [value]="businessProfile"
+  >
+    <mat-option
+      *ngFor="let businessProfile of businessProfiles$ | async"
+      [value]="businessProfile"
+    >
+      {{ businessProfile.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa profilu</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa profilu"
+    [formControl]="businessProfileControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="saveBusinessProfile()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeBusinessProfile()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetBusinessProfile()">clear</button>

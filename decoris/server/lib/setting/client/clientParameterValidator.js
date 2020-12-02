@@ -23,11 +23,6 @@ module.exports = class ParameterValidator {
     }
   }
   async validateParameter(parameter) {
-    // let item = Object.values(parameter);
-
-    // let value = {
-    //   [item[0]]: parameter.value,
-    // };
     let updateParameter = await this.validateSwitch(
       parameter.name,
       parameter.value
@@ -69,19 +64,22 @@ module.exports = class ParameterValidator {
           result = await this.existVoivodeship(value);
           break;
         case "businessProfile":
-          result = await this.existBusinessProfile(value.businessProfile);
+          result = await this.existBusinessProfile(value);
           break;
         case "aluminiumProfile":
-          result = await this.existAluminiumProfile(value.aluminiumProfile);
+          result = await this.existAluminiumProfile(value);
           break;
         case "aluminiumFitting":
-          result = await this.existAluminiumFitting(value.aluminiumFitting);
+          result = await this.existAluminiumFitting(value);
           break;
         case "pcvProfile":
-          result = await this.existPcvProfile(value.pcvProfile);
+          result = await this.existPcvProfile(value);
           break;
         case "pcvFitting":
-          result = await this.existPcvFitting(value.pcvFitting);
+          result = await this.existPcvFitting(value);
+          break;
+        case "positionEmployee":
+          result = await this.existPositionEmployee(value);
           break;
         default:
           break;
@@ -225,6 +223,25 @@ module.exports = class ParameterValidator {
       }
 
       return pcvFittingModel ? true : false;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async existPositionEmployee(positionEmployee) {
+    let positionEmployeeModel = null;
+    try {
+      if (positionEmployee.id) {
+        positionEmployeeModel = await models.position_empolyees.findByPk(
+          positionEmployee.id
+        );
+      } else {
+        positionEmployeeModel = await models.position_empolyees.findOne({
+          where: { name: positionEmployee.name ?? positionEmployee },
+        });
+      }
+
+      return positionEmployeeModel ? true : false;
     } catch (error) {
       throw error;
     }

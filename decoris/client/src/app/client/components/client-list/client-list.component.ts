@@ -10,6 +10,7 @@ import {
 import { Company } from "../../../interfaces/client/company";
 import { MatTableDataSource } from "@angular/material/table";
 import { CountryEnum } from "../../../core/enums/client/countries";
+import { MediaObserver } from "@angular/flex-layout";
 
 @Component({
   selector: "app-client-list",
@@ -20,15 +21,18 @@ export class ClientListComponent implements OnInit, OnChanges {
   @Input() companyList: Company[];
   @Input() displayedColumns: string[];
 
-  @Output() getCompanyListEvent = new EventEmitter();
   @Output() toggleColumnVoivodeshipOrCountryEvent = new EventEmitter();
   @Output() updateCompanyEvent = new EventEmitter();
   @Output() deleteClientEvent = new EventEmitter<string>();
+  @Output() employeesModalEvent = new EventEmitter();
+  @Output() notesModalEvent = new EventEmitter();
+  @Output() profilesFittingssModalEvent = new EventEmitter();
 
   dataSource: MatTableDataSource<Company>;
-  constructor() {}
+  constructor(public media: MediaObserver) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.companyList) {
+      console.log(this.companyList);
       let selectedCountry = this.companyList.find(
         (company) => company.country.name
       );
@@ -37,9 +41,7 @@ export class ClientListComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-    this.getCompanyListEvent.emit();
-  }
+  ngOnInit(): void {}
 
   updateCompany(element) {
     this.updateCompanyEvent.emit(element);
@@ -79,5 +81,17 @@ export class ClientListComponent implements OnInit, OnChanges {
         "remove",
       ];
     }
+  }
+
+  openEmployeesModal(employees) {
+    this.employeesModalEvent.emit(employees);
+  }
+
+  openNotesModal(notes) {
+    this.notesModalEvent.emit(notes);
+  }
+
+  openProfilesAndFittingsModal(profilesFittings) {
+    this.profilesFittingssModalEvent.emit(profilesFittings);
   }
 }

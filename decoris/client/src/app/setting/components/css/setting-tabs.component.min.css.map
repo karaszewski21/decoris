@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-tabs/setting-tabs.component.scss"
+    ],
+    "names": [],
+    "file": "setting-tabs.component.min.css"
+}

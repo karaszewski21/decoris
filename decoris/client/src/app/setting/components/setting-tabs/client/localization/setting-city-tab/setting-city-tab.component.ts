@@ -50,6 +50,11 @@ export class SettingCityTabComponent implements OnInit {
     });
   }
   saveCity() {
+    if (!this.cityControl.dirty) {
+      alert("Podaj nazwe miasta przez zapisem");
+      return;
+    }
+
     let association = [];
 
     if (this.country.name === CountryEnum.polish && this.voivodeship === null) {
@@ -64,6 +69,12 @@ export class SettingCityTabComponent implements OnInit {
     } else {
       this.dispatchAddCity(false, association);
     }
+  }
+
+  resetCity() {
+    this.city = null;
+    this.cityControl.setValue("");
+    this.voivodeshipControl.setValue("");
   }
 
   removeCity() {
@@ -94,9 +105,9 @@ export class SettingCityTabComponent implements OnInit {
 
   selectedCity({ value }) {
     this.city = value;
-    this.voivodeship = value.voivodeship.name;
+    this.voivodeship = value.voivodeship?.name;
     this.cityControl.setValue(this.city.name);
-    this.voivodeshipControl.setValue(this.city.voivodeship.name);
+    this.voivodeshipControl.setValue(this.city.voivodeship?.name);
   }
 
   displayConfirmSaveDialog(association) {
@@ -164,6 +175,7 @@ export class SettingCityTabComponent implements OnInit {
         })
       );
     }
+    this.resetCity();
   }
 
   dispatchRemoveCity() {
@@ -176,5 +188,6 @@ export class SettingCityTabComponent implements OnInit {
         },
       })
     );
+    this.resetCity();
   }
 }

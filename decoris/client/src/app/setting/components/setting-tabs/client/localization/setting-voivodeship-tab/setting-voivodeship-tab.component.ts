@@ -22,6 +22,10 @@ export class SettingVoivodeshipTabComponent implements OnInit {
     });
   }
   saveVoivodeship() {
+    if (!this.voivodeshipControl.dirty) {
+      alert("Podaj nazwe wojewodztwa przez zapisem");
+      return;
+    }
     //dispach
   }
 

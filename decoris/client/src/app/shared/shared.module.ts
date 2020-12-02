@@ -51,9 +51,19 @@ import { OverlayModule } from "@angular/cdk/overlay";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FooterComponent } from "./components/footer/footer.component";
 import { DialogComponent } from "./components/dialog/dialog.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { MenuComponent } from "./components/menu/menu.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MenuModalComponent } from "./components/mobile/menu-modal/menu-modal.component";
 
 @NgModule({
-  declarations: [FooterComponent, DialogComponent],
+  declarations: [
+    FooterComponent,
+    DialogComponent,
+    HeaderComponent,
+    MenuComponent,
+    MenuModalComponent,
+  ],
   imports: [
     CommonModule,
     MatNativeDateModule,
@@ -152,6 +162,10 @@ import { DialogComponent } from "./components/dialog/dialog.component";
     NgxSpinnerModule,
     FooterComponent,
     DialogComponent,
+    HeaderComponent,
+    MenuComponent,
+    FlexLayoutModule,
+    MenuModalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

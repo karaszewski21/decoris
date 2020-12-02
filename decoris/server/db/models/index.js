@@ -52,4 +52,6 @@ module.exports = {
   voivodeships: require("./voivodeships")(sequelize, DataTypes),
   position_empolyees: require("./position_employees")(sequelize, DataTypes),
   empolyees: require("./employee")(sequelize, DataTypes),
+  users: require("./user")(sequelize, DataTypes),
+  accounts: require("./account")(sequelize, DataTypes),
 };

@@ -13,6 +13,7 @@ import {
   AddParameter,
   AddParameterSuccess,
   RemoveParameterSuccess,
+  RemoveParameter,
 } from "../actions";
 import {
   Company,
@@ -63,7 +64,7 @@ export class ParametersClientEffects {
 
   @Effect()
   public removeClientParameter$: Observable<Action> = this.actions$.pipe(
-    ofType<AddParameter>(ParametersActionTypes.RemoveParameter),
+    ofType<RemoveParameter>(ParametersActionTypes.RemoveParameter),
     mergeMap((action) =>
       this.parametersClientService.removeClientParameter(
         action.payload.parameter

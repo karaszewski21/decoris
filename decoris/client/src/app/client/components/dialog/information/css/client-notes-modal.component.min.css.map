@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-notes-modal/client-notes-modal.component.scss"
+    ],
+    "names": [],
+    "file": "client-notes-modal.component.min.css"
+}

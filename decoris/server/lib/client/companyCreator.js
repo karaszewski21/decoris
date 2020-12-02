@@ -7,6 +7,7 @@ class CompanyCreator {
 
   async createCompany(companies) {
     let { company } = companies;
+    console.log(company);
     try {
       let companyValidator = new CompanyValidator();
       await companyValidator.initData();

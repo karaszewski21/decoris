@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import {
   getCountries,
@@ -25,6 +25,11 @@ export class SettingCountryTabComponent implements OnInit {
   ngOnInit(): void {}
 
   saveCountry() {
+    if (!this.countryControl.dirty) {
+      alert("Podaj nazwe panstwa przez zapisem");
+      return;
+    }
+
     if (this.country) {
       this.displayConfirmSaveDialog();
     } else {
@@ -58,7 +63,7 @@ export class SettingCountryTabComponent implements OnInit {
       data: {
         confirmButton: { show: true, value: "Zamien" },
         rejectButton: { show: true, value: "Dodaj" },
-        showInformation: { show: false },
+        information: { show: false },
       },
     });
 

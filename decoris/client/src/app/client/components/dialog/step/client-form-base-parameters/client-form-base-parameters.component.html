@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup">
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Nazwa firmy</mat-label>
+    <input matInput placeholder="Nazwa firmy" formControlName="name" required />
+  </mat-form-field>
+  <div class="dialog-forms__spacer"></div>
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Nip</mat-label>
+    <input matInput placeholder="Nip" formControlName="nip" />
+  </mat-form-field>
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>E-mail</mat-label>
+    <input matInput placeholder="E-mail" formControlName="email" />
+  </mat-form-field>
+  <div class="dialog-forms__spacer"></div>
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Strona www</mat-label>
+    <input matInput placeholder="Strona www" formControlName="web_page" />
+  </mat-form-field>
+
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Numer telefonu</mat-label>
+    <input
+      matInput
+      placeholder="Numer telefonu"
+      formControlName="phone_number"
+    />
+  </mat-form-field>
+</form>

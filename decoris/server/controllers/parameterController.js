@@ -82,6 +82,7 @@ class ParametersController {
         "error",
         `${error.message} ${req.url} ParametersController >>> deleteParameter`
       );
+      res.status(404).send(error.message);
       throw new Error(error);
     }
   }

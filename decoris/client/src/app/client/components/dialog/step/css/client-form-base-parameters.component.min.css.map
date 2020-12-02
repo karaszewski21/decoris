@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-form-base-parameters/client-form-base-parameters.component.scss"
+    ],
+    "names": [],
+    "file": "client-form-base-parameters.component.min.css"
+}

@@ -17,6 +17,13 @@ html {
   color: black;
 }
 
+.client-button {
+  background-color: black;
+  color: white;
+  width: auto;
+  height: auto;
+}
+
 // .mat-form-field {
 //   display: flex;
 //   flex-wrap: wrap;
@@ -38,13 +45,6 @@ html {
 //   margin: 0;
 //   font-family: Roboto, "Helvetica Neue", sans-serif;
 // }
-
-.client-button {
-  background-color: black;
-  color: white;
-  width: auto;
-  height: auto;
-}
 
 .mat-form-field-wrapper {
   margin: 10px;

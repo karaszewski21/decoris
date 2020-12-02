@@ -30,6 +30,9 @@ module.exports = class ParameterUpdater {
         case "pcvFitting":
           result = await this.updatePcvFitting(parameter);
           break;
+        case "positionEmployee":
+          result = await this.updatePositionEmployee(parameter);
+          break;
         default:
           result = null;
           break;
@@ -73,7 +76,7 @@ module.exports = class ParameterUpdater {
         raw: true,
       });
 
-      updatedCountry.parameter = "city";
+      updetedCity.parameter = "city";
 
       return updetedCity;
     } catch (error) {
@@ -213,6 +216,26 @@ module.exports = class ParameterUpdater {
       updatedPcvFitting.parameter = "aluminiumFitting";
 
       return updatedPcvFitting;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updatePositionEmployee(positionEmployee) {
+    try {
+      await models.position_empolyees.update(
+        { name: positionEmployee.value.name },
+        { where: { id: positionEmployee.value.id } }
+      );
+
+      let updatedPositionEmployee = await models.position_empolyees.findByPk(
+        positionEmployee.value.id,
+        {
+          raw: true,
+        }
+      );
+      updatedPositionEmployee.parameter = "positionEmployee";
+
+      return updatedPositionEmployee;
     } catch (error) {
       throw error;
     }

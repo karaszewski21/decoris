@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-city-tab/setting-city-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-city-tab.component.min.css"
+}

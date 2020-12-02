@@ -15,12 +15,12 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./client-nav-filters.component.scss"],
 })
 export class ClientNavFiltersComponent implements OnInit, OnChanges {
+  @Input() enableVoivedeshipsFilterControl: boolean;
   @Input() filterList: Map<string, any[]>;
   @Input() businessProfilesFilterControl = new FormControl();
   @Input() citiesFilterControl = new FormControl();
   @Input() voivedeshipsFilterControl = new FormControl();
 
-  @Output() getFilterListEvent = new EventEmitter();
   @Output() resetFilterEvent = new EventEmitter();
   @Output() startFilterEvent = new EventEmitter();
   @Output() selectedBusinessProfilesFilterEvent = new EventEmitter();
@@ -28,11 +28,13 @@ export class ClientNavFiltersComponent implements OnInit, OnChanges {
   @Output() selectedVoivedeshipsFilterEvent = new EventEmitter();
 
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.enableVoivedeshipsFilterControl
+      ? this.voivedeshipsFilterControl.enable()
+      : this.voivedeshipsFilterControl.disable();
+  }
 
   ngOnInit(): void {
-    this.getFilterListEvent.emit();
-
     this.businessProfilesFilterControl.valueChanges.subscribe(
       (businessProfiles) => {
         this.selectedBusinessProfilesFilterEvent.emit(businessProfiles);

@@ -1,2 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  background-color: #8daae5;
+  font-family: "Roboto, " Helvetica Neue ", sans-serif";
+}
+
+.mat-toolbar {
+  background-color: white;
+  color: black;
+}
+
+.client-button {
+  background-color: black;
+  color: white;
+  width: auto;
+  height: auto;
+}
+
+.mat-form-field-wrapper {
+  margin: 10px;
+}
 /*# sourceMappingURL=styles.min.css.map */

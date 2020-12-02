@@ -1,0 +1,41 @@
+$defaul-font: "Roboto, " Helvetica Neue ", sans-serif";
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  //max-width: 1440px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 0 4px black;
+}
+.header {
+  display: flex;
+  flex-basis: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  &__spacer {
+    flex-grow: 1;
+  }
+  &__button-account-circle {
+    margin-right: 30px;
+  }
+  &__icon-account-circle {
+    font-size: 35px;
+  }
+  &__button-logout {
+    margin-right: 10px;
+  }
+  &__icon-logout {
+    font-size: 35px;
+  }
+
+  &__login-name {
+    font-family: $defaul-font;
+    margin-top: 10px;
+  }
+
+  &__logo {
+    margin: 10px 10px;
+  }
+}

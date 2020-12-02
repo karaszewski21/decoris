@@ -1,0 +1,24 @@
+<div class="wrapper">
+  <div class="header">
+    <span class="header__logo">Logo Decoris</span>
+    <span class="header__spacer"></span>
+    <span class="header__login-name">Jan Kowalski</span>
+    <button
+      class="header__button-account-circle"
+      mat-icon-button
+      aria-label="Example icon-button with heart icon"
+      (click)="openMenu()"
+    >
+      <mat-icon class="header__icon-account-circle">account_circle</mat-icon>
+    </button>
+    <button
+      *ngIf="showLogout"
+      class="header__button-logout"
+      mat-icon-button
+      aria-label="Example icon-button with heart icon"
+      (click)="logout()"
+    >
+      <mat-icon class="header__icon-logout">logout</mat-icon>
+    </button>
+  </div>
+</div>

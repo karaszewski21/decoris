@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-form-fittings-profiles/client-form-fittings-profiles.component.scss"
+    ],
+    "names": [],
+    "file": "client-form-fittings-profiles.component.min.css"
+}

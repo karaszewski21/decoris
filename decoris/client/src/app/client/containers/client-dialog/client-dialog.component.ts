@@ -43,7 +43,6 @@ import {
 } from "../../../core/store";
 import { map } from "rxjs/operators";
 import { Subscription, merge } from "rxjs";
-import { CountryEnum } from "../../../core/enums/client/countries";
 
 @Component({
   selector: "app-client-dialog",
@@ -195,7 +194,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     this.spinner.show();
     let { company } = this.data;
     this.initControles(company);
-
+    //  this.dispatchCityByCountry(company);
     this.initParameters();
     this.initSelectedParameters(company);
   }
@@ -205,30 +204,41 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     this.subscriptionParameters$.unsubscribe();
   }
 
+  dispatchCityByCountry(company) {
+    console.log(company);
+    if (company) {
+      this.store.dispatch(
+        new GetCitiesByCountry({
+          loading: true,
+          countriesIds: [company.country.id],
+        })
+      );
+    }
+  }
   initParameters() {
     this.subscriptionCities$ = this.cities$.subscribe((city) => {
       this.cityList = [...city.list];
+
+      this.getParametersLoading$.subscribe((loading) => {
+        if (!loading) {
+          this.subscriptionParameters$ = merge(
+            this.countries$,
+            this.voivodeships$,
+            this.businessProfiles$,
+            this.aluminiumProfiles$,
+            this.aluminiumFittings$,
+            this.pcvProfiles$,
+            this.pcvFittings$,
+            this.positionEmployees$
+          ).subscribe((value) => {
+            console.log(value);
+            this.parameters.set(value.key, value.list);
+
+            this.spinner.hide();
+          });
+        }
+      });
     });
-
-    this.getParametersLoading$.subscribe((loading) => {
-      if (!loading) {
-        this.subscriptionParameters$ = merge(
-          this.countries$,
-          this.voivodeships$,
-          this.businessProfiles$,
-          this.aluminiumProfiles$,
-          this.aluminiumFittings$,
-          this.pcvProfiles$,
-          this.pcvFittings$,
-          this.positionEmployees$
-        ).subscribe((value) => {
-          this.parameters.set(value.key, value.list);
-
-          this.spinner.hide();
-        });
-      }
-    });
-
     this.businessProfileList = [...this.parameters.get("businessProfiles")];
     this.aluminiumProfileList = [...this.parameters.get("aluminiumProfiles")];
     this.aluminiumFittingList = [...this.parameters.get("aluminiumFittings")];
@@ -252,7 +262,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     this.baseParametersCompanyFormGroup = this._companyFormBuilder.group({
       name: [company?.name ?? "", Validators.required],
       nip: [company?.nip ?? ""],
-      mail: [company?.mail ?? "", Validators.email],
+      email: [company?.email ?? "", Validators.email],
       web_page: [company?.web_page ?? ""],
       phone_number: [company?.phone_number ?? ""],
     });

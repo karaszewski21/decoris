@@ -1,0 +1,23 @@
+<nav class="menu">
+  <ul class="menu__list">
+    <li class="menu__item">
+      <button
+        class="menu__button-client"
+        mat-stroked-button
+        (click)="navigate('client')"
+      >
+        Klienci
+      </button>
+    </li>
+    <span class="menu__spacer"></span>
+    <li class="menu__item">
+      <button
+        mat-icon-button
+        aria-label="Example icon-button with menu icon"
+        (click)="navigate('setting')"
+      >
+        <mat-icon class="menu__icon-settings">settings_applications</mat-icon>
+      </button>
+    </li>
+  </ul>
+</nav>

@@ -171,7 +171,16 @@ module.exports = class ClientsService {
       );
 
       const companiesList = await models.companies.findAll({
-        attributes: ["id", "name", "nip", "address"],
+        attributes: [
+          "id",
+          "name",
+          "nip",
+          "address",
+          "web_page",
+          "email",
+          "post_code",
+          "phone_number",
+        ],
         include: bodyQuery.include,
         where: bodyQuery.where,
         limit: parameters.limit,

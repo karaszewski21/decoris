@@ -1,1 +1,31 @@
-<p>setting-aluminium-fitting-tab works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Okucia aluminiowe</mat-label>
+  <mat-select
+    (selectionChange)="selectedAluminiumFitting($event)"
+    [value]="aluminiumFitting"
+  >
+    <mat-option
+      *ngFor="let aluminiumFitting of aluminiumFittings$ | async"
+      [value]="aluminiumFitting"
+    >
+      {{ aluminiumFitting.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa profilu</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa okucia alu"
+    [formControl]="aluminiumFittingControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="saveAluminiumFitting()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeAluminiumFitting()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetAluminiumFitting()">clear</button>

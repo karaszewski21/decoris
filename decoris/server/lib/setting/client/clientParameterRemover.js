@@ -30,6 +30,9 @@ module.exports = class ClientParameterRemover {
         case "pcvFitting":
           result = await this.deletePcvFitting(parameter);
           break;
+        case "positionEmployee":
+          result = await this.deletePositionEmployee(parameter);
+          break;
         default:
           result = null;
           break;
@@ -51,7 +54,7 @@ module.exports = class ClientParameterRemover {
         city.parameter = "city";
         return city;
       } else {
-        throw new Error(`cannot remove ${city}`);
+        throw new Error(`cannot remove ${city.name}`);
       }
     } catch (error) {
       throw error;
@@ -68,7 +71,7 @@ module.exports = class ClientParameterRemover {
         country.parameter = "country";
         return country;
       } else {
-        throw new Error(`cannot remove ${country}`);
+        throw new Error(`cannot remove ${country.value.name}`);
       }
     } catch (error) {
       throw error;
@@ -85,20 +88,112 @@ module.exports = class ClientParameterRemover {
         voivodeship.parameter = "voivodeship";
         return voivodeship;
       } else {
-        throw new Error(`cannot remove ${voivodeship}`);
+        throw new Error(`cannot remove ${voivodeship.value.name}`);
       }
     } catch (error) {
       throw error;
     }
   }
 
-  async deleteBusinessProfile(businessProfile) {}
+  async deleteBusinessProfile(businessProfile) {
+    try {
+      let removeCount = await models.business_profiles.destroy({
+        where: { id: businessProfile.value.id },
+      });
 
-  async deleteAluminiumProfile(aluminiumProfile) {}
+      if (removeCount > 0) {
+        businessProfile.parameter = "businessProfile";
+        return businessProfile;
+      } else {
+        throw new Error(`cannot remove ${businessProfile.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  async deleteAluminiumFitting(aluminiumFitting) {}
+  async deleteAluminiumProfile(aluminiumProfile) {
+    try {
+      let removeCount = await models.aluminium_profiles.destroy({
+        where: { id: aluminiumProfile.value.id },
+      });
 
-  async deletePcvProfile(pcvProfile) {}
+      if (removeCount > 0) {
+        aluminiumProfile.parameter = "aluminiumProfile";
+        return aluminiumProfile;
+      } else {
+        throw new Error(`cannot remove ${aluminiumProfile.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  async deletePcvFitting(pcvFitting) {}
+  async deleteAluminiumFitting(aluminiumFitting) {
+    try {
+      let removeCount = await models.aluminium_fittings.destroy({
+        where: { id: aluminiumFitting.value.id },
+      });
+
+      if (removeCount > 0) {
+        aluminiumFitting.parameter = "aluminiumFitting";
+        return aluminiumFitting;
+      } else {
+        throw new Error(`cannot remove ${aluminiumFitting.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletePcvProfile(pcvProfile) {
+    try {
+      let removeCount = await models.pcv_profiles.destroy({
+        where: { id: pcvProfile.value.id },
+      });
+
+      if (removeCount > 0) {
+        pcvProfile.parameter = "pcvProfile";
+        return pcvProfile;
+      } else {
+        throw new Error(`cannot remove ${pcvProfile.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletePcvFitting(pcvFitting) {
+    try {
+      let removeCount = await models.pcv_fittings.destroy({
+        where: { id: pcvFitting.value.id },
+      });
+
+      if (removeCount > 0) {
+        pcvFitting.parameter = "pcvFitting";
+        return pcvFitting;
+      } else {
+        throw new Error(`cannot remove ${pcvFitting.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletePositionEmployee(positionEmployee) {
+    try {
+      let removeCount = await models.position_empolyees.destroy({
+        where: { id: positionEmployee.value.id },
+      });
+
+      if (removeCount > 0) {
+        positionEmployee.parameter = "positionEmployee";
+        return positionEmployee;
+      } else {
+        throw new Error(`cannot remove ${positionEmployee.value.name}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 };
