@@ -32,7 +32,6 @@ export class ClientListComponent implements OnInit, OnChanges {
   constructor(public media: MediaObserver) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.companyList) {
-      console.log(this.companyList);
       let selectedCountry = this.companyList.find(
         (company) => company.country.name
       );

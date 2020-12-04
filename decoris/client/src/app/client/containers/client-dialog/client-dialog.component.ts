@@ -231,7 +231,6 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
             this.pcvFittings$,
             this.positionEmployees$
           ).subscribe((value) => {
-            console.log(value);
             this.parameters.set(value.key, value.list);
 
             this.spinner.hide();

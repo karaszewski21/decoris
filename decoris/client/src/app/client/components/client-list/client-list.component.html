@@ -22,7 +22,7 @@
     <ng-container matColumnDef="voivodeship">
       <th mat-header-cell *matHeaderCellDef>Wojewodztwo</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.voivodeship.name }}
+        {{ element.city.voivodeship?.name }}
       </td>
     </ng-container>
 

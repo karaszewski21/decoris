@@ -17,6 +17,11 @@ import { CountryEnum } from "../../../../../../core/enums/client/countries";
 import { FormControl } from "@angular/forms";
 import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-setting-city-tab",
@@ -24,6 +29,12 @@ import { MatDialog } from "@angular/material/dialog";
   styleUrls: ["./setting-city-tab.component.scss"],
 })
 export class SettingCityTabComponent implements OnInit {
+  horizontalPosition: MatSnackBarHorizontalPosition = "center";
+  verticalPosition: MatSnackBarVerticalPosition = "top";
+  selectedExistCity: boolean = false;
+  selectedExistVoivodeship: boolean = false;
+  selectedPolishMarket: boolean = false;
+
   country: Country = null;
   city: City = null;
   voivodeship: string = null;
@@ -41,7 +52,11 @@ export class SettingCityTabComponent implements OnInit {
   countries$ = this.store.pipe(select(getCountries));
   voivodeships$ = this.store.pipe(select(getVoivodeships));
 
-  constructor(private store: Store, private dialog: MatDialog) {}
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.cityControl.disable();
@@ -50,42 +65,75 @@ export class SettingCityTabComponent implements OnInit {
     });
   }
   saveCity() {
-    if (!this.cityControl.dirty) {
-      alert("Podaj nazwe miasta przez zapisem");
+    let association = [];
+
+    console.log(this.cityControl.value);
+
+    if (this.cityControl.value == null) {
+      this.openSnackBar("Podaj nazwe miasta przez zapisem", "Ok");
       return;
     }
 
-    let association = [];
-
-    if (this.country.name === CountryEnum.polish && this.voivodeship === null) {
-      alert("wybierz wojewodztow");
-    } else {
-      association.push({ country: this.country });
-      association.push({ voivodeship: this.voivodeship });
+    //only polish market
+    if (!this.selectedExistVoivodeship) {
+      this.openSnackBar("wybierz wojewodztwo", "Ok");
+      return;
     }
 
-    if (this.city) {
+    if (this.country.name === CountryEnum.polish) {
+      association.push({ country: this.country });
+      association.push({ voivodeship: this.voivodeship });
+    } else {
+      association.push({ country: this.country });
+      association.push({ voivodeship: null });
+    }
+
+    if (this.selectedExistCity) {
       this.displayConfirmSaveDialog(association);
     } else {
       this.dispatchAddCity(false, association);
     }
   }
+  resetCountryAndVoivodeship() {
+    this.resetCity();
+    this.resetVoivodeship();
+    this.disabledVoivodeshipSelect = true;
+  }
+
+  resetControls() {
+    this.selectedExistVoivodeship = false;
+    this.disabledCitySelect = true;
+    this.disabledCityInput = true;
+    this.disabledVoivodeshipSelect = true;
+    this.showVoivodeshipSelect = false;
+  }
+
+  resetCountry() {
+    this.country = null;
+  }
 
   resetCity() {
     this.city = null;
-    this.cityControl.setValue("");
-    this.voivodeshipControl.setValue("");
+    this.cityControl.reset();
+  }
+
+  resetVoivodeship() {
+    this.voivodeship = null;
+    this.voivodeshipControl.reset();
   }
 
   removeCity() {
-    if (this.city) {
+    if (this.selectedExistCity) {
       this.displayConfirmRemoveDialog();
     } else {
-      alert("Wybierz  miasto");
+      this.openSnackBar("Wybierz miasto", "Ok");
     }
   }
 
   selectedCountry({ value }) {
+    this.resetCountry();
+    this.resetCity();
+    this.resetVoivodeship();
     this.country = value;
     this.store.dispatch(
       new GetCitiesByCountry({ loading: true, countriesIds: [this.country.id] })
@@ -95,19 +143,31 @@ export class SettingCityTabComponent implements OnInit {
 
     if (this.country.name === CountryEnum.polish) {
       this.showVoivodeshipSelect = true;
+      this.selectedPolishMarket = true;
     } else {
       this.showVoivodeshipSelect = false;
+      this.selectedPolishMarket = false;
     }
   }
   selectedVoivodeship({ value }) {
+    this.selectedExistVoivodeship = true;
     this.voivodeship = value;
   }
 
   selectedCity({ value }) {
+    this.resetCity();
+    this.resetVoivodeship();
+    this.selectedExistCity = true;
     this.city = value;
-    this.voivodeship = value.voivodeship?.name;
     this.cityControl.setValue(this.city.name);
-    this.voivodeshipControl.setValue(this.city.voivodeship?.name);
+
+    if (this.selectedPolishMarket) {
+      this.voivodeship = value.voivodeship.name;
+      this.voivodeshipControl.setValue(this.city.voivodeship.name);
+      this.selectedExistVoivodeship = true;
+    } else {
+      this.voivodeship = null;
+    }
   }
 
   displayConfirmSaveDialog(association) {
@@ -121,12 +181,16 @@ export class SettingCityTabComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === null) {
+    dialogRef.afterClosed().subscribe((modifyCity) => {
+      if (modifyCity == null) {
         return;
       }
 
-      this.dispatchAddCity(result, association);
+      if (modifyCity) {
+        this.dispatchAddCity(modifyCity, association);
+      } else {
+        this.dispatchAddCity(modifyCity, association);
+      }
     });
   }
 
@@ -144,15 +208,23 @@ export class SettingCityTabComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((remove) => {
+      if (remove) {
         this.dispatchRemoveCity();
       }
     });
   }
 
-  dispatchAddCity(result, association) {
-    if (result) {
+  openSnackBar(message, button) {
+    this.snackBar.open(message, button, {
+      duration: 1000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  dispatchAddCity(modifyCity, association) {
+    if (modifyCity) {
       this.store.dispatch(
         new AddParameter({
           loading: true,
@@ -175,7 +247,12 @@ export class SettingCityTabComponent implements OnInit {
         })
       );
     }
+
+    this.openSnackBar(`${this.cityControl.value} zostalo zapisane`, "Ok");
+    this.resetCountry();
     this.resetCity();
+    this.resetVoivodeship();
+    this.resetControls();
   }
 
   dispatchRemoveCity() {
@@ -188,6 +265,10 @@ export class SettingCityTabComponent implements OnInit {
         },
       })
     );
+    this.openSnackBar(`${this.cityControl.value} zostalo usuniete`, "Ok");
+    this.resetCountry();
     this.resetCity();
+    this.resetVoivodeship();
+    this.resetControls();
   }
 }

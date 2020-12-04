@@ -30,7 +30,6 @@ module.exports = class ClientsService {
   }
 
   async updateCompany(company) {
-    // let { company } = body;
     try {
       const existCompany = await models.companies.findByPk(
         company.parameters.id
@@ -69,17 +68,17 @@ module.exports = class ClientsService {
   }
 
   async getFilteredClientsListByParametrs(parameters) {
-    console.log(parameters);
     try {
       models.companies.associate(models);
       models.empolyees.associate(models);
+      models.cities.associate(models);
 
       let bodyQuery = { include: [] };
 
       if (parameters.name.length !== 0) {
         bodyQuery.where = {
           name: {
-            [Op.regexp]: parameters.name,
+            [Op.startsWith]: parameters.name,
           },
         };
       }
@@ -106,24 +105,25 @@ module.exports = class ClientsService {
       } else {
         bodyQuery.include.push({
           model: models.cities,
+          include: [models.voivodeships],
           required: true,
         });
       }
 
-      if (parameters.countries[0] === "Polska") {
-        if (parameters.voivodeships.length !== 0) {
-          bodyQuery.include.push({
-            model: models.voivodeships,
-            required: true,
-            where: { name: parameters.voivodeships },
-          });
-        } else {
-          bodyQuery.include.push({
-            model: models.voivodeships,
-            required: true,
-          });
-        }
-      }
+      // if (parameters.countries[0] === "Polska") {
+      //   if (parameters.voivodeships.length !== 0) {
+      //     bodyQuery.include.push({
+      //       model: models.voivodeships,
+      //       required: true,
+      //       where: { name: parameters.voivodeships },
+      //     });
+      //   } else {
+      //     bodyQuery.include.push({
+      //       model: models.voivodeships,
+      //       required: true,
+      //     });
+      //   }
+      // }
 
       if (parameters.business_profiles.length !== 0) {
         bodyQuery.include.push({

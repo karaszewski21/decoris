@@ -58,16 +58,18 @@ module.exports = class ParameterUpdater {
       if (voivodeship?.id) {
         voivodeshipModel = await models.voivodeships.findByPk(voivodeship.id);
       } else {
-        voivodeshipModel = await models.voivodeships.findOne({
-          where: { name: voivodeship.name ?? voivodeship },
-        });
+        voivodeshipModel = voivodeship
+          ? await models.voivodeships.findOne({
+              where: { name: voivodeship.name ?? voivodeship },
+            })
+          : null;
       }
 
       await models.cities.update(
         {
           name: city.value.name,
           country_id: countryModel.id,
-          voivodeship_id: voivodeshipModel.id,
+          voivodeship_id: voivodeshipModel ? voivodeshipModel.id : null,
         },
         { where: { id: city.value.id } }
       );

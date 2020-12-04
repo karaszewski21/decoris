@@ -1,0 +1,12 @@
+.account-wrapper {
+  box-shadow: 0 0 4px darkcyan;
+  &__panel {
+    background-color: darkcyan;
+  }
+  &__login {
+    background-color: white;
+  }
+  &__image {
+    min-width: 0;
+  }
+}

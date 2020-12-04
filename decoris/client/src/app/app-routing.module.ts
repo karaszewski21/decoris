@@ -8,20 +8,20 @@ const routes: Routes = [
     path: "client",
     loadChildren: () =>
       import("./client/client.module").then((m) => m.ClientModule),
-    //  canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "setting",
     loadChildren: () =>
       import("./setting/setting.module").then((m) => m.SettingModule),
-    //  canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "account",
     loadChildren: () =>
       import("./account/account.module").then((m) => m.AccountModule),
   },
-  { path: "**", redirectTo: "" },
+  { path: "**", redirectTo: "/account" },
 ];
 
 @NgModule({

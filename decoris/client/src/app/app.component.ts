@@ -4,6 +4,7 @@ import { AccountService } from "./core/services/account/account.service";
 import { MediaObserver } from "@angular/flex-layout";
 import { MatDialog } from "@angular/material/dialog";
 import { MenuModalComponent } from "./shared/components/mobile/menu-modal/menu-modal.component";
+import { User } from "./interfaces/account/user";
 
 @Component({
   selector: "app-root",
@@ -11,6 +12,7 @@ import { MenuModalComponent } from "./shared/components/mobile/menu-modal/menu-m
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
+  user: User;
   mobileMode: boolean;
   title = "decoris";
   hide = true;
@@ -21,10 +23,14 @@ export class AppComponent {
     public media: MediaObserver,
     private dialog: MatDialog
   ) {
-    // if (this.accountService.isAuthenticated()) {
-    //   this.router.navigate["/"];
+    this.accountService.user.subscribe((x) => {
+      console.log(x), (this.user = x);
+    });
+
+    // if (this.user) {
+    //   this.router.navigate(["client"]);
     // } else {
-    // this.router.navigate(["/account/login"]);
+    //   this.router.navigate(["account/login"]);
     // }
   }
 
@@ -37,8 +43,5 @@ export class AppComponent {
   }
   openMenu() {
     this.dialog.open(MenuModalComponent);
-  }
-  isAuthenticated() {
-    return true ?? this.accountService.isAuthenticated();
   }
 }

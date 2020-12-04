@@ -163,7 +163,6 @@ export class ClientComponent implements OnInit, OnDestroy {
     );
     this.spinner.show();
     this.cities$.subscribe((value) => {
-      console.log(value);
       this.filterList.set(value.key, value.list);
 
       this.spinner.hide();

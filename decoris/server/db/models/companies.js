@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.companies.belongsTo(models.cities);
       models.companies.belongsTo(models.countries);
-      models.companies.belongsTo(models.voivodeships);
+      // models.companies.belongsTo(models.voivodeships);
       models.companies.hasMany(models.notes);
       models.companies.hasMany(models.empolyees);
 
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       post_code: DataTypes.STRING,
       city_id: { type: DataTypes.INTEGER },
       country_id: DataTypes.INTEGER,
-      voivodeship_id: DataTypes.INTEGER,
+      //    voivodeship_id: DataTypes.INTEGER,
     },
     {
       sequelize,

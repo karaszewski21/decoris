@@ -1,6 +1,6 @@
 <mat-form-field appearance="fill">
   <mat-label>Panstwa</mat-label>
-  <mat-select (selectionChange)="selectedCountry($event)">
+  <mat-select (selectionChange)="selectedCountry($event)" [value]="country">
     <mat-option *ngFor="let country of countries$ | async" [value]="country">
       {{ country.name }}
     </mat-option>
@@ -12,6 +12,7 @@
   <mat-select
     [disabled]="disabledCitySelect"
     (selectionChange)="selectedCity($event)"
+    [value]="city"
   >
     <mat-option *ngFor="let city of cities$ | async" [value]="city">
       {{ city.name }}
@@ -48,3 +49,4 @@
 <button mat-icon-button (click)="removeCity()">
   <mat-icon>delete icon</mat-icon>
 </button>
+<button mat-icon-button (click)="resetCountryAndVoivodeship()">clear</button>

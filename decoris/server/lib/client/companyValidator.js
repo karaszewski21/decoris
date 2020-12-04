@@ -73,7 +73,8 @@ module.exports = class CompanyValidator {
           } else {
             this.filteredCompanies.delete(company.parameters.name);
             this.rejectedCompanies.set(company.parameters.name, {
-              message: `parametr ${value.name} not exist in database`,
+              // message: `parametr ${value.name} not exist in database`,
+              message: `${value.name}`,
               company: company,
             });
             break;
@@ -156,9 +157,9 @@ module.exports = class CompanyValidator {
       yield { item: pcvFitting, name: name };
     }
 
-    company.parameters.voivodeship_id = tmpVoivodeship
-      ? tmpVoivodeship.id
-      : null;
+    // company.parameters.voivodeship_id = tmpVoivodeship
+    //   ? tmpVoivodeship.id
+    //   : null;
 
     company.parameters.city_id = tmpCity.id;
     company.parameters.country_id = tmpCountry.id;

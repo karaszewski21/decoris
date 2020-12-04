@@ -3,9 +3,7 @@
     *ngFor="let tab of selectedSetting.settingItems"
     label="{{ tab.label }}"
   >
-    <ng-container
-      *ngComponentOutlet="tab.component; injector: tabInjecto"
-    ></ng-container>
+    <ng-container *ngComponentOutlet="tab.component"></ng-container>
   </mat-tab>
 </mat-tab-group>
 
