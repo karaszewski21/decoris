@@ -14,7 +14,7 @@ module.exports = class ClientsService {
       attributes: ["id", "name", "nip", "address"],
       include: [
         models.cities,
-        models.voivodeships,
+        // models.voivodeships,
         models.countries,
         models.empolyees,
         models.notes,
