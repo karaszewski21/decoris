@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .client-list-wrapper {
+    display: none;
+  }
+}
+/*# sourceMappingURL=client-list.component.min.css.map */

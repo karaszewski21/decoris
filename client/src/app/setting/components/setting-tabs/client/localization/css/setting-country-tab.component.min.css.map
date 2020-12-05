@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-country-tab/setting-country-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-country-tab.component.min.css"
+}

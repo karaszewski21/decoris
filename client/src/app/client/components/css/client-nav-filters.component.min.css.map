@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAC;EACX,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,SAAS,EAAE,IAAI;CAgBhB;;AAfE,AAAD,0BAAe,CAAC;EACd,MAAM,EAAE,WAAW;CACpB;;AACA,AAAD,8BAAmB,CAAC;EAClB,MAAM,EAAE,aAAa;CACtB;;AACA,AAAD,uBAAY,CAAC;EACX,MAAM,EAAE,aAAa;CACtB;;AACA,AAAD,8BAAmB,CAAC;EAClB,MAAM,EAAE,aAAa;CACtB;;AACA,AAAD,4BAAiB,CAAC;EAChB,MAAM,EAAE,aAAa;CACtB;;AAGH,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,YAAY,CAAC;IACX,OAAO,EAAE,IAAI;GACd",
+    "sources": [
+        "../client-nav-filters/client-nav-filters.component.scss"
+    ],
+    "names": [],
+    "file": "client-nav-filters.component.min.css"
+}

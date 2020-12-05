@@ -1,0 +1,20 @@
+.nav-filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  &__name-company {
+    margin: 0 10px 10px;
+  }
+  &__business-profile {
+    margin: 5px 10px 10px;
+  }
+  &__name-city {
+    margin: 5px 10px 10px;
+  }
+  &__name-voivodeship {
+    margin: 5px 10px 10px;
+  }
+  &__button-refresh {
+    margin: 5px 10px 10px;
+  }
+}

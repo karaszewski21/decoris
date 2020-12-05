@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-paginator/client-paginator.component.scss"
+    ],
+    "names": [],
+    "file": "client-paginator.component.min.css"
+}

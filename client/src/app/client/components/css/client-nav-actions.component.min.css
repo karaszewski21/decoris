@@ -1,0 +1,26 @@
+.client-toolbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.client-toolbar__button-new-client {
+  margin: 10px;
+}
+
+.client-toolbar__spacer {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.client-toolbar__file-download {
+  margin: 10px;
+}
+/*# sourceMappingURL=client-nav-actions.component.min.css.map */

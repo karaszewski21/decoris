@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../client-form-business-profile/client-form-business-profile.component.scss"
+    ],
+    "names": [],
+    "file": "client-form-business-profile.component.min.css"
+}

@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+.setting-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.setting-wrapper__list {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+}
+
+.setting-wrapper__tabs {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+}
+
+.setting-wrapper-mobile {
+  display: none;
+}
+
+.setting-wrapper-mobile__list {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+}
+
+.setting-wrapper-mobile__tabs {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+}
+
+@media (max-width: 600px) {
+  .setting-wrapper {
+    display: none;
+  }
+  .setting-wrapper-mobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 200%;
+  }
+}
+/*# sourceMappingURL=setting.component.min.css.map */

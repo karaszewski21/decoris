@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,WAAW,CAAC;IACV,OAAO,EAAE,IAAI;GACd",
+    "sources": [
+        "../client-nav-search/client-nav-search.component.scss"
+    ],
+    "names": [],
+    "file": "client-nav-search.component.min.css"
+}

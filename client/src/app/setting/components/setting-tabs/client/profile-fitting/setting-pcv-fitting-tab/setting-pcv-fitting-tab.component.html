@@ -1,0 +1,31 @@
+<mat-form-field appearance="fill">
+  <mat-label>Okucia PCV</mat-label>
+  <mat-select
+    (selectionChange)="selectedPcvFitting($event)"
+    [value]="pcvFitting"
+  >
+    <mat-option
+      *ngFor="let pcvFitting of pcvFittings$ | async"
+      [value]="pcvFitting"
+    >
+      {{ pcvFitting.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa okucia PCV</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa okucia PCV"
+    [formControl]="pcvFittingControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="savePcvFitting()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removePcvFitting()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetPcvFitting()">clear</button>

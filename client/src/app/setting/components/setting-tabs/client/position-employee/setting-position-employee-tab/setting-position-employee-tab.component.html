@@ -1,0 +1,31 @@
+<mat-form-field appearance="fill">
+  <mat-label>Stanowiska w firmie</mat-label>
+  <mat-select
+    (selectionChange)="selectedPositionEmployee($event)"
+    [value]="positionEmployee"
+  >
+    <mat-option
+      *ngFor="let positionEmployee of positionEmployees$ | async"
+      [value]="positionEmployee"
+    >
+      {{ positionEmployee.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Stanowisko w firmie</mat-label>
+  <input
+    matInput
+    placeholder="Stanowisko"
+    [formControl]="positionEmployeeControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="savePositionEmployee()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removePositionEmployee()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetPositionEmployee()">clear</button>

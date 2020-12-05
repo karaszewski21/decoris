@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAC;EAChB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;CAcvB;;AAZE,AAAD,yBAAS,CAAC;EACR,UAAU,EAAE,IAAI;CACjB;;AACA,AAAD,+BAAe,CAAC;EACd,UAAU,EAAE,IAAI;CACjB;;AACA,AAAD,gCAAgB,CAAC;EACf,UAAU,EAAE,IAAI;CACjB;;AACA,AAAD,gCAAgB,CAAC;EACf,UAAU,EAAE,IAAI;CACjB;;AAGH,AAAA,cAAc,CAAC;EACb,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;CACvB",
+    "sources": [
+        "../client-form-employess/client-form-employess.component.scss"
+    ],
+    "names": [],
+    "file": "client-form-employess.component.min.css"
+}

@@ -1,0 +1,60 @@
+<ngx-spinner></ngx-spinner>
+
+<div class="client-wrapper">
+  <app-client-nav-market
+    class="client-wrapper__client-nav"
+    (selectedMarketEvent)="selectedMarket($event)"
+  ></app-client-nav-market>
+  <app-client-nav-actions
+    (openNewClientModalEvent)="openNewClientModal()"
+    class="client-wrapper__client-toolbar"
+  ></app-client-nav-actions>
+
+  <div class="client-wrapper__nav-filters nav-filters">
+    <app-client-nav-search
+      *ngIf="!this.media.isActive('xs')"
+      class="nav-filters__search"
+      [nameCompanyFilterControl]="nameCompanyFilterControl"
+      (selectedNameCompanyFilterEvent)="selectedNameCompanyFilter($event)"
+    ></app-client-nav-search>
+    <app-client-nav-filters
+      *ngIf="!this.media.isActive('xs')"
+      class="nav-filters__filters"
+      [filterList]="filterList"
+      [businessProfilesFilterControl]="businessProfilesFilterControl"
+      [citiesFilterControl]="citiesFilterControl"
+      [voivedeshipsFilterControl]="voivedeshipsFilterControl"
+      [enableVoivedeshipsFilterControl]="enableVoivedeshipsFilterControl"
+      (resetFilterEvent)="resetFilter()"
+      (startFilterEvent)="startFilter()"
+      (selectedCitiesFilterEvent)="selectedCitiesFilter($event)"
+      (selectedVoivedeshipsFilterEvent)="selectedVoivedeshipsFilter($event)"
+    ></app-client-nav-filters>
+  </div>
+
+  <app-client-list
+    [companyList]="clients"
+    (updateCompanyEvent)="openUpdateClientModal($event)"
+    (deleteClientEvent)="deleteClient($event)"
+    (employeesModalEvent)="openEmployeesModal($event)"
+    (notesModalEvent)="openNotesModal($event)"
+    (profilesFittingssModalEvent)="openProfilesAndFittingsModal($event)"
+  ></app-client-list>
+  <app-client-paginator
+    [totalCountCompanyPaginator]="totalCountCompanyPaginator"
+    [pageSizePaginator]="pageSizePaginator"
+    [pageSizeOptionsPaginator]="pageSizeOptionsPaginator"
+    (paginatorEvent)="paginator($event)"
+  ></app-client-paginator>
+</div>
+<app-footer *ngIf="this.media.isActive('xs')">
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>home</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with heart icon">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</app-footer>

@@ -1,0 +1,31 @@
+<mat-form-field appearance="fill">
+  <mat-label>Profile aluminiowe</mat-label>
+  <mat-select
+    (selectionChange)="selectedAluminiumProfile($event)"
+    [value]="aluminiumProfile"
+  >
+    <mat-option
+      *ngFor="let aluminiumProfile of aluminiumProfiles$ | async"
+      [value]="aluminiumProfile"
+    >
+      {{ aluminiumProfile.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa profilu</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa profilu alu"
+    [formControl]="aluminiumProfileControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="saveAluminiumProfile()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeAluminiumProfile()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetAluminiumProfile()">clear</button>

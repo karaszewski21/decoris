@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-aluminium-fitting-tab/setting-aluminium-fitting-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-aluminium-fitting-tab.component.min.css"
+}

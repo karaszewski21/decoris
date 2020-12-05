@@ -1,0 +1,31 @@
+<mat-form-field appearance="fill">
+  <mat-label>Okucia PCV</mat-label>
+  <mat-select
+    (selectionChange)="selectedPcvProfile($event)"
+    [value]="pcvProfile"
+  >
+    <mat-option
+      *ngFor="let pcvProfile of pcvProfiles$ | async"
+      [value]="pcvProfile"
+    >
+      {{ pcvProfile.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Nazwa profilu PCV</mat-label>
+  <input
+    matInput
+    placeholder="Nazwa profilu PCV"
+    [formControl]="pcvProfileControl"
+  />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<button mat-icon-button (click)="savePcvProfile()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removePcvProfile()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetPcvProfile()">clear</button>

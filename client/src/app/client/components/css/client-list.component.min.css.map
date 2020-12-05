@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACJ,KAAK,EAAE,IAAI;CACZ;;AAED,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,oBAAoB,CAAC;IACnB,OAAO,EAAE,IAAI;GACd",
+    "sources": [
+        "../client-list/client-list.component.scss"
+    ],
+    "names": [],
+    "file": "client-list.component.min.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../setting-business-profile-tab/setting-business-profile-tab.component.scss"
+    ],
+    "names": [],
+    "file": "setting-business-profile-tab.component.min.css"
+}

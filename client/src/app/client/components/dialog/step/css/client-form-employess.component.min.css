@@ -1,0 +1,40 @@
+.employee-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.employee-wrapper__spacer {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.employee-wrapper__nav-employee {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.employee-wrapper__form-employee {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.employee-wrapper__list-employee {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+.list-employee {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+/*# sourceMappingURL=client-form-employess.component.min.css.map */

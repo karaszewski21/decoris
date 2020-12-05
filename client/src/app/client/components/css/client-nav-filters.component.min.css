@@ -1,0 +1,38 @@
+.nav-filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.nav-filters__name-company {
+  margin: 0 10px 10px;
+}
+
+.nav-filters__business-profile {
+  margin: 5px 10px 10px;
+}
+
+.nav-filters__name-city {
+  margin: 5px 10px 10px;
+}
+
+.nav-filters__name-voivodeship {
+  margin: 5px 10px 10px;
+}
+
+.nav-filters__button-refresh {
+  margin: 5px 10px 10px;
+}
+
+@media (max-width: 600px) {
+  .nav-filters {
+    display: none;
+  }
+}
+/*# sourceMappingURL=client-nav-filters.component.min.css.map */

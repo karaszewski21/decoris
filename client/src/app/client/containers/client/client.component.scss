@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  background-color: darkcyan;
+}
+
+table {
+  width: 100%;
+}
+
+.client-wrapper {
+  // display: flex;
+  // flex-direction: column;
+  // max-width: 1440px;
+  // background-color: darkcyan;
+
+  &__client-nav {
+    height: 50px;
+    flex-basis: 100%;
+  }
+  &__client-toolbar {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+  &__nav-filters {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+  &__client-list {
+    margin: 10px;
+    flex-basis: 100%;
+  }
+}
+
+.toolbar__actions {
+  display: flex;
+}
+
+.nav-filters {
+  display: flex;
+}
