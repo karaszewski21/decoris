@@ -29,10 +29,4 @@
 .nav-filters__button-refresh {
   margin: 5px 10px 10px;
 }
-
-@media (max-width: 600px) {
-  .nav-filters {
-    display: none;
-  }
-}
 /*# sourceMappingURL=client-nav-filters.component.min.css.map */

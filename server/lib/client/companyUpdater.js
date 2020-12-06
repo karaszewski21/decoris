@@ -10,7 +10,6 @@ module.exports = class CompanyUpdater {
   }
 
   async updateCompany(company) {
-    console.log(company);
     try {
       await this.selectDataOfCompanyFromDatabase(company);
       return await this.updateDataOfCompany(company);
@@ -131,7 +130,6 @@ module.exports = class CompanyUpdater {
           phone_number: parameter.phone_number,
           post_code: parameter.post_code,
           city_id: parameter.city_id,
-          voivodeship_id: parameter.voivodeship_id,
           country_id: parameter.country_id,
         },
         {

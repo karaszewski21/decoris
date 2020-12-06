@@ -1,8 +1,17 @@
 <div class="wrapper">
   <div class="header">
-    <span class="header__logo">Logo Decoris</span>
+    <span class="header__logo">
+      <img
+        width="150px"
+        height="50px"
+        class="account-wrapper__image"
+        src="assets/decoris.PNG"
+        alt="image"
+    /></span>
     <span class="header__spacer"></span>
-    <span class="header__login-name">Jan Kowalski</span>
+    <span class="header__login-name"
+      >{{ user.firstName }} {{ user.lastName }}</span
+    >
     <button
       class="header__button-account-circle"
       mat-icon-button

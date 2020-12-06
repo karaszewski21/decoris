@@ -1,0 +1,53 @@
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 0 auto;
+  background-color: white;
+  -webkit-box-shadow: 0 0 4px black;
+          box-shadow: 0 0 4px black;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.header__spacer {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.header__button-account-circle {
+  margin-right: 30px;
+}
+
+.header__icon-account-circle {
+  font-size: 35px;
+}
+
+.header__button-logout {
+  margin-right: 10px;
+}
+
+.header__icon-logout {
+  font-size: 35px;
+}
+
+.header__login-name {
+  font-family: "Roboto, " Helvetica Neue ", sans-serif";
+  margin-top: 10px;
+}
+
+.header__logo {
+  margin: 10px 10px;
+}
+/*# sourceMappingURL=header.component.min.css.map */

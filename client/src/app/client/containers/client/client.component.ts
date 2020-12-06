@@ -38,7 +38,9 @@ import { ClientProfilesFittingsModalComponent } from "../../components/dialog/in
   styleUrls: ["./client.component.scss"],
 })
 export class ClientComponent implements OnInit, OnDestroy {
-  filterRequest: any;
+  globalFilter: any;
+  currentSelectedMarket: string;
+
   totalCountCompanyPaginator: number;
   pageSizePaginator: number;
   pageSizeOptionsPaginator: number[];
@@ -99,27 +101,27 @@ export class ClientComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.filterRequest = {
-      limit: 10,
+    this.currentSelectedMarket = CountryEnum.polish;
+
+    this.globalFilter = {
+      limit: 0,
       offset: 0,
       name: [],
       business_profiles: [],
       voivodeships: [],
       cities: [],
-      countries: ["Polska"],
+      country: CountryEnum.polish,
     };
 
     this.initControls();
     this.initParametersPaginator();
     this.getCompanyList();
-    this.getCityByCountries([{ id: 1, name: "Polska" }]);
     this.enableVoivedeshipsFilterControl = true;
-    //  this.selectedMarket(CountryEnum.polish);
   }
   ngOnDestroy(): void {
     this.subscriptionParameters.unsubscribe();
     this.subscriptionClients.unsubscribe();
-    this.filterRequest = {};
+    this.globalFilter = {};
   }
 
   initControls() {
@@ -131,8 +133,12 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   initParametersPaginator() {
     this.pageSizeOptionsPaginator = [5, 10, 25, 100];
-    this.totalCountCompanyPaginator = 5;
+    this.totalCountCompanyPaginator = 100;
     this.pageSizePaginator = 5;
+    this.globalFilter = {
+      ...this.globalFilter,
+      limit: this.pageSizePaginator,
+    };
   }
   getParametersList() {
     this.store.dispatch(new GetParameters({ loading: true }));
@@ -144,7 +150,6 @@ export class ClientComponent implements OnInit, OnDestroy {
           this.countries$,
           this.voivodeships$,
           this.businessProfiles$
-          //this.cities$
         ).subscribe((value) => {
           this.filterList.set(value.key, value.list);
 
@@ -154,14 +159,31 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCityByCountries(country: Country[]) {
-    this.store.dispatch(
-      new GetCitiesByCountry({
-        loading: true,
-        countriesIds: country.map((value) => value.id),
-      })
-    );
+  getCityByCountries(name: string) {
     this.spinner.show();
+    if (name == CountryEnum.polish) {
+      this.store.dispatch(
+        new GetCitiesByCountry({
+          loading: true,
+          countriesIds: [1],
+        })
+      );
+    } else if (name == CountryEnum.foreign) {
+      this.store.dispatch(
+        new GetCitiesByCountry({
+          loading: true,
+          countriesIds: [0],
+        })
+      );
+    } else if (name == CountryEnum.all) {
+      this.store.dispatch(
+        new GetCitiesByCountry({
+          loading: true,
+          countriesIds: [2],
+        })
+      );
+    }
+
     this.cities$.subscribe((value) => {
       this.filterList.set(value.key, value.list);
 
@@ -171,14 +193,18 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   getCompanyList() {
     this.spinner.show();
+    let { country } = this.globalFilter;
+
     this.store.dispatch(new GetClients({ loading: true }));
-    this.store.dispatch(new SetFilters(this.filterRequest));
+    this.store.dispatch(new SetFilters(this.globalFilter));
+
+    this.getParametersList();
+    this.getCityByCountries(country);
 
     this.getClientsLoading$.subscribe((loading) => {
       if (!loading) {
         this.subscriptionClients = this.clientList$.subscribe((clients) => {
           this.clients = clients;
-          this.getParametersList();
           this.spinner.hide();
         });
       }
@@ -186,76 +212,39 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   selectedMarket(nameMarket) {
-    let countries;
     switch (nameMarket) {
       case CountryEnum.polish:
-        countries = this.filterList
-          .get("countries")
-          .filter((value) => value.name === CountryEnum.polish)
-          .map((value) => {
-            return { id: value.id, name: value.name };
-          });
-
-        this.store.dispatch(
-          new SetFilters({
-            ...this.filterRequest,
-            countries: countries.map((value) => value.name),
-          })
-        );
-        this.store.dispatch(
-          new GetCitiesByCountry({
-            loading: true,
-            countriesIds: countries.map((value) => value.id),
-          })
-        );
-
+        this.currentSelectedMarket = CountryEnum.polish;
+        this.globalFilter = {
+          ...this.globalFilter,
+          country: CountryEnum.polish,
+        };
+        this.getCompanyList();
         this.enableVoivedeshipsFilterControl = true;
-        this.store.dispatch(new GetParameters({ loading: true }));
+
         break;
 
       case CountryEnum.foreign:
-        countries = this.filterList
-          .get("countries")
-          .filter((value) => value.name !== CountryEnum.polish)
-          .map((value) => {
-            return { id: value.id, name: value.name };
-          });
+        this.currentSelectedMarket = CountryEnum.foreign;
+        this.globalFilter = {
+          ...this.globalFilter,
+          country: CountryEnum.foreign,
+        };
 
-        this.store.dispatch(
-          new SetFilters({
-            ...this.filterRequest,
-            countries: countries.map((value) => value.name),
-          })
-        );
-        this.store.dispatch(
-          new GetCitiesByCountry({
-            loading: true,
-            countriesIds: countries.map((value) => value.id),
-          })
-        );
+        this.getCompanyList();
+
         this.enableVoivedeshipsFilterControl = false;
-        this.store.dispatch(new GetParameters({ loading: true }));
         break;
 
       case CountryEnum.all:
-        countries = this.filterList.get("countries").map((value) => {
-          return { id: value.id, name: value.name };
-        });
+        this.currentSelectedMarket = CountryEnum.all;
 
-        this.store.dispatch(
-          new SetFilters({
-            ...this.filterRequest,
-            countries: countries.map((value) => value.name),
-          })
-        );
-        this.store.dispatch(
-          new GetCitiesByCountry({
-            loading: true,
-            countriesIds: countries.map((value) => value.id),
-          })
-        );
+        this.globalFilter = {
+          ...this.globalFilter,
+          country: CountryEnum.all,
+        };
+        this.getCompanyList();
         this.enableVoivedeshipsFilterControl = false;
-        this.store.dispatch(new GetParameters({ loading: true }));
         break;
 
       default:
@@ -264,17 +253,24 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   openNewClientModal() {
+    this.spinner.show();
     const dialogRef = this.dialog.open(ClientDialogComponent, {
       data: {
         title: "Nowy klient",
         company: null,
       },
     });
+    this.spinner.hide();
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.spinner.show();
         this.clientService.addClient(result).subscribe((value) => {
-          this.getCompanyList();
+          if (value.companies[0].countries == CountryEnum.polish) {
+            this.selectedMarket(CountryEnum.polish);
+          } else {
+            this.selectedMarket(CountryEnum.polish);
+          }
           this.spinner.hide();
         });
       }
@@ -283,19 +279,23 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   openUpdateClientModal(company) {
     this.spinner.show();
-
     const dialogRef = this.dialog.open(ClientDialogComponent, {
       data: {
         title: company.name,
         company: company,
       },
     });
+    this.spinner.hide();
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.spinner.show();
         this.clientService.updateClient(result).subscribe((value) => {
-          this.getCompanyList();
+          if (value.companies[0].countries == CountryEnum.polish) {
+            this.selectedMarket(CountryEnum.polish);
+          } else {
+            this.selectedMarket(CountryEnum.polish);
+          }
           this.spinner.hide();
         });
       }
@@ -304,9 +304,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   deleteClient(companyId) {
     this.spinner.show();
-    console.log(companyId);
     this.clientService.deleteClient(companyId).subscribe((value) => {
-      console.log(value);
       this.getCompanyList();
       this.spinner.hide();
     });
@@ -333,9 +331,8 @@ export class ClientComponent implements OnInit, OnDestroy {
         "cities",
         [...this.filterList.get("cities")].filter((city) => {
           let cityBelongToVoivedeship = selectedNameVoivedeships.includes(
-            city.voivodeship.name
+            city.voivodeship?.name
           );
-
           if (cityBelongToVoivedeship) {
             return city;
           }
@@ -345,88 +342,127 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   resetFilter(): void {
-    this.getClientsLoading$.subscribe((loading) => {
-      if (!loading) {
-        merge(this.voivodeships$, this.cities$).subscribe((value) => {
-          this.filterList.set(value.key, value.list);
-
-          this.spinner.hide();
-        });
-      }
-    });
+    this.globalFilter = {
+      ...this.globalFilter,
+      business_profiles: [],
+      cities: [],
+      voivedeships: [],
+      country: this.currentSelectedMarket,
+    };
   }
 
   startFilter() {
-    console.log(this.businessProfilesFilterControl.value);
-    console.log(this.citiesFilterControl.value);
-    console.log(this.voivedeshipsFilterControl.value);
-
-    this.filterRequest = {
-      limit: 10,
-      offset: 0,
-      name: [],
-      business_profiles:
-        this.businessProfilesFilterControl.value === null
-          ? []
-          : this.businessProfilesFilterControl.value.map(
-              (businessProfiles) => businessProfiles.name
-            ),
-      cities:
-        this.citiesFilterControl.value === null
-          ? []
-          : this.citiesFilterControl.value.map((cities) => cities.name),
-      voivodeships:
-        this.voivedeshipsFilterControl.value === null
-          ? []
-          : this.voivedeshipsFilterControl.value.map(
-              (voivedeships) => voivedeships.name
-            ),
-      countries: ["Polska"],
-    };
-
-    console.log(this.filterRequest);
+    switch (this.currentSelectedMarket) {
+      case CountryEnum.polish:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [],
+          business_profiles:
+            this.businessProfilesFilterControl.value === null
+              ? []
+              : this.businessProfilesFilterControl.value.map(
+                  (businessProfiles) => businessProfiles.name
+                ),
+          cities:
+            this.citiesFilterControl.value === null
+              ? []
+              : this.citiesFilterControl.value.map((cities) => cities.name),
+          voivodeships:
+            this.voivedeshipsFilterControl.value === null
+              ? []
+              : this.voivedeshipsFilterControl.value.map(
+                  (voivedeships) => voivedeships.name
+                ),
+          country: CountryEnum.polish,
+        };
+        break;
+      case CountryEnum.foreign:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [],
+          business_profiles:
+            this.businessProfilesFilterControl.value === null
+              ? []
+              : this.businessProfilesFilterControl.value.map(
+                  (businessProfiles) => businessProfiles.name
+                ),
+          cities:
+            this.citiesFilterControl.value === null
+              ? []
+              : this.citiesFilterControl.value.map((cities) => cities.name),
+          voivodeships: [],
+          country: CountryEnum.foreign,
+        };
+        break;
+      case CountryEnum.all:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [],
+          business_profiles:
+            this.businessProfilesFilterControl.value === null
+              ? []
+              : this.businessProfilesFilterControl.value.map(
+                  (businessProfiles) => businessProfiles.name
+                ),
+          cities:
+            this.citiesFilterControl.value === null
+              ? []
+              : this.citiesFilterControl.value.map((cities) => cities.name),
+          country: CountryEnum.all,
+        };
+        break;
+      default:
+        break;
+    }
 
     this.getCompanyList();
   }
 
   selectedNameCompanyFilter(name) {
-    console.log(name);
-
-    if (name !== "") {
-      this.filterRequest = {
-        limit: 10,
-        offset: 0,
-        name: [name],
-        business_profiles: [],
-        voivodeships: [],
-        cities: [],
-        countries: ["Polska"],
-      };
-      this.getCompanyList();
-    } else {
-      this.filterRequest = {
-        limit: 10,
-        offset: 0,
-        name: [],
-        business_profiles: [],
-        voivodeships: [],
-        cities: [],
-        countries: ["Polska"],
-      };
-      this.getCompanyList();
+    switch (this.currentSelectedMarket) {
+      case CountryEnum.polish:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [name],
+          business_profiles: [],
+          cities: [],
+          voivodeships: [],
+          country: CountryEnum.polish,
+        };
+        break;
+      case CountryEnum.foreign:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [name],
+          business_profiles: [],
+          cities: [],
+          voivodeships: [],
+          country: CountryEnum.foreign,
+        };
+        break;
+      case CountryEnum.all:
+        this.globalFilter = {
+          ...this.globalFilter,
+          name: [name],
+          business_profiles: [],
+          cities: [],
+          voivodeships: [],
+          country: CountryEnum.all,
+        };
+        break;
+      default:
+        break;
     }
+    this.getCompanyList();
   }
+
   paginator(paginatorInfo) {
-    this.filterRequest = {
-      ...this.filterRequest,
+    this.globalFilter = {
+      ...this.globalFilter,
       limit: paginatorInfo.pageSize,
-      offset:
-        paginatorInfo.pageSize * paginatorInfo.pageIndex -
-        paginatorInfo.pageSize,
+      offset: paginatorInfo.pageSize * paginatorInfo.pageIndex,
     };
 
-    console.log(this.filterRequest);
-    console.log(paginatorInfo);
     this.getCompanyList();
   }
 

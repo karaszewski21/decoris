@@ -260,7 +260,6 @@ class CompanyCreator {
         include: [
           models.cities,
           models.countries,
-          models.voivodeships,
           models.notes,
           models.empolyees,
           { model: models.business_profiles, through: { attributes: [] } },

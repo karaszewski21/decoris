@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../filter-mobile-modal/filter-mobile-modal.component.scss"
+    ],
+    "names": [],
+    "file": "filter-mobile-modal.component.min.css"
+}

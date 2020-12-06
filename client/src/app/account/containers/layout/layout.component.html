@@ -27,7 +27,11 @@
       <div class="account-wrapper__login" fxLayout="column" fxFlexFill>
         <div fxFlex="70" fxFlexFill>dscdfdfsdss</div>
         <div fxFlex="30" fxLayoutAlign="center">
-          <app-login (loginEvent)="login($event)"></app-login>
+          <app-login
+            [loginControl]="loginControl"
+            [passwordControl]="passwordControl"
+            (loginEvent)="login()"
+          ></app-login>
         </div>
       </div>
     </div>

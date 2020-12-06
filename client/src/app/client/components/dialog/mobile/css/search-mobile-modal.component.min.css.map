@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../search-mobile-modal/search-mobile-modal.component.scss"
+    ],
+    "names": [],
+    "file": "search-mobile-modal.component.min.css"
+}

@@ -25,15 +25,8 @@ export class ClientEffects {
 const handleClients = (store: Store) => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
+      console.log(response);
       let { rows: companies } = response;
-      console.log(companies);
-      // store.dispatch(new GetParameters({ loading: true }));
-      // store.dispatch(
-      //   new GetCitiesByCountry({
-      //     loading: true,
-      //     countriesIds: [companies[0]],
-      //   })
-      // );
       return new GetClientsSuccess({ loading: false, companies });
     })
   );

@@ -28,7 +28,7 @@ export interface ParametersState {
   loading: boolean;
 }
 
-const initialState: ParametersState = {
+export const initialStateParamter: ParametersState = {
   businessProfiles: [],
   cities: [],
   voivodeships: [],
@@ -42,7 +42,7 @@ const initialState: ParametersState = {
 };
 
 export function parametersReducer(
-  state = initialState,
+  state = initialStateParamter,
   action: ParametersActions
 ) {
   switch (action.type) {
@@ -54,10 +54,11 @@ export function parametersReducer(
     }
 
     case ParametersActionTypes.GetParametersSuccess: {
+      let { cities } = state;
       return {
         ...state,
         businessProfiles: action.payload.businessProfiles,
-        cities: action.payload.cities,
+        cities: cities,
         voivodeships: action.payload.voivodeships,
         countries: action.payload.countries,
         aluminiumProfiles: action.payload.aluminiumProfiles,
@@ -77,11 +78,14 @@ export function parametersReducer(
     }
 
     case ParametersActionTypes.GetCitiesByCountrySuccess: {
-      return {
-        ...state,
-        loading: action.payload.loading,
-        cities: action.payload.cities,
-      };
+      let newState: ParametersState = null;
+      console.log(state);
+
+      newState = { ...state };
+      newState.cities = action.payload.cities;
+      newState.loading = action.payload.loading;
+      console.log(newState);
+      return newState;
     }
     case ParametersActionTypes.AddParameter: {
       return {

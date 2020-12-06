@@ -23,6 +23,12 @@ html {
   height: auto;
 }
 
+.button-table {
+  background-color: #0c6969;
+  -webkit-box-shadow: 0 0 4px black;
+          box-shadow: 0 0 4px black;
+}
+
 .mat-form-field-wrapper {
   margin: 10px;
 }

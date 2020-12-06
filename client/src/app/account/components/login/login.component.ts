@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { AccountService } from "../../../core/services/account/account.service";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-login",
@@ -7,6 +8,8 @@ import { AccountService } from "../../../core/services/account/account.service";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
+  @Input() loginControl: FormControl;
+  @Input() passwordControl: FormControl;
   @Output() loginEvent = new EventEmitter();
   hide = true;
   constructor() {}
@@ -14,7 +17,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    console.log("login");
-    this.loginEvent.emit({ login: "karas", password: "1234" });
+    this.loginEvent.emit();
   }
 }

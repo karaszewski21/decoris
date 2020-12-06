@@ -6,12 +6,15 @@ export interface ClientsState {
   clients: Company[];
 }
 
-const initialState: ClientsState = {
+const initialStateClient: ClientsState = {
   loading: false,
   clients: [],
 };
 
-export function clientsReducer(state = initialState, action: ClientsActions) {
+export function clientsReducer(
+  state = initialStateClient,
+  action: ClientsActions
+) {
   switch (action.type) {
     case ClientsActionTypes.GetClients: {
       return {

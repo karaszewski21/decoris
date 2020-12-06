@@ -17,14 +17,13 @@ export class ClientService {
       `${environment.apiUrl}clients/get-clients`,
       parameters
     );
-    console.log(companies);
     return companies;
   }
 
-  addClient(company): Observable<Company[]> {
-    let companies: Observable<Company[]>;
+  addClient(company): Observable<any> {
+    let companies: Observable<any>;
 
-    companies = this.httpClient.post<Company[]>(
+    companies = this.httpClient.post<any>(
       `${environment.apiUrl}clients/add-client`,
       company
     );
@@ -32,12 +31,10 @@ export class ClientService {
     return companies;
   }
 
-  updateClient(company): Observable<Company[]> {
-    let companies: Observable<Company[]>;
+  updateClient(company): Observable<any> {
+    let companies: Observable<any>;
 
-    console.log(company);
-
-    companies = this.httpClient.put<Company[]>(
+    companies = this.httpClient.put<any>(
       `${environment.apiUrl}clients/update-client`,
       company
     );

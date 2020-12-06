@@ -4,6 +4,7 @@ const ClientParameterCreator = require("./clientParameterCreator");
 const ClientParamaterUpdater = require("./clientParamaterUpdater");
 const ParameterValidator = require("./clientParameterValidator");
 const ClientParameterRemover = require("./clientParameterRemover");
+const { Op } = require("sequelize");
 
 class ClientParameterService {
   constructor() {}
@@ -46,10 +47,22 @@ class ClientParameterService {
     try {
       models.cities.associate(models);
 
-      const cities = await models.cities.findAll({
-        where: { country_id: countriesIds },
-        include: [models.voivodeships],
-      });
+      let cities = null;
+      if (countriesIds[0] === 1) {
+        cities = await models.cities.findAll({
+          where: { country_id: 1 },
+          include: [models.voivodeships],
+        });
+      } else if (countriesIds[0] === 0) {
+        cities = await models.cities.findAll({
+          where: { country_id: { [Op.not]: 1 } },
+          include: [models.voivodeships],
+        });
+      } else {
+        cities = await models.cities.findAll({
+          include: [models.voivodeships],
+        });
+      }
 
       logger.log(
         "info",
@@ -59,7 +72,7 @@ class ClientParameterService {
     } catch (error) {
       logger.log(
         "error",
-        `${error.message} ${req.url} ClientParametersService >>> getCitiesByCountryId`
+        `${error.message} ClientParametersService >>> getCitiesByCountryId`
       );
       throw new Error(error);
     }

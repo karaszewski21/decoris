@@ -22,7 +22,7 @@
     <ng-container matColumnDef="voivodeship">
       <th mat-header-cell *matHeaderCellDef>Wojewodztwo</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.city.voivodeship?.name }}
+        {{ element.city.voivodeship.name }}
       </td>
     </ng-container>
 
@@ -47,6 +47,7 @@
       <th mat-header-cell *matHeaderCellDef>Osoby do kontaktu</th>
       <td mat-cell *matCellDef="let element">
         <button
+          class="button-table"
           md-raised-button
           (click)="openEmployeesModal(element.employees)"
         >
@@ -58,7 +59,11 @@
     <ng-container matColumnDef="notes">
       <th mat-header-cell *matHeaderCellDef>Notatki</th>
       <td mat-cell *matCellDef="let element">
-        <button md-raised-button (click)="openNotesModal(element.notes)">
+        <button
+          class="button-table"
+          md-raised-button
+          (click)="openNotesModal(element.notes)"
+        >
           Notatki
         </button>
       </td>
@@ -68,6 +73,7 @@
       <th mat-header-cell *matHeaderCellDef>Profile i okucia</th>
       <td mat-cell *matCellDef="let element">
         <button
+          class="button-table"
           md-raised-button
           (click)="
             openProfilesAndFittingsModal({
@@ -85,8 +91,12 @@
     <ng-container matColumnDef="update">
       <th mat-header-cell *matHeaderCellDef>Zmien</th>
       <td mat-cell *matCellDef="let element">
-        <button md-raised-button (click)="updateCompany(element)">
-          update
+        <button
+          class="button-table"
+          md-raised-button
+          (click)="updateCompany(element)"
+        >
+          zmien
         </button>
       </td>
     </ng-container>
@@ -94,7 +104,7 @@
       <th mat-header-cell *matHeaderCellDef>Usun</th>
       <td mat-cell *matCellDef="let element">
         <button md-raised-button (click)="deleteCompany(element.id)">
-          remove
+          <mat-icon>delete icon</mat-icon>
         </button>
       </td>
     </ng-container>

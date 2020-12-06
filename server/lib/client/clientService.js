@@ -14,7 +14,6 @@ module.exports = class ClientsService {
       attributes: ["id", "name", "nip", "address"],
       include: [
         models.cities,
-        // models.voivodeships,
         models.countries,
         models.empolyees,
         models.notes,
@@ -68,6 +67,7 @@ module.exports = class ClientsService {
   }
 
   async getFilteredClientsListByParametrs(parameters) {
+    console.log(parameters);
     try {
       models.companies.associate(models);
       models.empolyees.associate(models);
@@ -83,22 +83,35 @@ module.exports = class ClientsService {
         };
       }
 
-      if (parameters.countries.length !== 0) {
-        bodyQuery.include.push({
-          model: models.countries,
-          required: true,
-          where: { name: parameters.countries },
-        });
-      } else {
-        bodyQuery.include.push({
-          model: models.countries,
-          required: true,
-        });
+      switch (parameters.country) {
+        case "polish":
+          bodyQuery.include.push({
+            model: models.countries,
+            required: true,
+            where: { id: 1 },
+          });
+          break;
+        case "foreign":
+          bodyQuery.include.push({
+            model: models.countries,
+            required: true,
+            where: { id: { [Op.not]: 1 } },
+          });
+          break;
+        case "all":
+          bodyQuery.include.push({
+            model: models.countries,
+            required: true,
+          });
+          break;
+        default:
+          break;
       }
 
       if (parameters.cities.length !== 0) {
         bodyQuery.include.push({
           model: models.cities,
+          include: [models.voivodeships],
           required: true,
           where: { name: parameters.cities },
         });
@@ -110,20 +123,20 @@ module.exports = class ClientsService {
         });
       }
 
-      // if (parameters.countries[0] === "Polska") {
-      //   if (parameters.voivodeships.length !== 0) {
-      //     bodyQuery.include.push({
-      //       model: models.voivodeships,
-      //       required: true,
-      //       where: { name: parameters.voivodeships },
-      //     });
-      //   } else {
-      //     bodyQuery.include.push({
-      //       model: models.voivodeships,
-      //       required: true,
-      //     });
-      //   }
-      // }
+      if (parameters.voivodeships.length !== 0) {
+        bodyQuery.include.push({
+          model: models.cities,
+          include: [
+            {
+              model: models.voivodeships,
+              where: {
+                name: parameters.voivodeships,
+              },
+              required: true,
+            },
+          ],
+        });
+      }
 
       if (parameters.business_profiles.length !== 0) {
         bodyQuery.include.push({
@@ -170,7 +183,7 @@ module.exports = class ClientsService {
         }
       );
 
-      const companiesList = await models.companies.findAll({
+      const companiesList = await models.companies.findAndCountAll({
         attributes: [
           "id",
           "name",
@@ -186,8 +199,8 @@ module.exports = class ClientsService {
         limit: parameters.limit,
         offset: parameters.offset,
       });
-
-      return { rows: companiesList };
+      console.log(companiesList.count);
+      return { rows: companiesList.rows };
     } catch (error) {
       throw new Error(error);
     }

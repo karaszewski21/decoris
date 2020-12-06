@@ -28,8 +28,8 @@ export class AccountService {
     if (this.username == username && this.passowrd == password) {
       this.userSubject.next({
         id: "xcx",
-        firstName: "asa",
-        lastName: "lastName",
+        firstName: "Patryk",
+        lastName: "Karaszewski",
         email: "test",
         token: "token",
       });

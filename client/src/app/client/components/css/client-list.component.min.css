@@ -2,6 +2,11 @@ table {
   width: 100%;
 }
 
+.mat-table {
+  background-color: black;
+  max-width: 1440px;
+}
+
 @media (max-width: 600px) {
   .client-list-wrapper {
     display: none;

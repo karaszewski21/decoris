@@ -1,0 +1,17 @@
+.account-wrapper {
+  -webkit-box-shadow: 0 0 4px darkcyan;
+          box-shadow: 0 0 4px darkcyan;
+}
+
+.account-wrapper__panel {
+  background-color: darkcyan;
+}
+
+.account-wrapper__login {
+  background-color: white;
+}
+
+.account-wrapper__image {
+  min-width: 0;
+}
+/*# sourceMappingURL=layout.component.min.css.map */

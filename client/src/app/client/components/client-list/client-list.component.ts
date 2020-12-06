@@ -51,7 +51,7 @@ export class ClientListComponent implements OnInit, OnChanges {
   }
 
   toggleColumn(selectedCountry) {
-    if (selectedCountry.country.name === CountryEnum.polish) {
+    if (selectedCountry.country.name === "Polska") {
       this.displayedColumns = [
         "name",
         "business_profiles",

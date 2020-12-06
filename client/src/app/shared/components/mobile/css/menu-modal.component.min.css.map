@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../menu-modal/menu-modal.component.scss"
+    ],
+    "names": [],
+    "file": "menu-modal.component.min.css"
+}

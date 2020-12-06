@@ -15,7 +15,7 @@ export class ClientNavSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.nameCompanyFilterControl.valueChanges
-      .pipe(debounceTime(500))
+      .pipe(debounceTime(1000))
       .subscribe((name) => {
         this.selectedNameCompanyFilterEvent.emit(name);
       });

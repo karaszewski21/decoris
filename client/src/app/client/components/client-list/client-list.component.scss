@@ -1,6 +1,18 @@
 table {
   width: 100%;
 }
+.mat-table {
+  background-color: black;
+  max-width: 1440px;
+}
+
+// .mat-header-cell {
+//   background-color: black;
+// }
+
+// .mat-cell {
+//   background-color: black;
+// }
 
 @media (max-width: 600px) {
   .client-list-wrapper {

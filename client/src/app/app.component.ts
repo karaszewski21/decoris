@@ -24,7 +24,7 @@ export class AppComponent {
     private dialog: MatDialog
   ) {
     this.accountService.user.subscribe((x) => {
-      console.log(x), (this.user = x);
+      this.user = x;
     });
 
     // if (this.user) {

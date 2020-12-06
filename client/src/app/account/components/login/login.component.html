@@ -1,12 +1,18 @@
 <div fxLayout="column" fxLayout.xs="column" fxFlexFill>
   <mat-form-field appearance="fill">
     <mat-label>Login</mat-label>
-    <input matInput />
+    <input matInput placeholder="Login" [formControl]="loginControl" required />
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Password</mat-label>
-    <input matInput [type]="hide ? 'password' : 'text'" />
+    <input
+      matInput
+      [type]="hide ? 'password' : 'text'"
+      placeholder="Password"
+      [formControl]="passwordControl"
+      required
+    />
     <button
       mat-icon-button
       matSuffix

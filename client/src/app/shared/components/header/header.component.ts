@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { User } from "../../../interfaces/account/user";
 
 @Component({
   selector: "app-header",
@@ -7,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 })
 export class HeaderComponent implements OnInit {
   @Input() showLogout: boolean;
+  @Input() user: User;
   @Output() openMenuEvent = new EventEmitter();
   @Output() logoutEvent = new EventEmitter();
   constructor() {}

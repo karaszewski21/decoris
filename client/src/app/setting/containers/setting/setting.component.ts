@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import {
   trigger,
   state,
@@ -26,14 +26,18 @@ type PanelType = "left" | "right";
     ]),
   ],
 })
-export class SettingComponent implements OnInit {
+export class SettingComponent implements OnInit, OnDestroy {
   activePanel: PanelType = "left";
   settingGroups = settingDynamicTabList;
   selectedSetting: ISetting = settingDynamicTabList[0].settings[0];
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    console.log("init setting");
     this.store.dispatch(new GetParameters({ loading: true }));
+  }
+  ngOnDestroy(): void {
+    console.log("destroy setting");
   }
 
   selectSetting(value) {

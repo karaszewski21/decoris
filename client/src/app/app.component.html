@@ -1,7 +1,8 @@
 <section class="main-content" *ngIf="user">
   <app-header
-    [showLogout]="!this.media.isActive('xs')"
     class="main-content__header"
+    [showLogout]="!this.media.isActive('xs')"
+    [user]="user"
     (openMenuEvent)="openMenu()"
     (logoutEvent)="logout()"
   ></app-header>
