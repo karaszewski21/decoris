@@ -141,7 +141,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   initParametersPaginator() {
     this.pageSizeOptionsPaginator = [5, 10, 25, 100];
-    this.totalCountCompanyPaginator = 100;
+    this.totalCountCompanyPaginator = 3000;
     this.pageSizePaginator = 5;
     this.globalFilter = {
       ...this.globalFilter,
