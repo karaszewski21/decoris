@@ -1,5 +1,10 @@
 .account-wrapper {
-  box-shadow: 0 0 4px darkcyan;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-content: center;
   &__panel {
     background-color: darkcyan;
   }
@@ -7,6 +12,27 @@
     background-color: white;
   }
   &__image {
+    box-shadow: 0 0 3px black;
     min-width: 0;
+    border-radius: 5%;
+  }
+}
+.panel {
+  border-top-left-radius: 5%;
+  border-bottom-left-radius: 5%;
+  &__spacer {
+    height: 100px;
+  }
+  &__mind {
+    margin: 10px;
+    font-size: large;
+    font-family: "Nerko One", cursive;
+  }
+}
+.login {
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+  &__spacer {
+    height: 100px;
   }
 }

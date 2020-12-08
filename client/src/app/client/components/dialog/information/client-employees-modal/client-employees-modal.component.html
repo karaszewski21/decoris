@@ -1,7 +1,33 @@
-<ng-container *ngFor="let employee of employees"
-  >{{ employee.name }}
-  {{ employee.surname }}
-  {{ employee.phone_number }}
-  {{ employee.fax }}
-  {{ employee.position_employee.name }}</ng-container
->
+<div class="info-employee-wrapper">
+  <div class="info-employee-wrapper__header info-employee-header">
+    <div class="info-employee-header__spacer"></div>
+    <button mat-icon-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="info-employee-wrapper__spacer"></div>
+  <div class="info-employee-wrapper__title"><p>Kontakty</p></div>
+
+  <div class="info-employee-wrapper__content contnet-list">
+    <table>
+      <tbody>
+        <tr>
+          <th>Imie</th>
+          <th>Nazwisko</th>
+          <th>Numer Tel.</th>
+          <th>Fax</th>
+          <th>Stanowisko</th>
+        </tr>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee?.name }}</td>
+          <td>{{ employee?.surname }}</td>
+          <td>{{ employee?.phone_number }}</td>
+          <td>{{ employee?.fax }}</td>
+          <td>{{ employee.position_employee?.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-employee-wrapper__footer"></div>
+</div>

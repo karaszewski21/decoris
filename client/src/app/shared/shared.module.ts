@@ -55,6 +55,7 @@ import { HeaderComponent } from "./components/header/header.component";
 import { MenuComponent } from "./components/menu/menu.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MenuModalComponent } from "./components/mobile/menu-modal/menu-modal.component";
+import { DialogCalendarComponent } from './components/dialog-calendar/dialog-calendar.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { MenuModalComponent } from "./components/mobile/menu-modal/menu-modal.co
     HeaderComponent,
     MenuComponent,
     MenuModalComponent,
+    DialogCalendarComponent,
   ],
   imports: [
     CommonModule,

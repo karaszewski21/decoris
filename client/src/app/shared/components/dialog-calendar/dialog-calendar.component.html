@@ -1,0 +1,7 @@
+<button mat-icon-button (click)="onCloseClick()">
+  <mat-icon>close</mat-icon>
+</button>
+<mat-calendar
+  [selected]="selectedDate"
+  (selectedChange)="dateChanged($event)"
+></mat-calendar>

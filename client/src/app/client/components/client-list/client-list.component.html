@@ -5,6 +5,13 @@
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef>Panstwo</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.country.name }}
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="business_profiles">
       <th mat-header-cell *matHeaderCellDef>Profil dzialalnosci</th>
       <td mat-cell *matCellDef="let element">
@@ -15,21 +22,14 @@
     </ng-container>
 
     <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef>Misto</th>
+      <th mat-header-cell *matHeaderCellDef>Miasto</th>
       <td mat-cell *matCellDef="let element">{{ element.city.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="voivodeship">
       <th mat-header-cell *matHeaderCellDef>Wojewodztwo</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.city.voivodeship.name }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="country">
-      <th mat-header-cell *matHeaderCellDef>Panstwo</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.country.name }}
+        {{ element.city.voivodeship?.name }}
       </td>
     </ng-container>
 
@@ -44,14 +44,14 @@
     </ng-container>
 
     <ng-container matColumnDef="employees">
-      <th mat-header-cell *matHeaderCellDef>Osoby do kontaktu</th>
+      <th mat-header-cell *matHeaderCellDef>Kontakty</th>
       <td mat-cell *matCellDef="let element">
         <button
           class="button-table"
           md-raised-button
           (click)="openEmployeesModal(element.employees)"
         >
-          Osoby kontaktowe
+          Kontakty
         </button>
       </td>
     </ng-container>
@@ -96,14 +96,18 @@
           md-raised-button
           (click)="updateCompany(element)"
         >
-          zmien
+          <mat-icon>update</mat-icon>
         </button>
       </td>
     </ng-container>
     <ng-container matColumnDef="remove">
       <th mat-header-cell *matHeaderCellDef>Usun</th>
       <td mat-cell *matCellDef="let element">
-        <button md-raised-button (click)="deleteCompany(element.id)">
+        <button
+          class="button-table"
+          md-raised-button
+          (click)="deleteCompany(element.id)"
+        >
           <mat-icon>delete icon</mat-icon>
         </button>
       </td>

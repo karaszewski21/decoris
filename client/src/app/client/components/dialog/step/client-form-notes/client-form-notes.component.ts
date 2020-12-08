@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Note } from "../../../../../interfaces/client";
 
@@ -7,14 +15,18 @@ import { Note } from "../../../../../interfaces/client";
   templateUrl: "./client-form-notes.component.html",
   styleUrls: ["./client-form-notes.component.scss"],
 })
-export class ClientFormNotesComponent implements OnInit {
+export class ClientFormNotesComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
   @Input() selectedNoteList: Map<string, Note>;
   @Output() updateNoteEvent = new EventEmitter<string>();
   @Output() removeNoteEvent = new EventEmitter<string>();
   @Output() addNoteEvent = new EventEmitter();
+  @Output() updateDateNoteEvent = new EventEmitter();
 
   constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.selectedNoteList);
+  }
 
   ngOnInit(): void {}
 
@@ -28,5 +40,8 @@ export class ClientFormNotesComponent implements OnInit {
 
   addNote() {
     this.addNoteEvent.emit();
+  }
+  updateDateNote(text, date) {
+    this.updateDateNoteEvent.emit({ text: text, date: date });
   }
 }

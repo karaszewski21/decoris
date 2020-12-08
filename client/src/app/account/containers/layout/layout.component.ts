@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../../core/services/account/account.service";
 import { Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-layout",
@@ -11,13 +12,19 @@ import { FormControl, Validators } from "@angular/forms";
 export class LayoutComponent implements OnInit {
   loginControl: FormControl;
   passwordControl: FormControl;
-  constructor(private router: Router, private accountService: AccountService) {}
+  constructor(
+    private router: Router,
+    private accountService: AccountService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   login() {
+    this.spinner.show();
     this.accountService.login(
       this.loginControl.value,
       this.passwordControl.value
     );
+    this.spinner.hide();
   }
   ngOnInit(): void {
     this.initControls();

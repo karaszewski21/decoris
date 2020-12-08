@@ -4,3 +4,4 @@ server/.env
 server/logs
 .vscode
 server/lib/client/strategy/strategyCompanyImport/_Klienci baza danych dla Patryka 06.10.csv
+client/public

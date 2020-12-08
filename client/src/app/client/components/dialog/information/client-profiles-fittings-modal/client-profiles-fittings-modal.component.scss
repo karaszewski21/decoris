@@ -1,0 +1,58 @@
+.info-profile-fitting-wrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: "Nerko One", cursive;
+
+  &__header {
+    flex-basis: 100%;
+  }
+
+  &__title {
+    font-size: 25px;
+  }
+
+  &__content-list {
+    flex-basis: 100%;
+  }
+}
+
+.content-list {
+  display: flex;
+
+  &__aluminium-profile {
+    margin: 5px;
+  }
+  &__aluminium-fititng {
+    margin: 5px;
+  }
+  &__pcv-profile {
+    margin: 5px;
+  }
+  &__pcv-fititng {
+    margin: 5px;
+  }
+}
+
+.info-profile-fitting-header {
+  display: flex;
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+
+table {
+  margin-top: 10px;
+  text-align: center;
+  border: 2px solid black;
+  padding: 5px;
+  th {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+  }
+  td {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+  }
+}

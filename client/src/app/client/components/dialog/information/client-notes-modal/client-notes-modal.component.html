@@ -1,4 +1,22 @@
-<ng-container *ngFor="let note of notes"
-  >{{ note.text }}
-  {{ note.created_note }}
-</ng-container>
+<div class="info-notes-wrapper">
+  <div class="info-notes-wrapper__header info-notes-header">
+    <div class="info-notes-header__spacer"></div>
+    <button mat-icon-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="info-notes-wrapper__title"><p>Notatki</p></div>
+  <div class="info-notes-wrapper__content">
+    <ng-container *ngFor="let note of notes">
+      <div class="info-notes-contnet">
+        <div class="info-notes-contnet__header note-content-header">
+          <div class="note-content-header__spacer"></div>
+          <div class="note-content-header__data button-date">
+            {{ note.created_note | date: "dd-MM-yyyy" }}
+          </div>
+        </div>
+        <div class="info-notes-contnet__text">{{ note.text }}</div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -6,3 +6,21 @@
 .mat-form-field {
   background-color: darkcyan;
 }
+
+.button-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+
+  border-radius: 15%;
+  height: 50px;
+  color: white;
+  font-size: large;
+  font-family: "Nerko One", cursive;
+  background-color: black;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}

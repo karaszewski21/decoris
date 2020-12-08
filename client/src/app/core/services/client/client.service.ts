@@ -42,10 +42,10 @@ export class ClientService {
     return companies;
   }
 
-  deleteClient(companyId): Observable<string> {
-    let companies: Observable<string>;
+  deleteClient(companyId): Observable<Company> {
+    let companies: Observable<Company>;
 
-    companies = this.httpClient.delete<string>(
+    companies = this.httpClient.delete<Company>(
       `${environment.apiUrl}clients/delete-client/${companyId}`
     );
 

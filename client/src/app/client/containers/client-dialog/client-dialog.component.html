@@ -23,7 +23,7 @@
           [formGroup]="baseParametersCompanyFormGroup"
         ></app-client-form-base-parameters>
         <div>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext>Dalej</button>
         </div>
       </mat-step>
 
@@ -44,8 +44,8 @@
           [selectedVoivodeship]="selectedVoivodeship"
         ></app-client-form-location>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Wroc</button>
+          <button mat-button matStepperNext>Dalej</button>
         </div>
       </mat-step>
 
@@ -59,8 +59,8 @@
           (selectedBusinessProfileEvent)="selectedBusinessProfile($event)"
         ></app-client-form-business-profile>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Wroc</button>
+          <button mat-button matStepperNext>Dalej</button>
         </div>
       </mat-step>
 
@@ -86,8 +86,8 @@
           (selectedPcvFittingEvent)="selectedPcvFitting($event)"
         ></app-client-form-fittings-profiles>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Wroc</button>
+          <button mat-button matStepperNext>Dalej</button>
         </div>
       </mat-step>
 
@@ -103,8 +103,8 @@
           [selectedEmployeeList]="selectedEmployeeList"
         ></app-client-form-employess>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Wroc</button>
+          <button mat-button matStepperNext>Dalej</button>
         </div>
       </mat-step>
 
@@ -116,9 +116,10 @@
           (updateNoteEvent)="updateNote($event)"
           (removeNoteEvent)="removeNote($event)"
           (addNoteEvent)="addNote()"
+          (updateDateNoteEvent)="updateDateNote($event)"
         ></app-client-form-notes>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperPrevious>Wroc</button>
         </div>
       </mat-step>
     </mat-vertical-stepper>

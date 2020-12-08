@@ -19,7 +19,7 @@ import { MediaObserver } from "@angular/flex-layout";
 })
 export class ClientListComponent implements OnInit, OnChanges {
   @Input() companyList: Company[];
-  @Input() displayedColumns: string[];
+  @Input() currentMarket: CountryEnum;
 
   @Output() toggleColumnVoivodeshipOrCountryEvent = new EventEmitter();
   @Output() updateCompanyEvent = new EventEmitter();
@@ -28,14 +28,26 @@ export class ClientListComponent implements OnInit, OnChanges {
   @Output() notesModalEvent = new EventEmitter();
   @Output() profilesFittingssModalEvent = new EventEmitter();
 
+  displayedColumns: string[] = [
+    "name",
+    "country",
+    "business_profiles",
+    "city",
+    "nip",
+    "address",
+    "employees",
+    "notes",
+    "profiles&fittings",
+    "update",
+    "remove",
+  ];
   dataSource: MatTableDataSource<Company>;
+
   constructor(public media: MediaObserver) {}
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.companyList) {
-      let selectedCountry = this.companyList.find(
-        (company) => company.country.name
-      );
-      this.toggleColumn(selectedCountry);
+    if (this.currentMarket) {
+      this.toggleColumn(this.currentMarket);
       this.dataSource = new MatTableDataSource<Company>(this.companyList);
     }
   }
@@ -50,35 +62,20 @@ export class ClientListComponent implements OnInit, OnChanges {
     this.deleteClientEvent.emit(companyId);
   }
 
-  toggleColumn(selectedCountry) {
-    if (selectedCountry.country.name === "Polska") {
-      this.displayedColumns = [
-        "name",
-        "business_profiles",
-        "city",
-        "voivodeship",
-        "nip",
-        "address",
-        "employees",
-        "notes",
-        "profiles&fittings",
-        "update",
-        "remove",
-      ];
+  toggleColumn(currentMarket: string) {
+    if (
+      currentMarket === CountryEnum.polish ||
+      currentMarket === CountryEnum.all
+    ) {
+      let indexVoivodeship = this.displayedColumns.indexOf("voivodeship");
+      if (indexVoivodeship === -1) {
+        this.displayedColumns.splice(3, 0, "voivodeship");
+      }
     } else {
-      this.displayedColumns = [
-        "name",
-        "business_profiles",
-        "city",
-        "country",
-        "nip",
-        "address",
-        "employees",
-        "notes",
-        "profiles&fittings",
-        "update",
-        "remove",
-      ];
+      let indexVoivodeship = this.displayedColumns.indexOf("voivodeship");
+      if (indexVoivodeship > 0) {
+        this.displayedColumns.splice(indexVoivodeship, 1);
+      }
     }
   }
 

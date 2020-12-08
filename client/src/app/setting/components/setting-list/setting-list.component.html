@@ -4,11 +4,20 @@
       <mat-expansion-panel-header>
         <mat-panel-title> {{ settingGroup.label }} </mat-panel-title>
       </mat-expansion-panel-header>
-      <ng-container *ngFor="let setting of settingGroup.settings">
-        <button (click)="select([settingGroup.label, setting.label])">
-          {{ setting.label }}
-        </button>
-      </ng-container>
+      <div class="list-button-wrapper">
+        <ng-container *ngFor="let setting of settingGroup.settings">
+          <div class="list-button-wrapper__buttons content-button">
+            <div class="content-button__spacer"></div>
+            <button
+              class="button-setting"
+              (click)="select([settingGroup.label, setting.label])"
+            >
+              {{ setting.label }}
+            </button>
+            <div class="content-button__spacer"></div>
+          </div>
+        </ng-container>
+      </div>
     </mat-expansion-panel>
     <mat-expansion-panel> </mat-expansion-panel>
   </mat-accordion>

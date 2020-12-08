@@ -5,7 +5,11 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
 } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from "@angular/material/dialog";
 import {
   FormBuilder,
   FormGroup,
@@ -43,6 +47,12 @@ import {
 } from "../../../core/store";
 import { map } from "rxjs/operators";
 import { Subscription, merge } from "rxjs";
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from "@angular/material/snack-bar";
+import { DialogCalendarComponent } from "../../../shared/components/dialog-calendar/dialog-calendar.component";
 
 @Component({
   selector: "app-client-dialog",
@@ -57,6 +67,9 @@ import { Subscription, merge } from "rxjs";
   ],
 })
 export class ClientDialogComponent implements OnInit, OnDestroy {
+  horizontalPosition: MatSnackBarHorizontalPosition = "center";
+  verticalPosition: MatSnackBarVerticalPosition = "top";
+
   companyId: string = null;
   isLinear = false;
   currentDateTime = new Date();
@@ -184,17 +197,18 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<ClientDialogComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _companyFormBuilder: FormBuilder,
     private store: Store,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.spinner.show();
     let { company } = this.data;
     this.initControles(company);
-    //  this.dispatchCityByCountry(company);
     this.initParameters();
     this.initSelectedParameters(company);
   }
@@ -374,8 +388,6 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
 
   updateNote(textNote) {
     const note = this.selectedNoteList.get(textNote);
-
-    console.log(note);
     this.notesCompanyFormGroup = this._companyFormBuilder.group({
       text: note.text,
     });
@@ -383,6 +395,21 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
 
   removeNote(textNote) {
     this.selectedNoteList.delete(textNote);
+  }
+
+  updateDateNote(note) {
+    let calendarDialog = this.dialog.open(DialogCalendarComponent, {
+      data: { createDate: note.date },
+    });
+
+    calendarDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        let newNote = this.selectedNoteList.get(note.text);
+        this.removeNote(note.text);
+        newNote = { ...newNote, created_note: result };
+        this.selectedNoteList.set(note.text, newNote);
+      }
+    });
   }
 
   addEmployees() {
@@ -422,7 +449,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
 
       this.selectedEmployeeList.set(employee.id, employee);
     } else {
-      alert("pozycja");
+      this.openSnackBar("Nie wybrano stanowiska", "ok");
     }
   }
 
@@ -473,7 +500,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     if (valid) {
       this.sendDataToServer();
     } else {
-      alert("blad");
+      this.openSnackBar("Niektore pola sa wymagane", "ok");
     }
   }
 
@@ -519,5 +546,13 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     };
 
     this.dialogRef.close(data);
+  }
+
+  openSnackBar(message, button) {
+    this.snackBar.open(message, button, {
+      duration: 1000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 }

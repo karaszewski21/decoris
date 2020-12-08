@@ -1,0 +1,15 @@
+.list-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  &__buttons {
+    flex-basis: 100%;
+  }
+}
+
+.content-button {
+  display: flex;
+
+  &__spacer {
+    flex-grow: 1;
+  }
+}

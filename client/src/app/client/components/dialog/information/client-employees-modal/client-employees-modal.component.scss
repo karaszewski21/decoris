@@ -1,0 +1,51 @@
+.info-employee-wrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: "Nerko One", cursive;
+  &__header {
+    flex-basis: 100%;
+  }
+  &__title {
+    font-size: 25px;
+    flex-basis: 100%;
+  }
+
+  &__content {
+    flex-basis: 100%;
+  }
+
+  &__footer {
+    flex-basis: 100%;
+  }
+
+  &__spacer {
+    flex-grow: 1;
+    height: 10px;
+  }
+}
+.info-employee-header {
+  display: flex;
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+.contnet-list {
+  display: flex;
+}
+
+table {
+  margin-top: 10px;
+  text-align: center;
+  border: 2px solid black;
+  padding: 5px;
+  th {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+  }
+  td {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+  }
+}

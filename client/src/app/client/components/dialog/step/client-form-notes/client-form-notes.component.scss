@@ -29,17 +29,41 @@
 
 .note-list {
   display: flex;
-  flex-direction: row;
-  &__text-note {
+  flex-direction: column;
+  margin: 10px;
+
+  &__header {
     flex-basis: 100%;
   }
-  &__date-note {
+
+  &__contnet {
     flex-basis: 100%;
   }
-  &___button-update-note {
+}
+
+.note-list-header {
+  display: flex;
+  padding-top: 10px;
+  &__spacer {
     flex-grow: 1;
   }
-  &___button-remove-note {
+}
+.note-list-contnet {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid white;
+  &__text {
+    flex-basis: 100%;
+  }
+  &__buttons-action {
+    flex-basis: 100%;
+  }
+}
+
+.buttons-action {
+  display: flex;
+
+  &__spacer {
     flex-grow: 1;
   }
 }

@@ -1,4 +1,4 @@
-<ng-container *ngFor="let aluminiumProfile of aluminiumProfiles"
+<!-- <ng-container *ngFor="let aluminiumProfile of aluminiumProfiles"
   >{{ aluminiumProfile.name }}
 </ng-container>
 
@@ -12,4 +12,64 @@
 
 <ng-container *ngFor="let pcvFitting of pcvFittings"
   >{{ pcvFitting.name }}
-</ng-container>
+</ng-container> -->
+
+<div class="info-profile-fitting-wrapper">
+  <div class="info-profile-fitting-wrapper__header info-profile-fitting-header">
+    <div class="info-profile-fitting-header__spacer"></div>
+    <button mat-icon-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="info-profile-fitting-wrapper__title"><p>Profile i okucia</p></div>
+  <div class="info-profile-fitting-wrapper__content-list content-list">
+    <div class="content-list__aluminium-profile">
+      <table>
+        <tbody>
+          <tr>
+            <th>Profile aluminiowe</th>
+          </tr>
+          <tr *ngFor="let aluminiumProfile of aluminiumProfiles">
+            <td>{{ aluminiumProfile.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="content-list__aluminium-fititng">
+      <table>
+        <tbody>
+          <tr>
+            <th>Okucia aluminiowe</th>
+          </tr>
+          <tr *ngFor="let aluminiumFitting of aluminiumFittings">
+            <td>{{ aluminiumFitting.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="content-list__pcv-profile">
+      <table>
+        <tbody>
+          <tr>
+            <th>Profile PCV</th>
+          </tr>
+          <tr *ngFor="let pcvProfile of pcvProfiles">
+            <td>{{ pcvProfile.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="content-list__pcv-fititng">
+      <table>
+        <tbody>
+          <tr>
+            <th>Pokucia PCV</th>
+          </tr>
+          <tr *ngFor="let pcvFitting of pcvFittings">
+            <td>{{ pcvFitting.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

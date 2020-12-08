@@ -16,8 +16,8 @@ import {
 } from "../../../core/store";
 
 import { GetParameters, GetCitiesByCountry } from "../../../core/store";
-import { Subscription, merge } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subscription, merge, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 import { CountryEnum } from "../../../core/enums/client/countries";
 import { ClientDialogComponent } from "../client-dialog/client-dialog.component";
 import {
@@ -31,6 +31,11 @@ import { FormControl } from "@angular/forms";
 import { ClientEmployeesModalComponent } from "../../components/dialog/information/client-employees-modal/client-employees-modal.component";
 import { ClientNotesModalComponent } from "../../components/dialog/information/client-notes-modal/client-notes-modal.component";
 import { ClientProfilesFittingsModalComponent } from "../../components/dialog/information/client-profiles-fittings-modal/client-profiles-fittings-modal.component";
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-client",
@@ -38,6 +43,8 @@ import { ClientProfilesFittingsModalComponent } from "../../components/dialog/in
   styleUrls: ["./client.component.scss"],
 })
 export class ClientComponent implements OnInit, OnDestroy {
+  horizontalPosition: MatSnackBarHorizontalPosition = "center";
+  verticalPosition: MatSnackBarVerticalPosition = "top";
   globalFilter: any;
   currentSelectedMarket: string;
 
@@ -50,11 +57,11 @@ export class ClientComponent implements OnInit, OnDestroy {
   subscriptionParameters: Subscription;
   subscriptionClients: Subscription;
 
-  enableVoivedeshipsFilterControl: boolean;
+  enableVoivodeshipsFilterControl: boolean;
   nameCompanyFilterControl: FormControl;
   businessProfilesFilterControl: FormControl;
   citiesFilterControl: FormControl;
-  voivedeshipsFilterControl: FormControl;
+  voivodeshipsFilterControl: FormControl;
 
   getClientsLoading$ = this.store.select(getClientsLoading);
   getParametersLoading$ = this.store.select(getParametersLoading);
@@ -97,7 +104,8 @@ export class ClientComponent implements OnInit, OnDestroy {
     private clientService: ClientService,
     private store: Store,
     private dialog: MatDialog,
-    public media: MediaObserver
+    public media: MediaObserver,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +124,7 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.initControls();
     this.initParametersPaginator();
     this.getCompanyList();
-    this.enableVoivedeshipsFilterControl = true;
+    this.enableVoivodeshipsFilterControl = true;
   }
   ngOnDestroy(): void {
     this.subscriptionParameters.unsubscribe();
@@ -128,7 +136,7 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.nameCompanyFilterControl = new FormControl();
     this.businessProfilesFilterControl = new FormControl();
     this.citiesFilterControl = new FormControl();
-    this.voivedeshipsFilterControl = new FormControl();
+    this.voivodeshipsFilterControl = new FormControl();
   }
 
   initParametersPaginator() {
@@ -219,8 +227,9 @@ export class ClientComponent implements OnInit, OnDestroy {
           ...this.globalFilter,
           country: CountryEnum.polish,
         };
+
+        this.enableVoivodeshipsFilterControl = true;
         this.getCompanyList();
-        this.enableVoivedeshipsFilterControl = true;
 
         break;
 
@@ -231,9 +240,9 @@ export class ClientComponent implements OnInit, OnDestroy {
           country: CountryEnum.foreign,
         };
 
+        this.enableVoivodeshipsFilterControl = false;
         this.getCompanyList();
 
-        this.enableVoivedeshipsFilterControl = false;
         break;
 
       case CountryEnum.all:
@@ -243,8 +252,10 @@ export class ClientComponent implements OnInit, OnDestroy {
           ...this.globalFilter,
           country: CountryEnum.all,
         };
+
+        this.enableVoivodeshipsFilterControl = false;
         this.getCompanyList();
-        this.enableVoivedeshipsFilterControl = false;
+
         break;
 
       default:
@@ -272,6 +283,10 @@ export class ClientComponent implements OnInit, OnDestroy {
             this.selectedMarket(CountryEnum.polish);
           }
           this.spinner.hide();
+          this.openSnackBar(
+            `Klient ${value.companies[0].name} zostal dodany`,
+            "Ok"
+          );
         });
       }
     });
@@ -297,6 +312,10 @@ export class ClientComponent implements OnInit, OnDestroy {
             this.selectedMarket(CountryEnum.polish);
           }
           this.spinner.hide();
+          this.openSnackBar(
+            `Klient ${value.companies[0].name} zostal zmieniony`,
+            "Ok"
+          );
         });
       }
     });
@@ -304,10 +323,13 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   deleteClient(companyId) {
     this.spinner.show();
-    this.clientService.deleteClient(companyId).subscribe((value) => {
-      this.getCompanyList();
-      this.spinner.hide();
-    });
+    of(companyId)
+      .pipe(switchMap((id) => this.clientService.deleteClient(id)))
+      .subscribe((value) => {
+        this.getCompanyList();
+        this.spinner.hide();
+        this.openSnackBar(`Klient ${value.name} zostal zmieniony`, "Ok");
+      });
   }
 
   selectedCitiesFilter(selectedCities: City[]): void {
@@ -321,6 +343,10 @@ export class ClientComponent implements OnInit, OnDestroy {
     }
   }
   selectedVoivedeshipsFilter(selectedVoivedeships: Voivodeship[]): void {
+    if (selectedVoivedeships === null) {
+      return;
+    }
+
     if (selectedVoivedeships.length === 0) {
       this.resetFilter();
     } else {
@@ -346,7 +372,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       ...this.globalFilter,
       business_profiles: [],
       cities: [],
-      voivedeships: [],
+      voivodeships: [],
       country: this.currentSelectedMarket,
     };
   }
@@ -368,9 +394,9 @@ export class ClientComponent implements OnInit, OnDestroy {
               ? []
               : this.citiesFilterControl.value.map((cities) => cities.name),
           voivodeships:
-            this.voivedeshipsFilterControl.value === null
+            this.voivodeshipsFilterControl.value === null
               ? []
-              : this.voivedeshipsFilterControl.value.map(
+              : this.voivodeshipsFilterControl.value.map(
                   (voivedeships) => voivedeships.name
                 ),
           country: CountryEnum.polish,
@@ -415,10 +441,23 @@ export class ClientComponent implements OnInit, OnDestroy {
         break;
     }
 
+    let isEmpty =
+      this.globalFilter.business_profiles.length !== 0 ||
+      this.globalFilter.cities.length !== 0 ||
+      this.globalFilter.voivodeships.length !== 0;
+
+    console.log(this.globalFilter);
+    if (!isEmpty) {
+      this.openSnackBar("Nie wybrano filtra", "Ok");
+      return;
+    }
+
     this.getCompanyList();
+    this.resetFilter();
   }
 
   selectedNameCompanyFilter(name) {
+    this.spinner.show();
     switch (this.currentSelectedMarket) {
       case CountryEnum.polish:
         this.globalFilter = {
@@ -454,6 +493,7 @@ export class ClientComponent implements OnInit, OnDestroy {
         break;
     }
     this.getCompanyList();
+    this.spinner.hide();
   }
 
   paginator(paginatorInfo) {
@@ -496,6 +536,14 @@ export class ClientComponent implements OnInit, OnDestroy {
         pcvProfiles: pcv_profiles,
         pcvFittings: pcv_fittings,
       },
+    });
+  }
+
+  openSnackBar(message, button) {
+    this.snackBar.open(message, button, {
+      duration: 1000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
     });
   }
 }

@@ -3,7 +3,7 @@
   flex-direction: column;
   max-width: 1440px;
   background-color: darkcyan;
-  height: 100vh;
+  height: 80vh;
 }
 
 table {
@@ -11,11 +11,6 @@ table {
 }
 
 .client-wrapper {
-  // display: flex;
-  // flex-direction: column;
-  // max-width: 1440px;
-  // background-color: darkcyan;
-
   &__client-nav {
     height: 50px;
     flex-basis: 100%;
@@ -46,14 +41,7 @@ table {
   position: fixed;
   max-width: 1440px;
   bottom: 0;
-  z-index: 1000;
-  background-color: black;
-}
-
-.mat-paginator {
-  position: fixed;
-  max-width: 1440px;
-  bottom: 0;
+  right: 0;
   z-index: 1000;
   background-color: black;
 }

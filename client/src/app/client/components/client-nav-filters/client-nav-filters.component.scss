@@ -14,7 +14,17 @@
   &__name-voivodeship {
     margin: 5px 10px 10px;
   }
-  &__button-refresh {
+  &__buttons-action {
     margin: 5px 10px 10px;
+  }
+}
+
+.buttons-action {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  &__button {
+    margin-right: 10px;
   }
 }

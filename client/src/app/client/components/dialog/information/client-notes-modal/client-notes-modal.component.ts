@@ -18,7 +18,7 @@ export class ClientNotesModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  closeModal(): void {
+  onCloseClick(): void {
     this.dialogRef.close();
   }
 }

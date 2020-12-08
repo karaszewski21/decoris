@@ -14,30 +14,37 @@
   </div>
   <mat-hint>Notatki</mat-hint>
   <mat-divider></mat-divider>
-  <div class="note-wrapper__note-list">
-    <ul>
-      <li *ngFor="let note of selectedNoteList.values()" class="note-list">
-        <p class="note-list__text-note">{{ note.text }}</p>
-        <div class="note-wrapper__spacer"></div>
-        <p class="note-list__date-note">
+  <div class="note-wrapper__note-list note-list">
+    <ng-container *ngFor="let note of selectedNoteList.values()">
+      <div class="note-list__header note-list-header">
+        <div class="note-list-header__spacer"></div>
+        <p
+          class="button-date"
+          (click)="updateDateNote(note.text, note.created_note)"
+        >
           {{ note.created_note | date: "dd-MM-yyyy" }}
         </p>
-        <div class="note-wrapper__spacer"></div>
-        <button
-          mat-icon-button
-          class="note-list__button-update-note"
-          (click)="updateNote(note.text)"
-        >
-          <mat-icon>update</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          class="note-list__button-remove-note"
-          (click)="removeNote(note.text)"
-        >
-          <mat-icon>remove</mat-icon>
-        </button>
-      </li>
-    </ul>
+      </div>
+      <div class="note-list__contnet note-list-contnet">
+        <p class="note-list-contnet__text">{{ note.text }}</p>
+        <div class="note-list-contnet__buttons-action buttons-action">
+          <div class="buttons-action__spacer"></div>
+          <button
+            mat-icon-button
+            class="note-list-contnet__button-update-note"
+            (click)="updateNote(note.text)"
+          >
+            <mat-icon>update</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="note-list-contnet__button-remove-note"
+            (click)="removeNote(note.text)"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

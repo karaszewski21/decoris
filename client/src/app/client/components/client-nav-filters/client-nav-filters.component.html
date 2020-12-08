@@ -23,28 +23,29 @@
 
   <mat-form-field appearance="fill" class="nav-filters__name-voivodeship">
     <mat-label>Wojewodztwo</mat-label>
-    <mat-select [formControl]="voivedeshipsFilterControl" multiple>
+    <mat-select [formControl]="voivodeshipsFilterControl" multiple>
       <mat-option
         *ngFor="let voivedeship of filterList.get('voivodeships')"
         [value]="voivedeship"
-        >{{ voivedeship.name }}</mat-option
+        >{{ voivedeship?.name }}</mat-option
       >
     </mat-select>
   </mat-form-field>
-  <button
-    mat-icon-button
-    aria-label="Example icon-button with heart icon"
-    class="nav-filters__button-refresh"
-    (click)="resetFilter()"
-  >
-    <mat-icon>refresh</mat-icon>
-  </button>
-  <button
-    mat-icon-button
-    aria-label="Example icon-button with heart icon"
-    class="nav-filters__button-refresh"
-    (click)="startFilter()"
-  >
-    <mat-icon>filter_alt</mat-icon>
-  </button>
+  <div class="nav-filters__buttons-action buttons-action">
+    <!-- <button
+      aria-label="Example icon-button with heart icon"
+      class="button-table buttons-action__button"
+      (click)="resetFilter()"
+    >
+      resetuj filtr
+    </button> -->
+    <button
+      mat-raised-button
+      aria-label="Example icon-button with heart icon"
+      class="button-table buttons-action__button"
+      (click)="startFilter()"
+    >
+      filtruj
+    </button>
+  </div>
 </div>

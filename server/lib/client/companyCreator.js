@@ -93,7 +93,7 @@ class CompanyCreator {
           ...dataOfCompanyToInsert.get("notes"),
           ...notes.map((note) => {
             note.id = note.id ?? uuidv4();
-            note.created_note = Date.now() ?? currentDate;
+            note.created_note = new Date(note.created_note);
             note.company_id = parameters.id;
 
             return note;

@@ -29,7 +29,7 @@ export class ClientProfilesFittingsModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  closeModal(): void {
+  onCloseClick(): void {
     this.dialogRef.close();
   }
 }
