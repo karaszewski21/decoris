@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SettingPcvFittingTabComponent } from './setting-pcv-fitting-tab.component';
 
@@ -6,7 +6,7 @@ describe('SettingPcvFittingTabComponent', () => {
   let component: SettingPcvFittingTabComponent;
   let fixture: ComponentFixture<SettingPcvFittingTabComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SettingPcvFittingTabComponent ]
     })

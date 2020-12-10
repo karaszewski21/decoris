@@ -3,7 +3,7 @@ const path = require("path");
 const CompanyCreator = require("../../companyCreator");
 const CompanyValidator = require("../../companyValidator");
 
-module.exports = class StrategyCompanyImportManager {
+module.exports = class ImportCompanyManager {
   constructor() {
     this._strategy = null;
     this.companyValidator = new CompanyValidator();

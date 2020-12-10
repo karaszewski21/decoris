@@ -9,7 +9,7 @@ import {
   ClientsActionTypes,
   ExportClientsSuccess,
 } from "../actions/clientsAction";
-import { ClientService } from "../../services/client/client.service";
+import { ClientService } from "../../../core/services/client/client.service";
 @Injectable()
 export class ClientEffects {
   constructor(

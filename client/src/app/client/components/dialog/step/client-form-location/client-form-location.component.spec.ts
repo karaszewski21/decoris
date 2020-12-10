@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ClientFormLocationComponent } from './client-form-location.component';
 
@@ -6,7 +6,7 @@ describe('ClientFormLocationComponent', () => {
   let component: ClientFormLocationComponent;
   let fixture: ComponentFixture<ClientFormLocationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ClientFormLocationComponent ]
     })

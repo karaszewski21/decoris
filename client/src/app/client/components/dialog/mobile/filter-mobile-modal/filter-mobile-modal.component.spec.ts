@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FilterMobileModalComponent } from './filter-mobile-modal.component';
 
@@ -6,7 +6,7 @@ describe('FilterMobileModalComponent', () => {
   let component: FilterMobileModalComponent;
   let fixture: ComponentFixture<FilterMobileModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FilterMobileModalComponent ]
     })

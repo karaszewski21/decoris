@@ -78,6 +78,17 @@ class ClientsController {
       res.status(404).send(`message: ${error.message}`);
     }
   }
+
+  async exportClient(req, res) {
+    try {
+      const pathToFile = await new clientsService().exportClient(
+        req.params.type
+      );
+      res.download(pathToFile);
+    } catch (error) {
+      res.status(404).send(`message: ${error.message}`);
+    }
+  }
 }
 
 module.exports = new ClientsController();

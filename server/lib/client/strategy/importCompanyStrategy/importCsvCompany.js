@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
 
-module.exports = class stategyCompanyImportCsv {
+module.exports = class ImportCsvCompany {
   constructor() {
     this.limit = 0;
     this.row = 0;

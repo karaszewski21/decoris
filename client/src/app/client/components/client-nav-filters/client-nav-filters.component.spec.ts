@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ClientNavFiltersComponent } from './client-nav-filters.component';
 
@@ -6,7 +6,7 @@ describe('ClientNavFiltersComponent', () => {
   let component: ClientNavFiltersComponent;
   let fixture: ComponentFixture<ClientNavFiltersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ClientNavFiltersComponent ]
     })

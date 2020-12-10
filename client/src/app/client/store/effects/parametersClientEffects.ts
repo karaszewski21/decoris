@@ -3,7 +3,7 @@ import { Observable, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { Actions, Effect, createEffect, ofType } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
-import { ParametersClientService } from "../../services/parameters/client/parameters-client.service";
+import { ParametersClientService } from "../../../core/services/parameters/client/parameters-client.service";
 import {
   GetCitiesByCountry,
   GetCitiesByCountrySuccess,

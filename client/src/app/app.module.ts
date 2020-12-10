@@ -21,7 +21,7 @@ import { LocationStrategy, HashLocationStrategy } from "@angular/common";
     SharedModule,
     CoreModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
