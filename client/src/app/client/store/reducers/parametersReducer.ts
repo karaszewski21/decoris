@@ -79,12 +79,10 @@ export function parametersReducer(
 
     case ParametersActionTypes.GetCitiesByCountrySuccess: {
       let newState: ParametersState = null;
-      console.log(state);
-
       newState = { ...state };
       newState.cities = action.payload.cities;
       newState.loading = action.payload.loading;
-      console.log(newState);
+
       return newState;
     }
     case ParametersActionTypes.AddParameter: {

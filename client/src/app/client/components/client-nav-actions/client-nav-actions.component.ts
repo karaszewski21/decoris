@@ -7,10 +7,15 @@ import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 })
 export class ClientNavActionsComponent implements OnInit {
   @Output() openNewClientModalEvent = new EventEmitter();
+  @Output() exportClientsEvent = new EventEmitter<string>();
   constructor() {}
 
   ngOnInit(): void {}
   openNewClientModal() {
     this.openNewClientModalEvent.emit();
+  }
+
+  exportClients() {
+    this.exportClientsEvent.emit("csv");
   }
 }

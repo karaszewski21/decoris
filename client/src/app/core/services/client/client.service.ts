@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Company } from "../../../interfaces/client";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 
 @Injectable({
@@ -47,6 +47,17 @@ export class ClientService {
 
     companies = this.httpClient.delete<Company>(
       `${environment.apiUrl}clients/delete-client/${companyId}`
+    );
+
+    return companies;
+  }
+
+  exportClients(type: string) {
+    let companies: Observable<any>;
+
+    companies = this.httpClient.get(
+      `${environment.apiUrl}clients/export/${type}`,
+      { responseType: "blob" }
     );
 
     return companies;

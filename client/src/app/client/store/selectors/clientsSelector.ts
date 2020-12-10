@@ -8,6 +8,11 @@ export const getClients = createSelector(
   (state) => state.clientsReducer.clients
 );
 
+export const getCountClients = createSelector(
+  getClientsState,
+  (state) => state.clientsReducer.count
+);
+
 export const getClientsLoading = createSelector(
   getClientsState,
   (state) => state.clientsReducer.loading

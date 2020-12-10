@@ -2,7 +2,12 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ClientService } from "../../../core/services/client/client.service";
 import { Store, select } from "@ngrx/store";
-import { SetFilters } from "../../../core/store";
+import {
+  SetFilters,
+  FiltersActionTypes,
+  getCountClients,
+  ExportClients,
+} from "../../../core/store";
 import { MatDialog } from "@angular/material/dialog";
 import {
   GetClients,
@@ -36,6 +41,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
+import { Filter } from "../../../interfaces/client/filter";
 
 @Component({
   selector: "app-client",
@@ -45,12 +51,13 @@ import {
 export class ClientComponent implements OnInit, OnDestroy {
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
-  globalFilter: any;
+  globalFilter: Filter;
   currentSelectedMarket: string;
 
   totalCountCompanyPaginator: number;
   pageSizePaginator: number;
   pageSizeOptionsPaginator: number[];
+  resetPaginator: boolean;
 
   clients: Company[];
   filterList: Map<string, any[]> = new Map();
@@ -67,6 +74,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   getParametersLoading$ = this.store.select(getParametersLoading);
 
   clientList$ = this.store.pipe(select(getClients));
+  countClients$ = this.store.pipe(select(getCountClients));
 
   countries$ = this.store.pipe(
     select(getCountries),
@@ -129,7 +137,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptionParameters.unsubscribe();
     this.subscriptionClients.unsubscribe();
-    this.globalFilter = {};
+    this.globalFilter = null;
   }
 
   initControls() {
@@ -140,14 +148,17 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   initParametersPaginator() {
-    this.pageSizeOptionsPaginator = [5, 10, 25, 100];
-    this.totalCountCompanyPaginator = 3000;
-    this.pageSizePaginator = 5;
-    this.globalFilter = {
-      ...this.globalFilter,
-      limit: this.pageSizePaginator,
-    };
+    this.countClients$.subscribe((totalCount) => {
+      this.pageSizeOptionsPaginator = [10, 25, 100, 200, 500];
+      this.totalCountCompanyPaginator = totalCount;
+      this.pageSizePaginator = 10;
+      this.globalFilter = {
+        ...this.globalFilter,
+        limit: this.pageSizePaginator,
+      };
+    });
   }
+
   getParametersList() {
     this.store.dispatch(new GetParameters({ loading: true }));
 
@@ -203,9 +214,9 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.spinner.show();
     let { country } = this.globalFilter;
 
-    this.store.dispatch(new GetClients({ loading: true }));
-    this.store.dispatch(new SetFilters(this.globalFilter));
-
+    this.store.dispatch(
+      new GetClients({ loading: true, filter: this.globalFilter })
+    );
     this.getParametersList();
     this.getCityByCountries(country);
 
@@ -232,7 +243,6 @@ export class ClientComponent implements OnInit, OnDestroy {
         this.getCompanyList();
 
         break;
-
       case CountryEnum.foreign:
         this.currentSelectedMarket = CountryEnum.foreign;
         this.globalFilter = {
@@ -244,7 +254,6 @@ export class ClientComponent implements OnInit, OnDestroy {
         this.getCompanyList();
 
         break;
-
       case CountryEnum.all:
         this.currentSelectedMarket = CountryEnum.all;
 
@@ -257,7 +266,6 @@ export class ClientComponent implements OnInit, OnDestroy {
         this.getCompanyList();
 
         break;
-
       default:
         break;
     }
@@ -367,9 +375,22 @@ export class ClientComponent implements OnInit, OnDestroy {
     }
   }
 
+  paginator(paginatorInfo) {
+    this.globalFilter = {
+      ...this.globalFilter,
+      limit: paginatorInfo.pageSize,
+      offset: paginatorInfo.pageSize * paginatorInfo.pageIndex,
+    };
+
+    this.getCompanyList();
+  }
+
   resetFilter(): void {
     this.globalFilter = {
       ...this.globalFilter,
+      limit: 10,
+      offset: 0,
+      name: [],
       business_profiles: [],
       cities: [],
       voivodeships: [],
@@ -446,64 +467,41 @@ export class ClientComponent implements OnInit, OnDestroy {
       this.globalFilter.cities.length !== 0 ||
       this.globalFilter.voivodeships.length !== 0;
 
-    console.log(this.globalFilter);
     if (!isEmpty) {
       this.openSnackBar("Nie wybrano filtra", "Ok");
       return;
     }
 
     this.getCompanyList();
-    this.resetFilter();
+    this.resetPaginator = true;
   }
 
   selectedNameCompanyFilter(name) {
-    this.spinner.show();
     switch (this.currentSelectedMarket) {
       case CountryEnum.polish:
         this.globalFilter = {
           ...this.globalFilter,
           name: [name],
-          business_profiles: [],
-          cities: [],
-          voivodeships: [],
-          country: CountryEnum.polish,
         };
         break;
       case CountryEnum.foreign:
         this.globalFilter = {
           ...this.globalFilter,
           name: [name],
-          business_profiles: [],
-          cities: [],
-          voivodeships: [],
-          country: CountryEnum.foreign,
         };
         break;
       case CountryEnum.all:
         this.globalFilter = {
           ...this.globalFilter,
           name: [name],
-          business_profiles: [],
-          cities: [],
-          voivodeships: [],
-          country: CountryEnum.all,
         };
         break;
       default:
         break;
     }
-    this.getCompanyList();
-    this.spinner.hide();
-  }
-
-  paginator(paginatorInfo) {
-    this.globalFilter = {
-      ...this.globalFilter,
-      limit: paginatorInfo.pageSize,
-      offset: paginatorInfo.pageSize * paginatorInfo.pageIndex,
-    };
 
     this.getCompanyList();
+    this.resetPaginator = true;
   }
 
   openNotesModal(notes) {
@@ -544,6 +542,14 @@ export class ClientComponent implements OnInit, OnDestroy {
       duration: 1000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
+    });
+  }
+  exportClients(type) {
+    this.spinner.show();
+    this.store.dispatch(new ExportClients({ loading: true, type: type }));
+
+    this.getClientsLoading$.subscribe((value) => {
+      this.spinner.hide();
     });
   }
 }
