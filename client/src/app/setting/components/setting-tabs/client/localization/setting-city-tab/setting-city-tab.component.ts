@@ -1,13 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import {
-  getCities,
-  getCountries,
-  getVoivodeships,
-  GetCitiesByCountry,
-  AddParameter,
-  RemoveParameter,
-} from "../../../../../../core/store";
+
 import {
   City,
   Country,
@@ -22,6 +15,14 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
+import {
+  getCities,
+  getCountries,
+  getVoivodeships,
+  GetCitiesByCountry,
+  AddParameter,
+  RemoveParameter,
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-city-tab",

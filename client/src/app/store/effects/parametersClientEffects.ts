@@ -3,18 +3,8 @@ import { Observable, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { Actions, Effect, createEffect, ofType } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
-import { ParametersClientService } from "../../../core/services/parameters/client/parameters-client.service";
-import {
-  GetCitiesByCountry,
-  GetCitiesByCountrySuccess,
-  GetParameters,
-  ParametersActionTypes,
-  GetParametersSuccess,
-  AddParameter,
-  AddParameterSuccess,
-  RemoveParameterSuccess,
-  RemoveParameter,
-} from "../actions";
+import { ParametersClientService } from "../../core/services/parameters/client/parameters-client.service";
+
 import {
   Company,
   BusinessProfile,
@@ -26,7 +16,18 @@ import {
   AluminiumFitting,
   PcvFitting,
   PositionEmployee,
-} from "../../../interfaces/client";
+} from "../../interfaces/client";
+import {
+  GetParameters,
+  ParametersActionTypes,
+  GetCitiesByCountry,
+  AddParameter,
+  RemoveParameter,
+  GetParametersSuccess,
+  GetCitiesByCountrySuccess,
+  AddParameterSuccess,
+  RemoveParameterSuccess,
+} from "..";
 
 @Injectable()
 export class ParametersClientEffects {
@@ -130,8 +131,6 @@ const handleSelectedCitiesByCompany = () => (source: Observable<any>) =>
 const handleAddedClientParameter = () => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
-      console.log(response);
-
       return new AddParameterSuccess({ loading: false, parameter: response });
     })
   );
@@ -139,8 +138,6 @@ const handleAddedClientParameter = () => (source: Observable<any>) =>
 const handleRemovedClientParameter = () => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
-      console.log(response);
-
       return new RemoveParameterSuccess({
         loading: false,
         parameter: response,

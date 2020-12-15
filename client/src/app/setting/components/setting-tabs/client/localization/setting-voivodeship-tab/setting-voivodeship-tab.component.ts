@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { getVoivodeships } from "../../../../../../core/store";
 import { Voivodeship } from "../../../../../../interfaces/client";
 import { FormControl } from "@angular/forms";
+import { getVoivodeships } from "../../../../../../store";
 
 @Component({
   selector: "app-setting-voivodeship-tab",

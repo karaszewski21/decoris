@@ -2,35 +2,12 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ClientService } from "../../../core/services/client/client.service";
 import { Store, select } from "@ngrx/store";
-import {
-  SetFilters,
-  FiltersActionTypes,
-  getCountClients,
-  ExportClients,
-} from "../../../core/store";
 import { MatDialog } from "@angular/material/dialog";
-import {
-  GetClients,
-  getCountries,
-  getBusinessProfiles,
-  getVoivodeships,
-  getParametersLoading,
-  getCities,
-  getClients,
-  getClientsLoading,
-} from "../../../core/store";
-
-import { GetParameters, GetCitiesByCountry } from "../../../core/store";
 import { Subscription, merge, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { CountryEnum } from "../../../core/enums/client/countries";
 import { ClientDialogComponent } from "../client-dialog/client-dialog.component";
-import {
-  Company,
-  City,
-  Voivodeship,
-  Country,
-} from "../../../interfaces/client";
+import { Company, City, Voivodeship } from "../../../interfaces/client";
 import { MediaObserver } from "@angular/flex-layout";
 import { FormControl } from "@angular/forms";
 import { ClientEmployeesModalComponent } from "../../components/dialog/information/client-employees-modal/client-employees-modal.component";
@@ -42,6 +19,23 @@ import {
   MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { Filter } from "../../../interfaces/client/filter";
+import {
+  getParametersLoading,
+  getCountries,
+  getVoivodeships,
+  getCities,
+  getBusinessProfiles,
+  GetParameters,
+  GetCitiesByCountry,
+} from "../../../store";
+import { GetClients, ExportClients } from "../../store/actions";
+import {
+  getClientsLoading,
+  getClients,
+  getCountClients,
+} from "../../store/selectors/clientsSelector";
+import { SearchMobileModalComponent } from "../../components/dialog/mobile/search-mobile-modal/search-mobile-modal.component";
+import { FilterMobileModalComponent } from "../../components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
 
 @Component({
   selector: "app-client",
@@ -131,6 +125,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.initControls();
     this.initParametersPaginator();
+    this.getParametersList();
     this.getCompanyList();
     this.enableVoivodeshipsFilterControl = true;
   }
@@ -163,7 +158,7 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetParameters({ loading: true }));
 
     this.spinner.show();
-    this.getClientsLoading$.subscribe((loading) => {
+    this.getParametersLoading$.subscribe((loading) => {
       if (!loading) {
         this.subscriptionParameters = merge(
           this.countries$,
@@ -217,7 +212,7 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new GetClients({ loading: true, filter: this.globalFilter })
     );
-    this.getParametersList();
+    // this.getParametersList();
     this.getCityByCountries(country);
 
     this.getClientsLoading$.subscribe((loading) => {
@@ -551,5 +546,21 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.getClientsLoading$.subscribe((value) => {
       this.spinner.hide();
     });
+  }
+
+  goHome() {
+    document.documentElement.scrollTop = 0;
+  }
+
+  searchMobile() {
+    let dialogSerach = this.dialog.open(SearchMobileModalComponent);
+
+    dialogSerach.afterClosed().subscribe((value) => {});
+  }
+
+  filterMobile() {
+    let dialogSerach = this.dialog.open(FilterMobileModalComponent);
+
+    dialogSerach.afterClosed().subscribe((value) => {});
   }
 }

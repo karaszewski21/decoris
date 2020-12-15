@@ -6,9 +6,8 @@ import {
   HttpInterceptor,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
-
-import { environment } from "@environments/environment";
-import { AccountService } from "@app/_services";
+import { AccountService } from "../services/account/account.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -20,8 +19,8 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // add auth header with jwt if user is logged in and request is to the api url
-    const user = this.accountService.userValue;
+    const user = this.accountService.getUserFromLocalStorage();
+    console.log(user);
     const isLoggedIn = user && user.token;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     if (isLoggedIn && isApiUrl) {

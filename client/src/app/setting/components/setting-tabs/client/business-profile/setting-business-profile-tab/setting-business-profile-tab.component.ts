@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { BusinessProfile } from "../../../../../../interfaces/client";
 import { select, Store } from "@ngrx/store";
+
+import { MatDialog } from "@angular/material/dialog";
+import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
 import {
   getBusinessProfiles,
   AddParameter,
   RemoveParameter,
-} from "../../../../../../core/store";
-import { MatDialog } from "@angular/material/dialog";
-import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-business-profile-tab",

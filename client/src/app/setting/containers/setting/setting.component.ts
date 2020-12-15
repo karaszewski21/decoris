@@ -10,7 +10,7 @@ import {
 import { settingDynamicTabList } from "../../data/dynamic-tab-setting";
 import { ISetting } from "../../../interfaces/setting/client";
 import { Store } from "@ngrx/store";
-import { GetParameters } from "../../../core/store";
+import { GetParameters } from "../../../store";
 
 type PanelType = "left" | "right";
 

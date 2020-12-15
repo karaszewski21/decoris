@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { PcvProfile } from "../../../../../../interfaces/client";
 import { FormControl } from "@angular/forms";
 import { select, Store } from "@ngrx/store";
-import {
-  AddParameter,
-  RemoveParameter,
-  getPcvProfiles,
-} from "../../../../../../core/store";
+
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
+import {
+  getPcvProfiles,
+  AddParameter,
+  RemoveParameter,
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-pcv-profile-tab",

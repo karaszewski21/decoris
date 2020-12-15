@@ -51,14 +51,27 @@
     (paginatorEvent)="paginator($event)"
   ></app-client-paginator>
 </div>
+
 <app-footer *ngIf="this.media.isActive('xs')">
-  <button mat-icon-button aria-label="Example icon-button with heart icon">
+  <button
+    mat-icon-button
+    aria-label="Example icon-button with heart icon"
+    (click)="goHome()"
+  >
     <mat-icon>home</mat-icon>
   </button>
-  <button mat-icon-button aria-label="Example icon-button with heart icon">
+  <button
+    mat-icon-button
+    aria-label="Example icon-button with heart icon"
+    (click)="searchMobile()"
+  >
     <mat-icon>search</mat-icon>
   </button>
-  <button mat-icon-button aria-label="Example icon-button with heart icon">
+  <button
+    mat-icon-button
+    aria-label="Example icon-button with heart icon"
+    (click)="filterMobile()"
+  >
     <mat-icon>filter_list</mat-icon>
   </button>
 </app-footer>

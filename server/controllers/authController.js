@@ -5,20 +5,18 @@ class AuthController {
   async signin(req, res) {
     try {
       const user = await new AuthService().signin(req.body);
-      res.status(200).send({ user: user });
+      res.status(200).send(user);
     } catch (error) {
-      res.status(404).send(error);
+      res.status(error.code ?? 404).send(error.message);
     }
   }
 
   async signup(req, res) {
     try {
-      // user: {firstName: "ssds", lastName: "sdsds", "email: "dsds", login: "ssddsd", password:"ssdds" }
-
       const user = await new AuthService().signup(req.body);
-      res.status(200).send({ user: user });
+      res.status(200).send(user);
     } catch (error) {
-      res.status(404).send(error);
+      res.status(404).send(error.message);
     }
   }
 }

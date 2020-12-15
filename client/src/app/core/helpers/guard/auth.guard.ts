@@ -3,11 +3,9 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree,
   Router,
 } from "@angular/router";
-import { Observable } from "rxjs";
-import { AccountService } from "../services/account/account.service";
+import { AccountService } from "../../services/account/account.service";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +13,7 @@ import { AccountService } from "../services/account/account.service";
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, private accountService: AccountService) {}
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const user = this.accountService.userValue;
+    const user = this.accountService.getUserFromLocalStorage();
     if (user) {
       return true;
     }

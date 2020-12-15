@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MenuEnum } from "src/app/core/enums/shared/menu";
 
 @Component({
   selector: "app-menu-modal",
@@ -13,4 +14,8 @@ export class MenuModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  selectedOption(option: string) {
+    this.dialogRef.close(option);
+  }
 }

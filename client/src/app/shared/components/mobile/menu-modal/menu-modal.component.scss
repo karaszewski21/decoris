@@ -1,0 +1,17 @@
+.menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+
+  &__item {
+    flex-basis: 100%;
+  }
+}
+
+.menu-item-content {
+  display: flex;
+
+  &__spacer {
+    flex-grow: 1;
+  }
+}

@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { AluminiumProfile } from "../../../../../../interfaces/client";
 import { select, Store } from "@ngrx/store";
-import {
-  AddParameter,
-  RemoveParameter,
-  getAluminiumProfiles,
-} from "../../../../../../core/store";
+
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
+import {
+  getAluminiumProfiles,
+  AddParameter,
+  RemoveParameter,
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-aluminium-profile-tab",

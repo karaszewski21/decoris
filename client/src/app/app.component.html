@@ -1,18 +1,15 @@
 <section class="main-content" *ngIf="user">
   <app-header
     class="main-content__header"
-    [showLogout]="!this.media.isActive('xs')"
-    [user]="user"
     (openMenuEvent)="openMenu()"
     (logoutEvent)="logout()"
   ></app-header>
   <app-menu
     class="main-content__menu"
     (navigatorEvent)="navigator($event)"
-    *ngIf="!this.media.isActive('xs')"
   ></app-menu>
 </section>
 
-<section [ngClass]="{ 'main-content': user, 'login-content': !user }">
+<section class="main-content">
   <router-outlet></router-outlet>
 </section>

@@ -1,4 +1,4 @@
-<div class="client-list-wrapper" *ngIf="!this.media.isActive('xs')">
+<div class="client-list-wrapper">
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Nazwa firmy</th>
@@ -118,23 +118,56 @@
   </table>
 </div>
 
-<div *ngIf="this.media.isActive('xs')">
+<div class="client-list-mobile-wrapper">
   <ng-container *ngFor="let company of companyList">
     <mat-accordion>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ company.name }}
+          <mat-panel-title class="client-panel-title-wrapper">
+            <span class="client-panel-title-wrapper__name-company">{{
+              company.name
+            }}</span>
+            <div class="client-panel-title-wrapper__info-company">
+              <button
+                class="button-action"
+                md-raised-button
+                (click)="openEmployeesModal(company.employees)"
+              >
+                Kontakty
+              </button>
+              <button
+                class="button-table"
+                md-raised-button
+                (click)="openNotesModal(company.notes)"
+              >
+                Notatki
+              </button>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="client-panel-contnet-wrapper">
+          <div
+            class="client-panel-contnet-wrapper__base-info info-company-contnet"
+          >
+            <span>Miasto: {{ company.city.name }}</span>
+            <span>Wojewodztwo: {{ company.city.voivodeship?.name }}</span>
+            <span>Adress: {{ company.address }} </span>
+            <span>Nip: {{ company.nip }}</span>
+            <span>Panstwo: {{ company.country.name }}</span>
+          </div>
+          <div
+            class="client-panel-contnet-wrapper__profiles-fittings company-profiles"
+          >
+            <span>Profile biznesowe:</span>
+            <p *ngFor="let business_profile of company.business_profiles">
+              {{ business_profile.name }}
+            </p>
+          </div>
+          <div
+            class="client-panel-contnet-wrapper__actions company-actions-content"
+          >
             <button
-              md-raised-button
-              (click)="openEmployeesModal(company.employees)"
-            >
-              Osoby kontaktowe
-            </button>
-            <button md-raised-button (click)="openNotesModal(company.notes)">
-              Notatki
-            </button>
-            <button
+              class="button-action"
               md-raised-button
               (click)="
                 openProfilesAndFittingsModal({
@@ -147,15 +180,23 @@
             >
               Profile i okucia
             </button>
-            <button md-raised-button (click)="updateCompany(company)">
-              update
+            <div class="company-actions-content__spacer"></div>
+            <button
+              class="button-table"
+              md-raised-button
+              (click)="updateCompany(company)"
+            >
+              <mat-icon>update</mat-icon>
             </button>
-            <button md-raised-button (click)="deleteCompany(element.id)">
-              remove
-            </button></mat-panel-title
-          >
-        </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
+            <button
+              class="button-action"
+              md-raised-button
+              (click)="deleteCompany(element.id)"
+            >
+              <mat-icon>delete icon</mat-icon>
+            </button>
+          </div>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
   </ng-container>

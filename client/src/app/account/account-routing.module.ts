@@ -9,6 +9,14 @@ const routes: Routes = [
     path: "",
     component: LayoutComponent,
   },
+  {
+    path: "login",
+    component: LoginComponent,
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
+  },
 ];
 
 @NgModule({

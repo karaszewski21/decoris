@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { AccountService } from "../../../core/services/account/account.service";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-login",
@@ -8,8 +8,7 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  @Input() loginControl: FormControl;
-  @Input() passwordControl: FormControl;
+  @Input() loginFormGroup: FormGroup;
   @Output() loginEvent = new EventEmitter();
   hide = true;
   constructor() {}

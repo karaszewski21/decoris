@@ -1,29 +1,32 @@
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const models = require("../../db/models");
+const { v4: uuidv4 } = require("uuid");
+const config = require("../../config/auth.config");
+
 module.exports = class AuthService {
   constructor() {}
-  //register
-  async signup(account) {
+
+  async signup(body) {
+    let { account } = body;
     try {
+      models.accounts.associate(models);
       let existAccount = await models.accounts.findOne({
-        include: [models.users],
+        include: [{ model: models.users }],
         where: { login: account.login },
         raw: true,
       });
 
       if (!existAccount) {
-        return await this.createAccount(existAccount);
+        return await this.createAccount(body);
       } else {
-        throw new Error(`${account.login} is busy`);
+        throw new Error(`login ${account.login} is busy`);
       }
     } catch (error) {
       throw error;
     }
   }
 
-  //login
-  //account: {login: "ssddsd", password:"ssdds" }
   async signin(account) {
     models.accounts.associate(models);
     try {
@@ -35,6 +38,7 @@ module.exports = class AuthService {
 
       let token = await this.verifyAccount(accountModel, account);
       accountModel.token = token;
+      accountModel.password = null;
 
       return accountModel;
     } catch (error) {
@@ -42,38 +46,37 @@ module.exports = class AuthService {
     }
   }
 
-  // user: {firstName: "ssds", lastName: "sdsds", "email: "dsds", login: "ssddsd", password:"ssdds" }
-  async createAccount(account) {
-    let { user } = account;
+  async createAccount(body) {
+    let { account, user } = body;
     const transaction = await models.databaseProvider.transaction();
 
     try {
       let userModel = await models.users.create(
         {
-          firstName: user.firstName,
-          lastName: user.lastName,
+          id: uuidv4(),
+          first_name: user.firstName,
+          last_name: user.lastName,
           email: user.email,
         },
         { transaction: transaction, raw: true }
       );
       let accountModel = await models.accounts.create(
         {
-          login: user.login,
-          password: bcrypt.hashSync(user.password, 8),
+          login: account.login,
+          password: bcrypt.hashSync(account.password, 8),
           active: 0,
           user_id: userModel.id,
         },
         { transaction: transaction, raw: true }
       );
 
-      transaction.commit();
-      models.accounts.associate(models);
+      await transaction.commit();
       return await models.accounts.findByPk(accountModel.id, {
-        include: [models.users],
+        attributes: ["login"],
         raw: true,
       });
     } catch (error) {
-      transaction.rollback();
+      await transaction.rollback();
       throw error;
     }
   }
@@ -81,13 +84,11 @@ module.exports = class AuthService {
   verifyAccount(accountModel, account) {
     return new Promise((resolve, reject) => {
       if (!accountModel) {
-        reject(`${account.login} not found`);
-        //  throw new Error(`${user.login} not found`);
+        reject({ code: 401, message: `${account.login} not found` });
       }
 
       if (accountModel.active === 0) {
-        reject(`${account.login} not active`);
-        //  throw new Error(`${account.login} not active`);
+        reject({ code: 401, message: `${account.login} not active` });
       }
 
       const passwordIsValid = bcrypt.compareSync(
@@ -96,8 +97,7 @@ module.exports = class AuthService {
       );
 
       if (!passwordIsValid) {
-        reject(`${account.login} invalid password`);
-        //  throw new Error(`Invalid Password`);
+        reject({ code: 401, message: `${account.login} invalid password` });
       }
 
       const token = jwt.sign({ id: accountModel.id }, config.secret, {

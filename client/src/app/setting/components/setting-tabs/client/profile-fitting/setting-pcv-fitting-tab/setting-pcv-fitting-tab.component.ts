@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { PcvFitting } from "../../../../../../interfaces/client";
 import { FormControl } from "@angular/forms";
 import { select, Store } from "@ngrx/store";
+
+import { MatDialog } from "@angular/material/dialog";
+import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
 import {
   getPcvFittings,
   AddParameter,
   RemoveParameter,
-} from "../../../../../../core/store";
-import { MatDialog } from "@angular/material/dialog";
-import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-pcv-fitting-tab",

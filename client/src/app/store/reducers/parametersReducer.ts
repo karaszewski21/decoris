@@ -3,7 +3,6 @@ import {
   ParametersActionTypes,
 } from "../actions/parametersAction";
 import {
-  Company,
   BusinessProfile,
   City,
   Voivodeship,
@@ -13,9 +12,9 @@ import {
   AluminiumFitting,
   PcvFitting,
   PositionEmployee,
-} from "../../../interfaces/client";
+} from "../../interfaces/client";
 
-export interface ParametersState {
+export interface State {
   businessProfiles: BusinessProfile[];
   cities: City[];
   voivodeships: Voivodeship[];
@@ -28,7 +27,7 @@ export interface ParametersState {
   loading: boolean;
 }
 
-export const initialStateParamter: ParametersState = {
+export const initialState: State = {
   businessProfiles: [],
   cities: [],
   voivodeships: [],
@@ -42,9 +41,9 @@ export const initialStateParamter: ParametersState = {
 };
 
 export function parametersReducer(
-  state = initialStateParamter,
+  state = initialState,
   action: ParametersActions
-) {
+): State {
   switch (action.type) {
     case ParametersActionTypes.GetParameters: {
       return {
@@ -55,8 +54,11 @@ export function parametersReducer(
 
     case ParametersActionTypes.GetParametersSuccess: {
       let { cities } = state;
-      return {
-        ...state,
+      console.log(state, "reduser param");
+
+      let newState = { ...state };
+
+      newState = {
         businessProfiles: action.payload.businessProfiles,
         cities: cities,
         voivodeships: action.payload.voivodeships,
@@ -68,6 +70,10 @@ export function parametersReducer(
         positionEmployees: action.payload.positionEmployees,
         loading: action.payload.loading,
       };
+
+      console.log(newState);
+
+      return newState;
     }
 
     case ParametersActionTypes.GetCitiesByCountry: {
@@ -78,10 +84,11 @@ export function parametersReducer(
     }
 
     case ParametersActionTypes.GetCitiesByCountrySuccess: {
-      let newState: ParametersState = null;
+      let newState: State = null;
       newState = { ...state };
       newState.cities = action.payload.cities;
       newState.loading = action.payload.loading;
+      console.log(state);
 
       return newState;
     }
@@ -94,7 +101,7 @@ export function parametersReducer(
 
     case ParametersActionTypes.AddParameterSuccess: {
       let { parameter } = action.payload.parameter;
-      let newState: ParametersState = null;
+      let newState: State = null;
 
       switch (parameter) {
         case "country":
@@ -349,7 +356,7 @@ export function parametersReducer(
 
     case ParametersActionTypes.RemoveParameterSuccess: {
       let { parameter } = action.payload.parameter;
-      let newState: ParametersState = null;
+      let newState: State = null;
 
       switch (parameter) {
         case "country":
@@ -562,6 +569,10 @@ export function parametersReducer(
       }
 
       return newState;
+    }
+
+    default: {
+      return state;
     }
   }
 }

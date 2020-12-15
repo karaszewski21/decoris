@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { AuthGuard } from "./core/helpers/auth.guard";
-import { AppComponent } from "./app.component";
+import { AuthGuard } from "./core/helpers/guard/auth.guard";
 
 const routes: Routes = [
   {
     path: "client",
     loadChildren: () =>
       import("./client/client.module").then((m) => m.ClientModule),
+
     canActivate: [AuthGuard],
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.accounts.belongsTo(models.user);
+      models.accounts.belongsTo(models.users);
     }
   }
   Account.init(

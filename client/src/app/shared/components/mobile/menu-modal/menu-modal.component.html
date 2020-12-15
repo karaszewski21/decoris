@@ -1,8 +1,36 @@
-<button mat-icon-button aria-label="Example icon-button with menu icon">
-  Ustawienia
-  <mat-icon class="menu__icon-settings">settings_applications</mat-icon>
-</button>
-<button mat-icon-button aria-label="Example icon-button with heart icon">
-  Wyloguj
-  <mat-icon>logout</mat-icon>
-</button>
+<div class="menu-wrapper">
+  <img
+    width="150px"
+    height="50px"
+    class="account-wrapper__image"
+    src="assets/decoris.PNG"
+    alt="image"
+  />
+  <div class="menu-wrapper__item menu-item-content">
+    <div class="menu-item-content__spacer"></div>
+    <button
+      class="menu-item-content__button"
+      mat-icon-button
+      aria-label="Example icon-button with menu icon"
+      (click)="selectedOption('settings')"
+    >
+      Ustawienia
+      <mat-icon class="menu__icon-settings">settings_applications</mat-icon>
+    </button>
+    <div class="menu-item-content__spacer"></div>
+  </div>
+
+  <div class="menu-wrapper__item menu-item-content">
+    <div class="menu-item-content__spacer"></div>
+    <button
+      class="menu-item-content__button"
+      mat-icon-button
+      aria-label="Example icon-button with heart icon"
+      (click)="selectedOption('logout')"
+    >
+      Wyloguj
+      <mat-icon>logout</mat-icon>
+    </button>
+    <div class="menu-item-content__spacer"></div>
+  </div>
+</div>

@@ -36,7 +36,6 @@ export class ClientNavFiltersComponent implements OnInit, OnChanges, OnDestroy {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.enableVoivodeshipsFilterControl);
     if (this.enableVoivodeshipsFilterControl) {
       this.voivodeshipsFilterControl$ = this.voivodeshipsFilterControl.valueChanges.subscribe(
         (voivedeships) =>

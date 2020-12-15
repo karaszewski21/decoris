@@ -1,5 +1,7 @@
+<ngx-spinner></ngx-spinner>
 <div class="account-wrapper">
   <div class="account-wrapper__panel panel">
+    <div class="panel__spacer"></div>
     <div class="panel__logo">
       <img
         width="400px"
@@ -8,18 +10,54 @@
         alt="image"
       />
     </div>
-    <div class="panel__spacer">
-      <p class="panel__mind">Jakub Sokolowski</p>
-    </div>
+    <div class="panel__spacer"></div>
   </div>
   <div class="account-wrapper__login login">
     <div class="login__spacer"></div>
-    <div>
-      <app-login
-        [loginControl]="loginControl"
-        [passwordControl]="passwordControl"
-        (loginEvent)="login()"
-      ></app-login>
+    <div class="login__errors" [hidden]="registerToggle">
+      <span
+        class="error-validate"
+        [hidden]="!registerFormGroup.hasError('equal', 'passwordGroup')"
+      >
+        hasla nie sa rowne <br
+      /></span>
+      <span
+        class="error-validate"
+        [hidden]="!passwordControl.hasError('pattern')"
+      >
+        * hasło powinno zawierać min 8 znakow<br />
+        * hasło powinno zawierać cyfry<br />
+        * hasło powinno zawierać znaki specjalne @#$%^&*<br />
+        * hasło powinno zawierać wielkie i małe litery<br />
+      </span>
     </div>
+    <div class="login__input">
+      <ng-template [ngIf]="registerToggle" [ngIfElse]="registerPanel">
+        <app-login
+          [loginFormGroup]="loginFormGroup"
+          (loginEvent)="login()"
+        ></app-login>
+        <div class="button_register">
+          <button
+            (click)="registerToggle = !registerToggle"
+            class="button_register"
+          >
+            załóż konto
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #registerPanel>
+        <button (click)="registerToggle = !registerToggle">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <app-register
+          [registerFormGroup]="registerFormGroup"
+          (registerEvent)="register()"
+        ></app-register>
+      </ng-template>
+    </div>
+
+    <div class="login__spacer"></div>
   </div>
 </div>

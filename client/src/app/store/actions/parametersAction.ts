@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Company } from "../../../interfaces/client/company";
+import { Company } from "../../interfaces/client/company";
 import {
   BusinessProfile,
   City,
@@ -10,7 +10,7 @@ import {
   AluminiumFitting,
   PcvFitting,
   PositionEmployee,
-} from "../../../interfaces/client";
+} from "../../interfaces/client";
 
 export enum ParametersActionTypes {
   GetParameters = "get parametrs: cities, voivodeships, countries, business profiles [Parametr]",

@@ -1,0 +1,23 @@
+:host {
+  margin-right: 10%;
+  margin-left: 10%;
+  height: auto;
+}
+
+.mat-form-field {
+  background-color: darkcyan;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5%;
+}
+
+.button-create-account {
+  background-color: black;
+  color: white;
+}
+button:hover {
+  transform: scale(0.9);
+  color: red;
+  opacity: 0.8;
+  transition: transform 0.2s ease-in-out;
+}

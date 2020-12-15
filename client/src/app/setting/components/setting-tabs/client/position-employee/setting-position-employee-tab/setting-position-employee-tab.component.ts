@@ -8,7 +8,7 @@ import {
   AddParameter,
   RemoveParameter,
   getPositionEmployees,
-} from "../../../../../../core/store";
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-position-employee-tab",

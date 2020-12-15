@@ -32,19 +32,7 @@ import {
 } from "../../../interfaces/client";
 import { v4 as uuidv4 } from "uuid";
 import { Store, select } from "@ngrx/store";
-import {
-  getCities,
-  getParametersLoading,
-  GetCitiesByCountry,
-  getAluminiumProfiles,
-  getAluminiumFittings,
-  getPcvProfiles,
-  getPcvFittings,
-  getCountries,
-  getVoivodeships,
-  getBusinessProfiles,
-  getPositionEmployees,
-} from "../../../core/store";
+
 import { map } from "rxjs/operators";
 import { Subscription, merge } from "rxjs";
 import {
@@ -53,6 +41,19 @@ import {
   MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { DialogCalendarComponent } from "../../../shared/components/dialog-calendar/dialog-calendar.component";
+import {
+  getParametersLoading,
+  getCountries,
+  getPositionEmployees,
+  getVoivodeships,
+  getBusinessProfiles,
+  getCities,
+  getAluminiumProfiles,
+  getAluminiumFittings,
+  getPcvProfiles,
+  getPcvFittings,
+  GetCitiesByCountry,
+} from "../../../store";
 
 @Component({
   selector: "app-client-dialog",

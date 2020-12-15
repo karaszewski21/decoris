@@ -19,15 +19,15 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
+        type: Sequelize.UUID,
+        allowNull: false,
         references: {
           model: {
             tableName: "users",
           },
           key: "id",
         },
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
       },
     });
   },

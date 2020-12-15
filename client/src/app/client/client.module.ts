@@ -9,13 +9,6 @@ import { ClientNavActionsComponent } from "./components/client-nav-actions/clien
 import { ClientListComponent } from "./components/client-list/client-list.component";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import {
-  clientsReducer,
-  filtersReducer,
-  parametersReducer,
-  ClientEffects,
-  ParametersClientEffects,
-} from "../core/store";
 import { ClientNavFiltersComponent } from "./components/client-nav-filters/client-nav-filters.component";
 import { ClientDialogComponent } from "./containers/client-dialog/client-dialog.component";
 import { ClientNavSearchComponent } from "./components/client-nav-search/client-nav-search.component";
@@ -26,11 +19,13 @@ import { ClientFormBusinessProfileComponent } from "./components/dialog/step/cli
 import { ClientFormEmployessComponent } from "./components/dialog/step/client-form-employess/client-form-employess.component";
 import { ClientFormFittingsProfilesComponent } from "./components/dialog/step/client-form-fittings-profiles/client-form-fittings-profiles.component";
 import { ClientFormNotesComponent } from "./components/dialog/step/client-form-notes/client-form-notes.component";
-import { ClientNotesModalComponent } from './components/dialog/information/client-notes-modal/client-notes-modal.component';
-import { ClientEmployeesModalComponent } from './components/dialog/information/client-employees-modal/client-employees-modal.component';
-import { ClientProfilesFittingsModalComponent } from './components/dialog/information/client-profiles-fittings-modal/client-profiles-fittings-modal.component';
-import { SearchMobileModalComponent } from './components/dialog/mobile/search-mobile-modal/search-mobile-modal.component';
-import { FilterMobileModalComponent } from './components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component';
+import { ClientNotesModalComponent } from "./components/dialog/information/client-notes-modal/client-notes-modal.component";
+import { ClientEmployeesModalComponent } from "./components/dialog/information/client-employees-modal/client-employees-modal.component";
+import { ClientProfilesFittingsModalComponent } from "./components/dialog/information/client-profiles-fittings-modal/client-profiles-fittings-modal.component";
+import { SearchMobileModalComponent } from "./components/dialog/mobile/search-mobile-modal/search-mobile-modal.component";
+import { FilterMobileModalComponent } from "./components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
+
+import { reducers, ClientEffects, CLIENT_KEY } from "./store";
 
 @NgModule({
   declarations: [
@@ -58,12 +53,8 @@ import { FilterMobileModalComponent } from './components/dialog/mobile/filter-mo
     CommonModule,
     ClientRoutingModule,
     SharedModule,
-    StoreModule.forFeature("client", {
-      clientsReducer,
-      filtersReducer,
-      parametersReducer,
-    }),
-    EffectsModule.forFeature([ClientEffects, ParametersClientEffects]),
+    StoreModule.forFeature(CLIENT_KEY, reducers),
+    EffectsModule.forFeature([ClientEffects]),
   ],
 })
 export class ClientModule {}

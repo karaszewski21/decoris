@@ -1,3 +1,5 @@
+@import "../../../../styles/styles.scss";
+
 .account-wrapper {
   position: fixed;
   top: 50%;
@@ -5,6 +7,7 @@
   transform: translate(-50%, -50%);
   display: flex;
   align-content: center;
+
   &__panel {
     background-color: darkcyan;
   }
@@ -13,26 +16,110 @@
   }
   &__image {
     box-shadow: 0 0 3px black;
-    min-width: 0;
     border-radius: 5%;
+    transform: scale(0.9);
+  }
+
+  @include mobile {
+    flex-wrap: wrap;
+    &__panel {
+      flex-basis: 100%;
+    }
+    &__login {
+      flex-basis: 100%;
+    }
+
+    &__image {
+      transform: scale(0.7);
+    }
+  }
+
+  @include laptop {
+    flex-wrap: wrap;
+    &__panel {
+      flex-basis: 100%;
+    }
+    &__login {
+      flex-basis: 100%;
+    }
   }
 }
+
 .panel {
   border-top-left-radius: 5%;
   border-bottom-left-radius: 5%;
+  display: flex;
+
   &__spacer {
-    height: 100px;
+    flex-grow: 1;
   }
-  &__mind {
+
+  &_logo {
+    flex-basis: 100%;
+  }
+
+  &__register {
     margin: 10px;
     font-size: large;
     font-family: "Nerko One", cursive;
   }
+
+  @include laptop {
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+  }
 }
+
 .login {
   border-top-right-radius: 5%;
   border-bottom-right-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+
   &__spacer {
-    height: 100px;
+    flex-grow: 1;
+  }
+
+  &__input {
+    flex-basis: 100%;
+  }
+
+  &__errors {
+    flex-grow: 1;
+  }
+
+  @include mobile {
+    &__spacer {
+      height: 10px;
+    }
+    &__input {
+      margin: 30px;
+    }
+  }
+
+  @include laptop {
+    border-top-left-radius: 5%;
+    border-bottom-left-radius: 5%;
+  }
+}
+
+.error-validate {
+  color: red;
+}
+
+.button_register {
+  display: flex;
+  justify-content: center;
+  button {
+    background-color: black;
+    color: white;
+  }
+  button:hover {
+    transform: scale(0.9);
+    color: red;
+    opacity: 0.8;
+    transition: transform 0.2s ease-in-out;
   }
 }

@@ -1,19 +1,19 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
-import { ClientsState } from "../reducers";
+import { ClientState, CLIENT_KEY } from "../reducers";
 
-export const getClientsState = createFeatureSelector<any>("client");
+export const getClientsState = createFeatureSelector<ClientState>(CLIENT_KEY);
 
 export const getClients = createSelector(
   getClientsState,
-  (state) => state.clientsReducer.clients
+  (state) => state.client.clients
 );
 
 export const getCountClients = createSelector(
   getClientsState,
-  (state) => state.clientsReducer.count
+  (state) => state.client.count
 );
 
 export const getClientsLoading = createSelector(
   getClientsState,
-  (state) => state.clientsReducer.loading
+  (state) => state.client.loading
 );

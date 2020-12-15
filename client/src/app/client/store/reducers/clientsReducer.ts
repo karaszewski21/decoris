@@ -2,14 +2,14 @@ import { Company } from "../../../interfaces/client/company";
 import { ClientsActions, ClientsActionTypes } from "../actions/clientsAction";
 import { Filter } from "../../../interfaces/client/filter";
 
-export interface ClientsState {
+export interface State {
   loading: boolean;
   clients: Company[];
   count: number;
   filter: Filter;
 }
 
-const initialStateClient: ClientsState = {
+export const initialStateClient: State = {
   loading: false,
   clients: [],
   count: 0,

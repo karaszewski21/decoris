@@ -6,16 +6,69 @@ table {
   max-width: 1440px;
 }
 
-// .mat-header-cell {
-//   background-color: black;
-// }
+.client-list-mobile-wrapper {
+  display: none;
+}
 
-// .mat-cell {
-//   background-color: black;
-// }
+.client-panel-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__name-company {
+    font-size: 15px;
+  }
+
+  button {
+    margin-left: 5px;
+  }
+}
+
+.client-panel-contnet-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  &__base-info {
+    flex-basis: 100%;
+  }
+
+  &__profiles-fittings {
+    flex-basis: 100%;
+  }
+
+  &__actions {
+    flex-basis: 100%;
+  }
+}
+
+.info-company-contnet {
+  display: flex;
+  flex-direction: column;
+}
+.company-profiles {
+  display: flex;
+  justify-content: space-between;
+}
+.company-actions-content {
+  display: flex;
+  justify-content: end;
+  &__spacer {
+    flex-grow: 1;
+  }
+
+  button {
+    margin-right: 5px;
+  }
+}
 
 @media (max-width: 600px) {
   .client-list-wrapper {
     display: none;
+  }
+
+  .client-list-mobile-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: small;
   }
 }

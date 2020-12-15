@@ -2,13 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { AluminiumFitting } from "../../../../../../interfaces/client";
 import { select, Store } from "@ngrx/store";
-import {
-  AddParameter,
-  RemoveParameter,
-  getAluminiumFittings,
-} from "../../../../../../core/store";
+
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../../../../../shared/components/dialog/dialog.component";
+import {
+  getAluminiumFittings,
+  AddParameter,
+  RemoveParameter,
+} from "../../../../../../store";
 
 @Component({
   selector: "app-setting-aluminium-fitting-tab",

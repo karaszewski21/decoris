@@ -10,8 +10,11 @@ import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { EffectsModule } from "@ngrx/effects";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
+import { reducers, ParametersClientEffects, AccountEffects } from "./store";
+import { JwtInterceptor } from "./core/interceptors/jwt.interceptor";
+import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,15 +24,19 @@ import { LocationStrategy, HashLocationStrategy } from "@angular/common";
     SharedModule,
     CoreModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ParametersClientEffects, AccountEffects]),
     HttpClientModule,
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
