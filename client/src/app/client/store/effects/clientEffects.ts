@@ -9,6 +9,9 @@ import {
   ClientsActionTypes,
   ExportClientsSuccess,
 } from "../actions/clientsAction";
+
+import { saveAs } from "file-saver";
+
 import { ClientService } from "../../../core/services/client/client.service";
 @Injectable()
 export class ClientEffects {
@@ -51,7 +54,7 @@ const handleGetClients = () => (source: Observable<any>) =>
 const handleExportClients = () => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
-      console.log(response);
+      saveAs(response, `clients-${Date.now()}.csv`);
       return new ExportClientsSuccess({
         loading: false,
       });

@@ -45,6 +45,13 @@ export function clientsReducer(
       };
     }
 
+    case ClientsActionTypes.ExportClients: {
+      return {
+        ...state,
+        loading: action.payload.loading,
+      };
+    }
+
     case ClientsActionTypes.ExportClientsSuccess: {
       return {
         ...state,

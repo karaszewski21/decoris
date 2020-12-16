@@ -20,7 +20,6 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const user = this.accountService.getUserFromLocalStorage();
-    console.log(user);
     const isLoggedIn = user && user.token;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     if (isLoggedIn && isApiUrl) {

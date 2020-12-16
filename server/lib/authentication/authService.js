@@ -7,6 +7,18 @@ const config = require("../../config/auth.config");
 module.exports = class AuthService {
   constructor() {}
 
+  async checkLogin(login) {
+    let existLogin = await models.accounts.findOne({
+      where: { login: login },
+      raw: true,
+    });
+    if (existLogin) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async signup(body) {
     let { account } = body;
     try {

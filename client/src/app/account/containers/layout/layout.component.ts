@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { Account } from "src/app/interfaces/account/account";
-import { equalValidate } from "src/app/core/helpers/validations/login.validator";
+import { equalValidate } from "src/app/core/helpers/validations/equal.validator";
 import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
@@ -13,6 +13,7 @@ import { User } from "src/app/interfaces/account/user";
 import { Subscription } from "rxjs";
 import { NgxSpinnerService } from "ngx-spinner";
 import { debounce, debounceTime } from "rxjs/operators";
+import { LoginValidatorService } from "src/app/core/services/account/login-validator.service";
 
 @Component({
   selector: "app-layout",
@@ -24,7 +25,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}";
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
-  registerToggle: boolean = true;
+  showRegisterPanel: boolean = false;
   account: Account;
   user: User;
 
@@ -39,7 +40,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private loginValidatorService: LoginValidatorService
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +72,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
       firstName: new FormControl("", Validators.required),
       lastName: new FormControl("", Validators.required),
       email: new FormControl("", [Validators.required, Validators.email]),
-      login: new FormControl("", Validators.required),
+      loginControl: new FormControl(
+        "",
+        Validators.required,
+        this.loginValidatorService.validate.bind(this.loginValidatorService)
+      ),
       passwordGroup: new FormGroup(
         {
           password: this.passwordControl,
@@ -101,11 +107,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let { login, firstName, lastName, email } = this.registerFormGroup.value;
+    let {
+      loginControl,
+      firstName,
+      lastName,
+      email,
+    } = this.registerFormGroup.value;
 
     this.account = {
       id: null,
-      login: login,
+      login: loginControl,
       password: this.passwordControl.value,
     };
 
@@ -135,6 +146,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
           this.registerFormGroup.reset();
         }
       });
+  }
+
+  goToRegisterPanel() {
+    this.showRegisterPanel = true;
+  }
+
+  backToLoginPanel() {
+    this.showRegisterPanel = false;
   }
 
   openSnackBar(message, button) {

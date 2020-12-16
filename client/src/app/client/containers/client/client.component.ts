@@ -125,7 +125,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.initControls();
     this.initParametersPaginator();
-    this.getParametersList();
+    this.getParametersList(true);
     this.getCompanyList();
     this.enableVoivodeshipsFilterControl = true;
   }
@@ -154,8 +154,10 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  getParametersList() {
-    this.store.dispatch(new GetParameters({ loading: true }));
+  getParametersList(dispatchParameters: boolean) {
+    if (dispatchParameters) {
+      this.store.dispatch(new GetParameters({ loading: true }));
+    }
 
     this.spinner.show();
     this.getParametersLoading$.subscribe((loading) => {
@@ -163,6 +165,7 @@ export class ClientComponent implements OnInit, OnDestroy {
         this.subscriptionParameters = merge(
           this.countries$,
           this.voivodeships$,
+          this.cities$,
           this.businessProfiles$
         ).subscribe((value) => {
           this.filterList.set(value.key, value.list);
@@ -205,15 +208,17 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCompanyList() {
+  getCompanyList(dispachCities: boolean = true) {
     this.spinner.show();
     let { country } = this.globalFilter;
 
     this.store.dispatch(
       new GetClients({ loading: true, filter: this.globalFilter })
     );
-    // this.getParametersList();
-    this.getCityByCountries(country);
+
+    if (dispachCities) {
+      this.getCityByCountries(country);
+    }
 
     this.getClientsLoading$.subscribe((loading) => {
       if (!loading) {
@@ -312,7 +317,7 @@ export class ClientComponent implements OnInit, OnDestroy {
           if (value.companies[0].countries == CountryEnum.polish) {
             this.selectedMarket(CountryEnum.polish);
           } else {
-            this.selectedMarket(CountryEnum.polish);
+            this.selectedMarket(CountryEnum.foreign);
           }
           this.spinner.hide();
           this.openSnackBar(
@@ -336,22 +341,28 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   selectedCitiesFilter(selectedCities: City[]): void {
+    console.log(selectedCities);
     if (selectedCities.length === 0) {
-      this.resetFilter();
+      this.getParametersList(false);
     } else {
+      let selectedVoivodeship = selectedCities.map((city) =>
+        JSON.stringify(city.voivodeship)
+      );
+      let uniqueVoivodeships = new Set(selectedVoivodeship);
       this.filterList.set(
         "voivodeships",
-        selectedCities.map((city) => city.voivodeship)
+        Array.from(uniqueVoivodeships).map((value) => JSON.parse(value))
       );
     }
   }
+
   selectedVoivedeshipsFilter(selectedVoivedeships: Voivodeship[]): void {
     if (selectedVoivedeships === null) {
       return;
     }
 
     if (selectedVoivedeships.length === 0) {
-      this.resetFilter();
+      this.getParametersList(false);
     } else {
       let selectedNameVoivedeships = selectedVoivedeships.map(
         (voivedeship) => voivedeship.name
@@ -377,7 +388,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       offset: paginatorInfo.pageSize * paginatorInfo.pageIndex,
     };
 
-    this.getCompanyList();
+    this.getCompanyList(false);
   }
 
   resetFilter(): void {
@@ -391,6 +402,10 @@ export class ClientComponent implements OnInit, OnDestroy {
       voivodeships: [],
       country: this.currentSelectedMarket,
     };
+
+    this.businessProfilesFilterControl.setValue([]);
+    this.citiesFilterControl.setValue([]);
+    this.voivodeshipsFilterControl.setValue([]);
   }
 
   startFilter() {
@@ -467,7 +482,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.getCompanyList();
+    this.getCompanyList(false);
     this.resetPaginator = true;
   }
 
@@ -544,7 +559,9 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ExportClients({ loading: true, type: type }));
 
     this.getClientsLoading$.subscribe((value) => {
-      this.spinner.hide();
+      if (!value) {
+        this.spinner.hide();
+      }
     });
   }
 

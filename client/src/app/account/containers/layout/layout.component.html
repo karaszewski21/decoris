@@ -14,7 +14,14 @@
   </div>
   <div class="account-wrapper__login login">
     <div class="login__spacer"></div>
-    <div class="login__errors" [hidden]="registerToggle">
+    <div class="login__errors errors-content" *ngIf="showRegisterPanel">
+      <span
+        class="error-validate"
+        [hidden]="!registerFormGroup.hasError('login', 'loginControl')"
+      >
+        Login jest zajety
+      </span>
+
       <span
         class="error-validate"
         [hidden]="!registerFormGroup.hasError('equal', 'passwordGroup')"
@@ -32,22 +39,19 @@
       </span>
     </div>
     <div class="login__input">
-      <ng-template [ngIf]="registerToggle" [ngIfElse]="registerPanel">
+      <ng-template [ngIf]="!showRegisterPanel" [ngIfElse]="registerPanel">
         <app-login
           [loginFormGroup]="loginFormGroup"
           (loginEvent)="login()"
         ></app-login>
         <div class="button_register">
-          <button
-            (click)="registerToggle = !registerToggle"
-            class="button_register"
-          >
+          <button (click)="goToRegisterPanel()" class="button_register">
             załóż konto
           </button>
         </div>
       </ng-template>
       <ng-template #registerPanel>
-        <button (click)="registerToggle = !registerToggle">
+        <button (click)="backToLoginPanel()">
           <mat-icon>arrow_back</mat-icon>
         </button>
 

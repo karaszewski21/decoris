@@ -1,9 +1,4 @@
-import {
-  ValidatorFn,
-  AbstractControl,
-  FormGroup,
-  ValidationErrors,
-} from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 export function equalValidate(
   passwordFormGroup: FormGroup

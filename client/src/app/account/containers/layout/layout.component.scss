@@ -95,7 +95,8 @@
       height: 10px;
     }
     &__input {
-      margin: 30px;
+      margin-right: 50px;
+      margin-left: 50px;
     }
   }
 
@@ -103,6 +104,14 @@
     border-top-left-radius: 5%;
     border-bottom-left-radius: 5%;
   }
+}
+
+.errors-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+  font-size: small;
 }
 
 .error-validate {
