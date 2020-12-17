@@ -1,14 +1,32 @@
-<mat-dialog-actions>
-  <button mat-button (click)="closeDialog()">Zamknij</button>
-</mat-dialog-actions>
-<mat-dialog-content class="mat-typography">
-  <div *ngIf="showInformation">{{ data.information?.value }}</div>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button *ngIf="showConfirmButton" mat-button (click)="replace()">
-    {{ data.confirmButton?.value }}
-  </button>
-  <button *ngIf="showRejectButton" mat-button (click)="add()">
-    {{ data.rejectButton?.value }}
-  </button>
-</mat-dialog-actions>
+<div class="dialog-wrapper">
+  <div class="dialog-wrapper__header dialog-header">
+    <div class="dialog-header__spacer"></div>
+    <mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Zamknij</button>
+    </mat-dialog-actions>
+  </div>
+  <div class="dialog-wrapper__content dialog-contnet">
+    <mat-dialog-content class="mat-typography">
+      <div *ngIf="showInformation">{{ data.information?.value }}</div>
+    </mat-dialog-content>
+  </div>
+  <div class="dialog-wrapper__spacer"></div>
+  <div class="dialog-wrapper__actions dialog-actions">
+    <button
+      class="button-table"
+      *ngIf="showConfirmButton"
+      mat-button
+      (click)="replace()"
+    >
+      {{ data.confirmButton?.value }}
+    </button>
+    <button
+      class="button-table"
+      *ngIf="showRejectButton"
+      mat-button
+      (click)="add()"
+    >
+      {{ data.rejectButton?.value }}
+    </button>
+  </div>
+</div>

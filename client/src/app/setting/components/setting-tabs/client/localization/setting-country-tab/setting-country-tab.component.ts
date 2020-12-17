@@ -132,5 +132,6 @@ export class SettingCountryTabComponent implements OnInit {
         },
       })
     );
+    this.countryControl.reset();
   }
 }

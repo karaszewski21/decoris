@@ -1,6 +1,7 @@
 <section class="main-content" *ngIf="user">
   <app-header
     class="main-content__header"
+    [user]="user"
     (openMenuEvent)="openMenu()"
     (logoutEvent)="logout()"
   ></app-header>

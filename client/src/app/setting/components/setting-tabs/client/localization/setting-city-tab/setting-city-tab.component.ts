@@ -68,20 +68,17 @@ export class SettingCityTabComponent implements OnInit {
   saveCity() {
     let association = [];
 
-    console.log(this.cityControl.value);
-
     if (this.cityControl.value == null) {
       this.openSnackBar("Podaj nazwe miasta przez zapisem", "Ok");
       return;
     }
-
     //only polish market
-    if (!this.selectedExistVoivodeship) {
+    if (this.selectedPolishMarket && this.voivodeshipControl.value === null) {
       this.openSnackBar("wybierz wojewodztwo", "Ok");
       return;
     }
 
-    if (this.country.name === CountryEnum.polish) {
+    if (this.country.id === 1) {
       association.push({ country: this.country });
       association.push({ voivodeship: this.voivodeship });
     } else {
@@ -142,7 +139,7 @@ export class SettingCityTabComponent implements OnInit {
     this.disabledCitySelect = false;
     this.cityControl.enable();
 
-    if (this.country.name === CountryEnum.polish) {
+    if (this.country.id === 1) {
       this.showVoivodeshipSelect = true;
       this.selectedPolishMarket = true;
     } else {
@@ -151,7 +148,6 @@ export class SettingCityTabComponent implements OnInit {
     }
   }
   selectedVoivodeship({ value }) {
-    this.selectedExistVoivodeship = true;
     this.voivodeship = value;
   }
 
@@ -165,7 +161,6 @@ export class SettingCityTabComponent implements OnInit {
     if (this.selectedPolishMarket) {
       this.voivodeship = value.voivodeship.name;
       this.voivodeshipControl.setValue(this.city.voivodeship.name);
-      this.selectedExistVoivodeship = true;
     } else {
       this.voivodeship = null;
     }
@@ -178,7 +173,10 @@ export class SettingCityTabComponent implements OnInit {
       data: {
         confirmButton: { show: true, value: "Zamien" },
         rejectButton: { show: true, value: "Dodaj" },
-        information: { show: false },
+        information: {
+          show: true,
+          value: `Czy dodać lub zmodyfikować ${this.city.name}`,
+        },
       },
     });
 
@@ -204,7 +202,7 @@ export class SettingCityTabComponent implements OnInit {
         rejectButton: { show: true, value: "Nie" },
         information: {
           show: true,
-          value: `Czy usunac ${this.city.name}`,
+          value: `Czy usunąć ${this.city.name}`,
         },
       },
     });

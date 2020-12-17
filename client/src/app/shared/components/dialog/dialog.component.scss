@@ -1,0 +1,42 @@
+.dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+
+  &__header {
+    flex-basis: 100%;
+  }
+
+  &__content {
+    flex-basis: 100%;
+  }
+
+  &__spacer {
+    flex-basis: 100%;
+    flex-grow: 1;
+    height: 100%;
+  }
+
+  &__actions {
+    flex-basis: 100%;
+  }
+}
+
+.dialog-header {
+  display: flex;
+
+  &__spacer {
+    flex-grow: 1;
+  }
+}
+
+.dialog-contnet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}

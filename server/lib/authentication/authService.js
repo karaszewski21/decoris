@@ -7,6 +7,99 @@ const config = require("../../config/auth.config");
 module.exports = class AuthService {
   constructor() {}
 
+  async getAccounts() {
+    return await models.accounts.findAll({
+      attributes: ["id", "login"],
+      raw: true,
+    });
+  }
+
+  async activeAccount(account) {
+    let accountModel = await models.accounts.findByPk(account.id, {
+      raw: true,
+    });
+
+    if (accountModel) {
+      await models.accounts.update({ active: 1 }, { id: accountModel.id });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async updateAccount(account) {
+    let accountModel = await models.accounts.findByPk(account.id, {
+      raw: true,
+    });
+
+    if (accountModel) {
+      await models.accounts.update(
+        {
+          login: account.login,
+          password: bcrypt.hashSync(account.password, 8),
+        },
+        { where: { id: accountModel.id } }
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async deleteAccount(account) {
+    let accountModel = await models.accounts.findByPk(account.id, {
+      raw: true,
+    });
+
+    if (accountModel) {
+      let removeAccount = await models.accounts.destroy({
+        where: { id: accountModel.id },
+      });
+      return removeAccount > 0 ? true : false;
+    } else {
+      return false;
+    }
+  }
+
+  async getUsers() {
+    return await models.users.findAll();
+  }
+
+  async updateUser(user) {
+    let userModel = await models.users.findByPk(user.id, {
+      raw: true,
+    });
+
+    if (userModel) {
+      await models.users.update(
+        {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+        },
+        { where: { id: userModel.id } }
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async deleteUser(user) {
+    let userModel = await models.users.findByPk(user.id, {
+      raw: true,
+    });
+
+    if (userModel) {
+      let removeUser = await models.users.destroy({
+        where: { id: userModel.id },
+      });
+      return removeUser > 0 ? true : false;
+    } else {
+      return false;
+    }
+  }
+
   async checkLogin(login) {
     let existLogin = await models.accounts.findOne({
       where: { login: login },

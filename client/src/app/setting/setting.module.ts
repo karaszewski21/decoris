@@ -7,6 +7,7 @@ import { SettingRoutingModule } from "./setting-routing.module";
 import { SharedModule } from "../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
+import { reducers, Authentication_KEY } from "./store";
 
 import {
   SettingCountryTabComponent,
@@ -19,6 +20,11 @@ import {
   SettingPcvProfileTabComponent,
   SettingPositionEmployeeTabComponent,
 } from "./components/setting-tabs/client";
+import {
+  SettingUserTabComponent,
+  SettingGroupTabComponent,
+  SettingAccountTabComponent,
+} from "./components/setting-tabs/authentication-authorization";
 
 @NgModule({
   declarations: [
@@ -34,16 +40,15 @@ import {
     SettingPcvFittingTabComponent,
     SettingPcvProfileTabComponent,
     SettingPositionEmployeeTabComponent,
+    SettingAccountTabComponent,
+    SettingUserTabComponent,
+    SettingGroupTabComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     SettingRoutingModule,
-    // StoreModule.forFeature("client", {
-    //   clientsReducer,
-    //   filtersReducer,
-    //   parametersReducer,
-    // }),
+    StoreModule.forFeature(Authentication_KEY, reducers),
     // EffectsModule.forFeature([ParametersClientEffects]),
   ],
 })

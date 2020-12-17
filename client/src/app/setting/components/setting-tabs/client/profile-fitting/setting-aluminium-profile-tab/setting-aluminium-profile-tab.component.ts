@@ -138,5 +138,6 @@ export class SettingAluminiumProfileTabComponent implements OnInit {
         },
       })
     );
+    this.aluminiumProfileControl.reset();
   }
 }

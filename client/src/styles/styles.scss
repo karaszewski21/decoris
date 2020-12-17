@@ -40,6 +40,11 @@ html {
   box-shadow: 0 0 2px rgb(12, 105, 105);
   border-radius: 15%;
   color: white;
+  &:hover {
+    transform: scale(0.9);
+    transition: transform 0.2s ease-in-out;
+    color: red;
+  }
 }
 
 .button-action {

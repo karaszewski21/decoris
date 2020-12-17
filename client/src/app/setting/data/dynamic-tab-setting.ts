@@ -10,6 +10,11 @@ import {
   SettingPositionEmployeeTabComponent,
 } from "../components/setting-tabs/client";
 import { ISettingGroup } from "../../interfaces/setting/client/ISettingGroup";
+import {
+  SettingAccountTabComponent,
+  SettingUserTabComponent,
+  SettingGroupTabComponent,
+} from "../components/setting-tabs/authentication-authorization";
 
 export let settingDynamicTabList: ISettingGroup[] = [
   {
@@ -65,14 +70,14 @@ export let settingDynamicTabList: ISettingGroup[] = [
     ],
   },
   {
-    label: "Uprawnienia",
+    label: "Uwierzytelnianie i autoryzacja",
     settings: [
       {
-        label: "Uzytkownicy i Grupy",
+        label: "Uwierzytelnianie",
         settingItems: [
-          { label: "Panstwo", component: SettingCountryTabComponent },
-          { label: "Miasto", component: SettingCityTabComponent },
-          { label: "Wojewodztwo", component: SettingVoivodeshipTabComponent },
+          { label: "Konta", component: SettingAccountTabComponent },
+          { label: "Użytkownicy", component: SettingUserTabComponent },
+          { label: "Grupy", component: SettingGroupTabComponent },
         ],
       },
     ],

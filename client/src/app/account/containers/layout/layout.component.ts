@@ -12,8 +12,9 @@ import { RegisterAccount, LoginAccount, getAccount } from "src/app/store";
 import { User } from "src/app/interfaces/account/user";
 import { Subscription } from "rxjs";
 import { NgxSpinnerService } from "ngx-spinner";
-import { debounce, debounceTime } from "rxjs/operators";
-import { LoginValidatorService } from "src/app/core/services/account/login-validator.service";
+import { debounceTime } from "rxjs/operators";
+import { AccountService } from "src/app/core/services/account/account.service";
+import { loginAsyncValidator } from "src/app/core/helpers/validations/login.validator";
 
 @Component({
   selector: "app-layout",
@@ -41,7 +42,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private store: Store,
     private snackBar: MatSnackBar,
     private spinner: NgxSpinnerService,
-    private loginValidatorService: LoginValidatorService
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +76,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       loginControl: new FormControl(
         "",
         Validators.required,
-        this.loginValidatorService.validate.bind(this.loginValidatorService)
+        loginAsyncValidator(this.accountService)
       ),
       passwordGroup: new FormGroup(
         {
@@ -94,6 +95,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       id: 0,
       login: login,
       password: password,
+      active: true,
     };
 
     this.store.dispatch(
@@ -118,6 +120,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       id: null,
       login: loginControl,
       password: this.passwordControl.value,
+      active: true,
     };
 
     this.user = {
@@ -154,6 +157,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   backToLoginPanel() {
     this.showRegisterPanel = false;
+  }
+
+  isLoginToken(): boolean {
+    return this.registerFormGroup.get("loginControl").hasError("loginExist");
   }
 
   openSnackBar(message, button) {

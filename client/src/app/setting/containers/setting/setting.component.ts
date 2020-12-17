@@ -33,8 +33,7 @@ export class SettingComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    console.log("init setting");
-    this.store.dispatch(new GetParameters({ loading: true }));
+    // this.store.dispatch(new GetParameters({ loading: true }));
   }
   ngOnDestroy(): void {
     console.log("destroy setting");

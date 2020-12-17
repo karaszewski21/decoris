@@ -38,4 +38,10 @@ export class AccountService {
   setUserToLocalStorage(user: User) {
     localStorage.setItem(this.keyStorage, JSON.stringify(user));
   }
+
+  checkLogin(login) {
+    return this.http.get<boolean>(
+      `${environment.apiUrl}account/login/${login}`
+    );
+  }
 }

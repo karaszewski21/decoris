@@ -138,5 +138,6 @@ export class SettingAluminiumFittingTabComponent implements OnInit {
         },
       })
     );
+    this.aluminiumFittingControl.reset();
   }
 }

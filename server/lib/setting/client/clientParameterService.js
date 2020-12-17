@@ -46,23 +46,11 @@ class ClientParameterService {
     logger.log("info", ">>> ClientParametersService >>> getCitiesByCountryId");
     try {
       models.cities.associate(models);
-
       let cities = null;
-      if (countriesIds[0] === 1) {
-        cities = await models.cities.findAll({
-          where: { country_id: 1 },
-          include: [models.voivodeships],
-        });
-      } else if (countriesIds[0] === 0) {
-        cities = await models.cities.findAll({
-          where: { country_id: { [Op.not]: 1 } },
-          include: [models.voivodeships],
-        });
-      } else {
-        cities = await models.cities.findAll({
-          include: [models.voivodeships],
-        });
-      }
+      cities = await models.cities.findAll({
+        where: { country_id: countriesIds },
+        include: [models.voivodeships],
+      });
 
       logger.log(
         "info",

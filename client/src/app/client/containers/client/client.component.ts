@@ -36,6 +36,7 @@ import {
 } from "../../store/selectors/clientsSelector";
 import { SearchMobileModalComponent } from "../../components/dialog/mobile/search-mobile-modal/search-mobile-modal.component";
 import { FilterMobileModalComponent } from "../../components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
+import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 
 @Component({
   selector: "app-client",
@@ -178,28 +179,27 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   getCityByCountries(name: string) {
     this.spinner.show();
+
+    let countryIdsList;
+    let countryList = this.filterList.get("countries");
     if (name == CountryEnum.polish) {
-      this.store.dispatch(
-        new GetCitiesByCountry({
-          loading: true,
-          countriesIds: [1],
-        })
-      );
+      countryIdsList = [1];
     } else if (name == CountryEnum.foreign) {
-      this.store.dispatch(
-        new GetCitiesByCountry({
-          loading: true,
-          countriesIds: [0],
-        })
-      );
+      countryIdsList = countryList.map((country) => {
+        if (country.id !== 1) {
+          return country.id;
+        }
+      });
     } else if (name == CountryEnum.all) {
-      this.store.dispatch(
-        new GetCitiesByCountry({
-          loading: true,
-          countriesIds: [2],
-        })
-      );
+      countryIdsList = countryList.map((country) => country.id);
     }
+
+    this.store.dispatch(
+      new GetCitiesByCountry({
+        loading: true,
+        countriesIds: countryIdsList,
+      })
+    );
 
     this.cities$.subscribe((value) => {
       this.filterList.set(value.key, value.list);
@@ -329,15 +329,34 @@ export class ClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteClient(companyId) {
-    this.spinner.show();
-    of(companyId)
-      .pipe(switchMap((id) => this.clientService.deleteClient(id)))
-      .subscribe((value) => {
-        this.getCompanyList();
-        this.spinner.hide();
-        this.openSnackBar(`Klient ${value.name} zostal zmieniony`, "Ok");
-      });
+  deleteClient(company) {
+    let dialogRef = this.dialog.open(DialogComponent, {
+      height: "400px",
+      width: "600px",
+      data: {
+        confirmButton: { show: true, value: "Tak" },
+        rejectButton: { show: true, value: "Nie" },
+        information: {
+          show: true,
+          value: `Czy usunac ${company.name}`,
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.spinner.show();
+        of(company)
+          .pipe(
+            switchMap((company) => this.clientService.deleteClient(company.id))
+          )
+          .subscribe((value) => {
+            this.getCompanyList();
+            this.spinner.hide();
+            this.openSnackBar(`Klient ${value.name} zostal zmieniony`, "Ok");
+          });
+      }
+    });
   }
 
   selectedCitiesFilter(selectedCities: City[]): void {

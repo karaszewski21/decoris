@@ -138,5 +138,6 @@ export class SettingBusinessProfileTabComponent implements OnInit {
         },
       })
     );
+    this.businessProfileControl.reset();
   }
 }

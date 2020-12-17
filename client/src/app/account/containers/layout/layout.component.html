@@ -15,13 +15,9 @@
   <div class="account-wrapper__login login">
     <div class="login__spacer"></div>
     <div class="login__errors errors-content" *ngIf="showRegisterPanel">
-      <span
-        class="error-validate"
-        [hidden]="!registerFormGroup.hasError('login', 'loginControl')"
-      >
+      <span class="error-validate" *ngIf="isLoginToken()">
         Login jest zajety
       </span>
-
       <span
         class="error-validate"
         [hidden]="!registerFormGroup.hasError('equal', 'passwordGroup')"

@@ -47,7 +47,7 @@ const handleLoginAccount = () => (source: Observable<any>) =>
 
       let { id, login, password, token } = response;
 
-      account = { id: id, login: login, password: password };
+      account = { id: id, login: login, password: password, active: false };
       user = {
         id: response["user.id"],
         firstName: response["user.first_name"],
@@ -73,6 +73,7 @@ const handleRegisterAccount = () => (source: Observable<any>) =>
         id: id,
         login: login,
         password: "",
+        active: false,
       };
 
       return new RegisterAccountSuccess({

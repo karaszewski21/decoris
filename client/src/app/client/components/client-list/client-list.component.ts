@@ -58,8 +58,8 @@ export class ClientListComponent implements OnInit, OnChanges {
     this.updateCompanyEvent.emit(element);
   }
 
-  deleteCompany(companyId) {
-    this.deleteClientEvent.emit(companyId);
+  deleteCompany(company) {
+    this.deleteClientEvent.emit(company);
   }
 
   toggleColumn(currentMarket: string) {

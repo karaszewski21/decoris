@@ -18,9 +18,9 @@ export class GetClientsSuccess implements Action {
   readonly type = ClientsActionTypes.GetClientsSuccess;
   constructor(
     public readonly payload: {
+      loading: boolean;
       companies: Company[];
       count: number;
-      loading: boolean;
     }
   ) {}
 }

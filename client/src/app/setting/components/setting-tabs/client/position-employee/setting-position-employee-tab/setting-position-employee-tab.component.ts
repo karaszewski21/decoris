@@ -136,5 +136,7 @@ export class SettingPositionEmployeeTabComponent implements OnInit {
         },
       })
     );
+
+    this.positionEmployeeControl.reset();
   }
 }
