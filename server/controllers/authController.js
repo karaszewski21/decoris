@@ -32,7 +32,7 @@ class AuthController {
 
   async deleteAccount(req, res) {
     try {
-      const deleted = await new AuthService().deleteAccount(req.body);
+      const deleted = await new AuthService().deleteAccount(req.params.id);
       res.status(200).send(deleted);
     } catch (error) {
       res.status(404).send(error.message);
@@ -59,7 +59,7 @@ class AuthController {
 
   async deleteUser(req, res) {
     try {
-      const deleted = await new AuthService().deleteUser(req.body);
+      const deleted = await new AuthService().deleteUser(req.params.id);
       res.status(200).send(deleted);
     } catch (error) {
       res.status(404).send(error.message);

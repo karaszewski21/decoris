@@ -95,7 +95,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       id: 0,
       login: login,
       password: password,
-      active: true,
+      active: 1,
     };
 
     this.store.dispatch(
@@ -120,7 +120,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       id: null,
       login: loginControl,
       password: this.passwordControl.value,
-      active: true,
+      active: 1,
     };
 
     this.user = {

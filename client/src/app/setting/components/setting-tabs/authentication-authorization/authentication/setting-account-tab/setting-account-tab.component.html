@@ -1,1 +1,85 @@
-<p>setting-account-tab works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Konta</mat-label>
+  <mat-select (selectionChange)="selectedAccount($event)" [value]="account">
+    <mat-option *ngFor="let account of accounts$ | async" [value]="account">
+      {{ account.login }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<span
+  class="error-validate"
+  [hidden]="!accountFormGroup.hasError('equal', 'passwordFormGroup')"
+>
+  hasla nie sa rowne <br
+/></span>
+<span class="error-validate" [hidden]="!passwordControl.hasError('pattern')">
+  * hasło powinno zawierać min 8 znakow<br />
+  * hasło powinno zawierać cyfry<br />
+  * hasło powinno zawierać znaki specjalne @#$%^&*<br />
+  * hasło powinno zawierać wielkie i małe litery<br />
+</span>
+
+<mat-slide-toggle
+  *ngIf="account"
+  [checked]="account.active === 1 ? true : false"
+  (change)="toggle($event)"
+  ><p *ngIf="account.active === 1">aktywny</p>
+  <p *ngIf="account.active === 0">nieaktywny</p></mat-slide-toggle
+>
+
+<form [formGroup]="accountFormGroup">
+  <mat-form-field class="dialog-forms__input">
+    <mat-label>Login</mat-label>
+    <input matInput placeholder="Login" formControlName="login" />
+  </mat-form-field>
+
+  <div formGroupName="passwordFormGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        placeholder="Password"
+        formControlName="password"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        placeholder="Password"
+        formControlName="confirmPassword"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</form>
+
+<button mat-icon-button (click)="saveAccount()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeAccoun()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetAccount()">clear</button>

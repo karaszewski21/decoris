@@ -2,6 +2,7 @@
   <p class="client-nav__market nav-market">Rynki</p>
   <div class="client-nav__list-buttons nav-list-buttons">
     <button
+      [ngClass]="currentSelectedMarket === 'polish' ? 'active-button ' : ''"
       class="client-button"
       mat-raised-button
       (click)="selectedMarket('polish')"
@@ -9,6 +10,7 @@
       Polski
     </button>
     <button
+      [ngClass]="currentSelectedMarket === 'foreign' ? 'active-button ' : ''"
       class="client-button"
       mat-raised-button
       (click)="selectedMarket('foreign')"
@@ -16,6 +18,7 @@
       Zagraniczny
     </button>
     <button
+      [ngClass]="currentSelectedMarket === 'all' ? 'active-button ' : ''"
       class="client-button"
       mat-raised-button
       (click)="selectedMarket('all')"

@@ -1,0 +1,43 @@
+<div class="base-info-wrapper">
+  <div class="base-info-wrapper__header base-info-header">
+    <div class="base-info-header__spacer"></div>
+    <button mat-icon-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="base-info-wrapper__content base-info-content">
+    <div class="base-info-content__header base-info-content-header">
+      <div class="base-info-content-header__spacer"></div>
+      <p>{{ company.country.name }}</p>
+      <mat-icon>flag</mat-icon>
+    </div>
+    <div class="base-info-content__rest-info base-info-content-rest-info">
+      <p>{{ company.name }}</p>
+      <div class="base-info-content-rest-info__pair-key">
+        <mat-icon> local_post_office</mat-icon>
+        <p>Kod pocztowy :</p>
+        <p>{{ company.post_code }}</p>
+      </div>
+      <div class="base-info-content-rest-info__pair-key">
+        <mat-icon> offline_pin</mat-icon>
+        <p>Nip :</p>
+        <p>{{ company.nip }}</p>
+      </div>
+      <div class="base-info-content-rest-info__pair-key">
+        <mat-icon>web</mat-icon>
+        <p>Strona internetowa :</p>
+        <p>{{ company.web_page }}</p>
+      </div>
+      <div class="base-info-content-rest-info__pair-key">
+        <mat-icon>alternate_email</mat-icon>
+        <p>E-mail :</p>
+        <p>{{ company.email }}</p>
+      </div>
+      <div class="base-info-content-rest-info__pair-key">
+        <mat-icon>phone_android</mat-icon>
+        <p>Numer telefonu :</p>
+        <p>{{ company.phone_number }}</p>
+      </div>
+    </div>
+  </div>
+</div>

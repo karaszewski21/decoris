@@ -24,16 +24,16 @@ export class ClientListComponent implements OnInit, OnChanges {
   @Output() toggleColumnVoivodeshipOrCountryEvent = new EventEmitter();
   @Output() updateCompanyEvent = new EventEmitter();
   @Output() deleteClientEvent = new EventEmitter<string>();
+  @Output() baseInfoEvent = new EventEmitter();
   @Output() employeesModalEvent = new EventEmitter();
   @Output() notesModalEvent = new EventEmitter();
   @Output() profilesFittingssModalEvent = new EventEmitter();
 
   displayedColumns: string[] = [
     "name",
-    "country",
+    "info",
     "business_profiles",
     "city",
-    "nip",
     "address",
     "employees",
     "notes",
@@ -77,6 +77,10 @@ export class ClientListComponent implements OnInit, OnChanges {
         this.displayedColumns.splice(indexVoivodeship, 1);
       }
     }
+  }
+
+  openBaseInfoModal(company) {
+    this.baseInfoEvent.emit(company);
   }
 
   openEmployeesModal(employees) {

@@ -13,25 +13,26 @@ import {
 import { mergeMap, map, tap } from "rxjs/operators";
 import { Account } from "src/app/interfaces/account/account";
 import { User } from "src/app/interfaces/account/user";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AccountEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly accountService: AccountService
+    private readonly accountService: AccountService,
+    private router: Router
   ) {}
 
   @Effect()
   public loginUser$: Observable<Action> = this.actions$.pipe(
     ofType<LoginAccount>(AccountActionTypes.Login),
     mergeMap((action) => this.accountService.login(action.payload.account)),
-    handleLoginAccount()
+    handleLoginAccount(this.accountService, this.router)
   );
 
   @Effect()
   public registerAccount$: Observable<Action> = this.actions$.pipe(
     ofType<RegisterAccount>(AccountActionTypes.Register),
-    tap((log) => console.log(log)),
     mergeMap((action) =>
       this.accountService.register(action.payload.account, action.payload.user)
     ),
@@ -39,7 +40,9 @@ export class AccountEffects {
   );
 }
 
-const handleLoginAccount = () => (source: Observable<any>) =>
+const handleLoginAccount = (accountService: AccountService, router: Router) => (
+  source: Observable<any>
+) =>
   source.pipe(
     map((response) => {
       let account: Account;
@@ -47,7 +50,7 @@ const handleLoginAccount = () => (source: Observable<any>) =>
 
       let { id, login, password, token } = response;
 
-      account = { id: id, login: login, password: password, active: false };
+      account = { id: id, login: login, password: password, active: 0 };
       user = {
         id: response["user.id"],
         firstName: response["user.first_name"],
@@ -55,6 +58,10 @@ const handleLoginAccount = () => (source: Observable<any>) =>
         email: response["user.email"],
         token: token,
       };
+
+      accountService.setUserToLocalStorage(user);
+      router.navigate(["/client"]);
+
       return new LoginAccountSuccess({
         loading: false,
         account: account,
@@ -73,7 +80,7 @@ const handleRegisterAccount = () => (source: Observable<any>) =>
         id: id,
         login: login,
         password: "",
-        active: false,
+        active: 0,
       };
 
       return new RegisterAccountSuccess({

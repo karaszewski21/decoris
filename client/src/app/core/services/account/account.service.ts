@@ -44,4 +44,47 @@ export class AccountService {
       `${environment.apiUrl}account/login/${login}`
     );
   }
+
+  getAccounts() {
+    return this.http.get(`${environment.apiUrl}account/get-accounts`);
+  }
+
+  updateAccount(account: Account) {
+    return this.http.put<boolean>(
+      `${environment.apiUrl}account/update-account`,
+      account
+    );
+  }
+
+  deleteAccount(account: Account) {
+    return this.http.delete<boolean>(
+      `${environment.apiUrl}account/delete-account/${account.id}`
+    );
+  }
+
+  activeAccount(account: Account) {
+    return this.http.put<boolean>(
+      `${environment.apiUrl}account/active`,
+      account
+    );
+  }
+
+  getUsers() {
+    return this.http.get(`${environment.apiUrl}account/get-users`);
+  }
+
+  updateUser(user: User) {
+    return this.http.put<boolean>(`${environment.apiUrl}account/update-user`, {
+      id: user.id,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+    });
+  }
+
+  deleteUser(user: User) {
+    return this.http.delete<boolean>(
+      `${environment.apiUrl}account/delete-user/${user.id}`
+    );
+  }
 }

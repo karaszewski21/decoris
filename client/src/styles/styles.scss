@@ -18,6 +18,15 @@ $defaul-font: "Roboto, " Helvetica Neue ", sans-serif";
   color: white;
   cursor: pointer;
 }
+
+@mixin hover-button {
+  &:hover {
+    transform: scale(0.9);
+    transition: transform 0.2s ease-in-out;
+    color: red;
+  }
+}
+
 html {
   background-color: $main-color;
   font-family: $defaul-font;
@@ -33,6 +42,7 @@ html {
   color: white;
   width: auto;
   height: auto;
+  @include hover-button();
 }
 
 .button-table {
@@ -40,11 +50,7 @@ html {
   box-shadow: 0 0 2px rgb(12, 105, 105);
   border-radius: 15%;
   color: white;
-  &:hover {
-    transform: scale(0.9);
-    transition: transform 0.2s ease-in-out;
-    color: red;
-  }
+  @include hover-button();
 }
 
 .button-action {

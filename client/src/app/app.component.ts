@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   user: User = null;
   mobileMode: boolean;
   title = "decoris";
-  hide = true;
+  //hide = true;
 
   account$ = this.store.select(getAccount);
   user$ = this.store.select(getUser);
@@ -38,10 +38,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.accountSubscription$ = this.user$.subscribe((user) => {
-      this.accountService.setUserToLocalStorage(user);
-      this.user = user;
-      this.hide = true;
-      this.router.navigate(["/client"]);
+      if (user) {
+        this.user = user;
+      } else {
+        this.user = this.accountService.getUserFromLocalStorage();
+      }
     });
   }
 
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this.store.dispatch(new LogoutAccount({ logout: true }));
     this.accountService.logout();
+    this.user = null;
   }
 
   navigator(route) {

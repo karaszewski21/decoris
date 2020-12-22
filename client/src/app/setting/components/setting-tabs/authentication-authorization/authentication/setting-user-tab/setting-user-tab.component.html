@@ -1,1 +1,36 @@
-<p>setting-user-tab works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Uzytkownicy</mat-label>
+  <mat-select (selectionChange)="selectedUser($event)" [value]="user">
+    <mat-option *ngFor="let user of users$ | async" [value]="user">
+      {{ user.firstName }} {{ user.lastName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<form [formGroup]="userFormGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>Imię</mat-label>
+    <input matInput placeholder="Imię" formControlName="firstName" />
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nazwisko</mat-label>
+    <input matInput placeholder="Nazwisko" formControlName="lastName" />
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>E-mail</mat-label>
+    <input matInput placeholder="E-mail" formControlName="email" />
+    <mat-icon matSuffix>email</mat-icon>
+  </mat-form-field>
+</form>
+
+<button mat-icon-button (click)="saveUser()">
+  <mat-icon>save</mat-icon>
+</button>
+<button mat-icon-button (click)="removeUser()">
+  <mat-icon>delete icon</mat-icon>
+</button>
+<button mat-icon-button (click)="resetUser()">clear</button>

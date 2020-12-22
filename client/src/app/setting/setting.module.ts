@@ -7,7 +7,7 @@ import { SettingRoutingModule } from "./setting-routing.module";
 import { SharedModule } from "../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { reducers, Authentication_KEY } from "./store";
+import { reducers, Authentication_KEY, AccountEffects } from "./store";
 
 import {
   SettingCountryTabComponent,
@@ -49,7 +49,7 @@ import {
     SharedModule,
     SettingRoutingModule,
     StoreModule.forFeature(Authentication_KEY, reducers),
-    // EffectsModule.forFeature([ParametersClientEffects]),
+    EffectsModule.forFeature([AccountEffects]),
   ],
 })
 export class SettingModule {}

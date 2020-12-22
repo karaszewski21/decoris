@@ -9,7 +9,7 @@ module.exports = class AuthService {
 
   async getAccounts() {
     return await models.accounts.findAll({
-      attributes: ["id", "login"],
+      attributes: ["id", "login", "active"],
       raw: true,
     });
   }
@@ -20,7 +20,10 @@ module.exports = class AuthService {
     });
 
     if (accountModel) {
-      await models.accounts.update({ active: 1 }, { id: accountModel.id });
+      await models.accounts.update(
+        { active: account.active },
+        { where: { id: accountModel.id } }
+      );
       return true;
     } else {
       return false;
@@ -46,8 +49,8 @@ module.exports = class AuthService {
     }
   }
 
-  async deleteAccount(account) {
-    let accountModel = await models.accounts.findByPk(account.id, {
+  async deleteAccount(accountId) {
+    let accountModel = await models.accounts.findByPk(accountId, {
       raw: true,
     });
 
@@ -85,8 +88,8 @@ module.exports = class AuthService {
     }
   }
 
-  async deleteUser(user) {
-    let userModel = await models.users.findByPk(user.id, {
+  async deleteUser(userId) {
+    let userModel = await models.users.findByPk(userId, {
       raw: true,
     });
 

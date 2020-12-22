@@ -8,17 +8,25 @@ router.get("/login/:login", AuthController.checkLogin);
 router.post("/login", AuthController.signin);
 router.post("/register", AuthController.signup);
 
-router.get("/accounts", AuthJwt.verifyToken, AuthController.getAccounts);
-router.put("/account", AuthJwt.verifyToken, AuthController.updateAccount);
+router.get("/get-accounts", AuthJwt.verifyToken, AuthController.getAccounts);
 router.put(
-  "/account/active",
+  "/update-account",
   AuthJwt.verifyToken,
-  AuthController.activeAccount
+  AuthController.updateAccount
 );
-router.delete("/account", AuthJwt.verifyToken, AuthController.deleteUser);
+router.put("/active", AuthJwt.verifyToken, AuthController.activeAccount);
+router.delete(
+  "/delete-account/:id",
+  AuthJwt.verifyToken,
+  AuthController.deleteAccount
+);
 
-router.get("/users", AuthJwt.verifyToken, AuthController.getUsers);
-router.put("/user", AuthJwt.verifyToken, AuthController.updateUser);
-router.delete("/user", AuthJwt.verifyToken, AuthController.deleteUser);
+router.get("/get-users", AuthJwt.verifyToken, AuthController.getUsers);
+router.put("/update-user", AuthJwt.verifyToken, AuthController.updateUser);
+router.delete(
+  "/delete-user/:id",
+  AuthJwt.verifyToken,
+  AuthController.deleteUser
+);
 
 module.exports = router;

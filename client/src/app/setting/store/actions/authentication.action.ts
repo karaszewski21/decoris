@@ -37,7 +37,9 @@ export class GetAccountsSuccess implements Action {
 
 export class UpdateAccount implements Action {
   readonly type = AuthenticationActionTypes.UpdateAccount;
-  constructor(public readonly payload: { loading: boolean }) {}
+  constructor(
+    public readonly payload: { loading: boolean; account: Account }
+  ) {}
 }
 
 export class UpdateAccountSuccess implements Action {
@@ -47,7 +49,9 @@ export class UpdateAccountSuccess implements Action {
 
 export class ActiveAccount implements Action {
   readonly type = AuthenticationActionTypes.ActiveAccount;
-  constructor(public readonly payload: { loading: boolean }) {}
+  constructor(
+    public readonly payload: { loading: boolean; account: Account }
+  ) {}
 }
 
 export class ActiveAccountSuccess implements Action {
@@ -57,7 +61,9 @@ export class ActiveAccountSuccess implements Action {
 
 export class DeleteAccount implements Action {
   readonly type = AuthenticationActionTypes.DeleteAccount;
-  constructor(public readonly payload: { loading: boolean }) {}
+  constructor(
+    public readonly payload: { loading: boolean; account: Account }
+  ) {}
 }
 
 export class DeleteAccountSuccess implements Action {
@@ -82,7 +88,7 @@ export class GetUsersSuccess implements Action {
 
 export class UpdateUser implements Action {
   readonly type = AuthenticationActionTypes.UpdateUser;
-  constructor(public readonly payload: { loading: boolean }) {}
+  constructor(public readonly payload: { loading: boolean; user: User }) {}
 }
 
 export class UpdateUserSuccess implements Action {
@@ -92,7 +98,7 @@ export class UpdateUserSuccess implements Action {
 
 export class DeleteUser implements Action {
   readonly type = AuthenticationActionTypes.DeleteUser;
-  constructor(public readonly payload: { loading: boolean }) {}
+  constructor(public readonly payload: { loading: boolean; user: User }) {}
 }
 
 export class DeleteUserSuccess implements Action {

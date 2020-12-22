@@ -26,6 +26,7 @@ import { SearchMobileModalComponent } from "./components/dialog/mobile/search-mo
 import { FilterMobileModalComponent } from "./components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
 
 import { reducers, ClientEffects, CLIENT_KEY } from "./store";
+import { ClientBaseModalComponent } from './components/dialog/information/client-base-modal/client-base-modal.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { reducers, ClientEffects, CLIENT_KEY } from "./store";
     ClientProfilesFittingsModalComponent,
     SearchMobileModalComponent,
     FilterMobileModalComponent,
+    ClientBaseModalComponent,
   ],
   imports: [
     CommonModule,

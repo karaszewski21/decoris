@@ -37,6 +37,7 @@ import {
 import { SearchMobileModalComponent } from "../../components/dialog/mobile/search-mobile-modal/search-mobile-modal.component";
 import { FilterMobileModalComponent } from "../../components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { ClientBaseModalComponent } from "../../components/dialog/information/client-base-modal/client-base-modal.component";
 
 @Component({
   selector: "app-client",
@@ -285,10 +286,10 @@ export class ClientComponent implements OnInit, OnDestroy {
       if (result) {
         this.spinner.show();
         this.clientService.addClient(result).subscribe((value) => {
-          if (value.companies[0].countries == CountryEnum.polish) {
+          if (value.companies[0].country.id === 1) {
             this.selectedMarket(CountryEnum.polish);
           } else {
-            this.selectedMarket(CountryEnum.polish);
+            this.selectedMarket(CountryEnum.foreign);
           }
           this.spinner.hide();
           this.openSnackBar(
@@ -314,7 +315,8 @@ export class ClientComponent implements OnInit, OnDestroy {
       if (result) {
         this.spinner.show();
         this.clientService.updateClient(result).subscribe((value) => {
-          if (value.companies[0].countries == CountryEnum.polish) {
+          debugger;
+          if (value.companies[0].country.id === 1) {
             this.selectedMarket(CountryEnum.polish);
           } else {
             this.selectedMarket(CountryEnum.foreign);
@@ -531,6 +533,16 @@ export class ClientComponent implements OnInit, OnDestroy {
 
     this.getCompanyList();
     this.resetPaginator = true;
+  }
+
+  openBaseInfoModal(company) {
+    this.dialog.open(ClientBaseModalComponent, {
+      height: "400px",
+      width: "600px",
+      data: {
+        company: company,
+      },
+    });
   }
 
   openNotesModal(notes) {

@@ -10,7 +10,7 @@ import {
 import { settingDynamicTabList } from "../../data/dynamic-tab-setting";
 import { ISetting } from "../../../interfaces/setting/client";
 import { Store } from "@ngrx/store";
-import { GetParameters } from "../../../store";
+import { GetAccounts, GetUsers } from "../../store";
 
 type PanelType = "left" | "right";
 
@@ -33,7 +33,8 @@ export class SettingComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.store.dispatch(new GetParameters({ loading: true }));
+    this.store.dispatch(new GetAccounts({ loading: true }));
+    this.store.dispatch(new GetUsers({ loading: true }));
   }
   ngOnDestroy(): void {
     console.log("destroy setting");
