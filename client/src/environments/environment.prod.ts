@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "https://decoris.patrykkaraszewski.pl/api/",
+  apiUrl: "https://panel.decoris.net.pl/api/",
 };
