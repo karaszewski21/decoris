@@ -35,7 +35,6 @@ export class AccountEffects {
   @Effect()
   public getAccounts$: Observable<Action> = this.actions$.pipe(
     ofType<GetAccounts>(AuthenticationActionTypes.GetAccounts),
-    tap((value) => console.log(value)),
     mergeMap(() => this.accountService.getAccounts()),
     handleGetAccounts()
   );

@@ -41,7 +41,6 @@ export class ClientEffects {
 const handleGetClients = () => (source: Observable<any>) =>
   source.pipe(
     map((response) => {
-      console.log(response);
       let { count, companies } = response;
       return new GetClientsSuccess({
         loading: false,

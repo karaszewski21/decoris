@@ -54,10 +54,7 @@ export function parametersReducer(
 
     case ParametersActionTypes.GetParametersSuccess: {
       let { cities } = state;
-      console.log(state, "reduser param");
-
       let newState = { ...state };
-
       newState = {
         businessProfiles: action.payload.businessProfiles,
         cities: cities,
@@ -70,8 +67,6 @@ export function parametersReducer(
         positionEmployees: action.payload.positionEmployees,
         loading: action.payload.loading,
       };
-
-      console.log(newState);
 
       return newState;
     }
@@ -88,7 +83,6 @@ export function parametersReducer(
       newState = { ...state };
       newState.cities = action.payload.cities;
       newState.loading = action.payload.loading;
-      console.log(state);
 
       return newState;
     }

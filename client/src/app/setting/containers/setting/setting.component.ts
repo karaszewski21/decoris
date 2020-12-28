@@ -36,9 +36,7 @@ export class SettingComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAccounts({ loading: true }));
     this.store.dispatch(new GetUsers({ loading: true }));
   }
-  ngOnDestroy(): void {
-    console.log("destroy setting");
-  }
+  ngOnDestroy(): void {}
 
   selectSetting(value) {
     let { settingGroupLabel, settingLabel } = value;

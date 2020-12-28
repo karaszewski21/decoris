@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountService: AccountService,
-    private spinner: NgxSpinnerService,
     private router: Router,
     private dialog: MatDialog,
     private store: Store
@@ -40,8 +39,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.accountSubscription$ = this.user$.subscribe((user) => {
       if (user) {
         this.user = user;
+
+        this.router.navigate(["client"]);
       } else {
         this.user = this.accountService.getUserFromLocalStorage();
+        this.router.navigate(["client"]);
       }
     });
   }
