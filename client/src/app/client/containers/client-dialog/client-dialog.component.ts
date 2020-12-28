@@ -4,6 +4,7 @@ import {
   Inject,
   ChangeDetectionStrategy,
   OnDestroy,
+  ChangeDetectorRef,
 } from "@angular/core";
 import {
   MatDialogRef,
@@ -203,7 +204,8 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
     private _companyFormBuilder: FormBuilder,
     private store: Store,
     private spinner: NgxSpinnerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -409,6 +411,7 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
         this.removeNote(note.text);
         newNote = { ...newNote, created_note: result };
         this.selectedNoteList.set(note.text, newNote);
+        this.changeDetector.detectChanges();
       }
     });
   }

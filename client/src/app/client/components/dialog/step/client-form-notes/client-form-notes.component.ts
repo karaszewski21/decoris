@@ -15,7 +15,7 @@ import { Note } from "../../../../../interfaces/client";
   templateUrl: "./client-form-notes.component.html",
   styleUrls: ["./client-form-notes.component.scss"],
 })
-export class ClientFormNotesComponent implements OnInit, OnChanges {
+export class ClientFormNotesComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() selectedNoteList: Map<string, Note>;
   @Output() updateNoteEvent = new EventEmitter<string>();
@@ -24,9 +24,6 @@ export class ClientFormNotesComponent implements OnInit, OnChanges {
   @Output() updateDateNoteEvent = new EventEmitter();
 
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.selectedNoteList);
-  }
 
   ngOnInit(): void {}
 
@@ -41,6 +38,7 @@ export class ClientFormNotesComponent implements OnInit, OnChanges {
   addNote() {
     this.addNoteEvent.emit();
   }
+
   updateDateNote(text, date) {
     this.updateDateNoteEvent.emit({ text: text, date: date });
   }
