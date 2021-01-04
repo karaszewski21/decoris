@@ -25,7 +25,6 @@ module.exports = class CompanyProvder {
   }
 
   async getFilteredClientsListByParametrs(parameters) {
-    console.log(parameters);
     try {
       models.companies.associate(models);
       models.empolyees.associate(models);

@@ -10,18 +10,29 @@ class ClientParameterService {
   constructor() {}
 
   async getParameters() {
-    logger.log("info", ">>> ClientParametersService >>> getParameters");
     try {
-      const countries = await models.countries.findAll();
-      const voivodeships = await models.voivodeships.findAll();
-      const businessProfiles = await models.business_profiles.findAll();
-      const aluminiumProfiles = await models.aluminium_profiles.findAll();
-      const aluminiumFittings = await models.aluminium_fittings.findAll();
-      const pcvProfiles = await models.pcv_profiles.findAll();
-      const pcvFittings = await models.pcv_fittings.findAll();
-      const positionEmployees = await models.position_empolyees.findAll();
-
-      logger.log("info", "<<< ClientParametersService <<< getParameters");
+      const countries = await models.countries.findAll({ order: ["name"] });
+      const voivodeships = await models.voivodeships.findAll({
+        order: ["name"],
+      });
+      const businessProfiles = await models.business_profiles.findAll({
+        order: ["name"],
+      });
+      const aluminiumProfiles = await models.aluminium_profiles.findAll({
+        order: ["name"],
+      });
+      const aluminiumFittings = await models.aluminium_fittings.findAll({
+        order: ["name"],
+      });
+      const pcvProfiles = await models.pcv_profiles.findAll({
+        order: ["name"],
+      });
+      const pcvFittings = await models.pcv_fittings.findAll({
+        order: ["name"],
+      });
+      const positionEmployees = await models.position_empolyees.findAll({
+        order: ["name"],
+      });
 
       return {
         countries: countries,
@@ -43,19 +54,15 @@ class ClientParameterService {
   }
 
   async getCitiesByCountryId(countriesIds) {
-    logger.log("info", ">>> ClientParametersService >>> getCitiesByCountryId");
     try {
       models.cities.associate(models);
       let cities = null;
       cities = await models.cities.findAll({
         where: { country_id: countriesIds },
         include: [models.voivodeships],
+        order: ["name"],
       });
 
-      logger.log(
-        "info",
-        "<<< ClientParametersService <<< getCitiesByCountryId"
-      );
       return cities;
     } catch (error) {
       logger.log(
@@ -67,7 +74,6 @@ class ClientParameterService {
   }
 
   async modifyParameter(parameter) {
-    logger.log("info", ">>> ClientParametersService >>> modifyParameter");
     try {
       let modifiedParameter;
 
@@ -89,7 +95,6 @@ class ClientParameterService {
         throw new Error(`parametr key ${parameter.name}`);
       }
 
-      logger.log("info", "<<< ClientParametersService <<< modifyParameter");
       return modifiedParameter;
     } catch (error) {
       logger.log(
@@ -101,7 +106,6 @@ class ClientParameterService {
   }
 
   async deleteParameter(parameter) {
-    logger.log("info", ">>> ClientParametersService >>> deleteParameter");
     try {
       if (parameter.name) {
         const removedParameter = await new ClientParameterRemover().deleteParameter(

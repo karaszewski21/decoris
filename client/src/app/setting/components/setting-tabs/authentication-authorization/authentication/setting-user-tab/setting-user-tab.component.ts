@@ -132,7 +132,6 @@ export class SettingUserTabComponent implements OnInit {
   }
 
   resetUser() {
-    console.log(this.toggleActiveAccount);
     this.user = null;
     this.userFormGroup.reset();
     this.store.dispatch(new GetUsers({ loading: true }));

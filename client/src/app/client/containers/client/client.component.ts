@@ -39,6 +39,7 @@ import { FilterMobileModalComponent } from "../../components/dialog/mobile/filte
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { ClientBaseModalComponent } from "../../components/dialog/information/client-base-modal/client-base-modal.component";
 
+
 @Component({
   selector: "app-client",
   templateUrl: "./client.component.html",
@@ -146,9 +147,27 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   initParametersPaginator() {
     this.countClients$.subscribe((totalCount) => {
-      this.pageSizeOptionsPaginator = [10, 25, 100, 200, 500];
+      if (totalCount > 100 && totalCount < 500) {
+        this.pageSizeOptionsPaginator = [50, 100, 200, totalCount];
+      } else if (totalCount > 500) {
+        this.pageSizeOptionsPaginator = [
+          50,
+          100,
+          200,
+          Math.round(totalCount / 3),
+          Math.round(totalCount / 2),
+          totalCount,
+        ];
+      } else {
+        this.pageSizeOptionsPaginator = [
+          25,
+          Math.round(totalCount / 2),
+          totalCount,
+        ];
+      }
+
       this.totalCountCompanyPaginator = totalCount;
-      this.pageSizePaginator = 10;
+      this.pageSizePaginator = 50;
       this.globalFilter = {
         ...this.globalFilter,
         limit: this.pageSizePaginator,
@@ -291,6 +310,7 @@ export class ClientComponent implements OnInit, OnDestroy {
           } else {
             this.selectedMarket(CountryEnum.foreign);
           }
+          this.initParametersPaginator();
           this.spinner.hide();
           this.openSnackBar(
             `Klient ${value.companies[0].name} zostal dodany`,
@@ -315,12 +335,12 @@ export class ClientComponent implements OnInit, OnDestroy {
       if (result) {
         this.spinner.show();
         this.clientService.updateClient(result).subscribe((value) => {
-          debugger;
           if (value.companies[0].country.id === 1) {
             this.selectedMarket(CountryEnum.polish);
           } else {
             this.selectedMarket(CountryEnum.foreign);
           }
+          this.initParametersPaginator();
           this.spinner.hide();
           this.openSnackBar(
             `Klient ${value.companies[0].name} zostal zmieniony`,
@@ -353,6 +373,7 @@ export class ClientComponent implements OnInit, OnDestroy {
             switchMap((company) => this.clientService.deleteClient(company.id))
           )
           .subscribe((value) => {
+            this.initParametersPaginator();
             this.getCompanyList();
             this.spinner.hide();
             this.openSnackBar(`Klient ${value.name} zostal zmieniony`, "Ok");
@@ -362,7 +383,6 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   selectedCitiesFilter(selectedCities: City[]): void {
-    console.log(selectedCities);
     if (selectedCities.length === 0) {
       this.getParametersList(false);
     } else {
@@ -415,7 +435,7 @@ export class ClientComponent implements OnInit, OnDestroy {
   resetFilter(): void {
     this.globalFilter = {
       ...this.globalFilter,
-      limit: 10,
+      limit: 50,
       offset: 0,
       name: [],
       business_profiles: [],
@@ -427,6 +447,8 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.businessProfilesFilterControl.setValue([]);
     this.citiesFilterControl.setValue([]);
     this.voivodeshipsFilterControl.setValue([]);
+    this.initParametersPaginator();
+    this.getCompanyList(false);
   }
 
   startFilter() {
@@ -585,6 +607,7 @@ export class ClientComponent implements OnInit, OnDestroy {
       verticalPosition: this.verticalPosition,
     });
   }
+
   exportClients(type) {
     this.spinner.show();
     this.store.dispatch(new ExportClients({ loading: true, type: type }));

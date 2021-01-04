@@ -67,7 +67,7 @@ module.exports = class ParameterUpdater {
 
       await models.cities.update(
         {
-          name: city.value.name,
+          name: city.value.name.trim(),
           country_id: countryModel.id,
           voivodeship_id: voivodeshipModel ? voivodeshipModel.id : null,
         },
@@ -88,7 +88,7 @@ module.exports = class ParameterUpdater {
   async updateCountry(country) {
     try {
       await models.countries.update(
-        { name: country.value.name },
+        { name: country.value.name.trim() },
         { where: { id: country.value.id } }
       );
 
@@ -125,7 +125,7 @@ module.exports = class ParameterUpdater {
   async updateBusinessProfile(businessProfile) {
     try {
       await models.business_profiles.update(
-        { name: businessProfile.value.name },
+        { name: businessProfile.value.name.trim() },
         { where: { id: businessProfile.value.id } }
       );
 
@@ -145,7 +145,7 @@ module.exports = class ParameterUpdater {
   async updateAluminiumProfile(aluminiumProfile) {
     try {
       await models.aluminium_profiles.update(
-        { name: aluminiumProfile.value.name },
+        { name: aluminiumProfile.value.name.trim() },
         { where: { id: aluminiumProfile.value.id } }
       );
 
@@ -165,7 +165,7 @@ module.exports = class ParameterUpdater {
   async updateAluminiumFitting(aluminiumFitting) {
     try {
       await models.aluminium_fittings.update(
-        { name: aluminiumFitting.value.name },
+        { name: aluminiumFitting.value.name.trim() },
         { where: { id: aluminiumFitting.value.id } }
       );
 
@@ -185,7 +185,7 @@ module.exports = class ParameterUpdater {
   async updatePcvProfile(pcvProfile) {
     try {
       await models.pcv_profiles.update(
-        { name: pcvProfile.value.name },
+        { name: pcvProfile.value.name.trim() },
         { where: { id: pcvProfile.value.id } }
       );
 
@@ -205,7 +205,7 @@ module.exports = class ParameterUpdater {
   async updatePcvFitting(pcvFitting) {
     try {
       await models.pcv_fittings.update(
-        { name: pcvFitting.value.name },
+        { name: pcvFitting.value.name.trim() },
         { where: { id: pcvFitting.value.id } }
       );
 
@@ -225,7 +225,7 @@ module.exports = class ParameterUpdater {
   async updatePositionEmployee(positionEmployee) {
     try {
       await models.position_empolyees.update(
-        { name: positionEmployee.value.name },
+        { name: positionEmployee.value.name.trim() },
         { where: { id: positionEmployee.value.id } }
       );
 

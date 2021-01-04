@@ -5,11 +5,12 @@ const CompanyValidator = require("./companyValidator");
 class CompanyCreator {
   constructor() {}
 
-  async createCompany(companies) {
-    let { company } = companies;
+  async createCompany({ company }) {
     try {
       let companyValidator = new CompanyValidator();
       await companyValidator.initData();
+
+      company = await this.improveCompany(company);
 
       let companies = await this.addCompaniesToDatabase(
         company,
@@ -20,6 +21,16 @@ class CompanyCreator {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async improveCompany(company) {
+    if (!company[0].parameters.id) {
+      company[0].parameters.id = uuidv4();
+    }
+
+    company[0].parameters.name = company[0].parameters.name.trim();
+
+    return company;
   }
   async addCompaniesToDatabase(company, companyValidator) {
     try {
@@ -56,7 +67,7 @@ class CompanyCreator {
     dataOfCompanyToInsert.set("aluminium_fittings", []);
     dataOfCompanyToInsert.set("pcv_profiles", []);
     dataOfCompanyToInsert.set("pcv_fittings", []);
-    let currentDate = new Date();
+
     try {
       for (const company of approvedCompanies.values()) {
         let {
@@ -69,10 +80,6 @@ class CompanyCreator {
           pcv_profiles,
           pcv_fittings,
         } = company;
-
-        if (!parameters.id) {
-          parameters.id = uuidv4();
-        }
 
         dataOfCompanyToInsert.set("parameters", [
           ...dataOfCompanyToInsert.get("parameters"),

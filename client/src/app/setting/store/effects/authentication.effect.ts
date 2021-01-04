@@ -83,7 +83,6 @@ export class AccountEffects {
   @Effect()
   public deleteUser$: Observable<Action> = this.actions$.pipe(
     ofType<DeleteUser>(AuthenticationActionTypes.DeleteUser),
-    tap((value) => console.log(value)),
     mergeMap((action) => this.accountService.deleteUser(action.payload.user)),
     handleDeleteUser()
   );

@@ -545,7 +545,7 @@ export function parametersReducer(
           let indexPositionEmployee = positionEmployees.findIndex(
             (value) => value.id === positionEmployee.id
           );
-          console.log(indexPositionEmployee);
+
           if (indexPositionEmployee > 0) {
             positionEmployees.splice(indexPositionEmployee, 1);
           }

@@ -51,7 +51,5 @@ export class SettingComponent implements OnInit, OnDestroy {
     this.activePanel = "left";
   }
 
-  save(event) {
-    console.log(event);
-  }
+  save(event) {}
 }

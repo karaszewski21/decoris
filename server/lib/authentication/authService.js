@@ -38,8 +38,8 @@ module.exports = class AuthService {
     if (accountModel) {
       await models.accounts.update(
         {
-          login: account.login,
-          password: bcrypt.hashSync(account.password, 8),
+          login: account.login.trim(),
+          password: bcrypt.hashSync(account.password.trim(), 8),
         },
         { where: { id: accountModel.id } }
       );
@@ -76,9 +76,9 @@ module.exports = class AuthService {
     if (userModel) {
       await models.users.update(
         {
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
+          first_name: user.first_name.trim(),
+          last_name: user.last_name.trim(),
+          email: user.email.trim(),
         },
         { where: { id: userModel.id } }
       );
@@ -162,16 +162,16 @@ module.exports = class AuthService {
       let userModel = await models.users.create(
         {
           id: uuidv4(),
-          first_name: user.firstName,
-          last_name: user.lastName,
-          email: user.email,
+          first_name: user.firstName.trim(),
+          last_name: user.lastName.trim(),
+          email: user.email.trim(),
         },
         { transaction: transaction, raw: true }
       );
       let accountModel = await models.accounts.create(
         {
-          login: account.login,
-          password: bcrypt.hashSync(account.password, 8),
+          login: account.login.trim(),
+          password: bcrypt.hashSync(account.password.trim(), 8),
           active: 0,
           user_id: userModel.id,
         },

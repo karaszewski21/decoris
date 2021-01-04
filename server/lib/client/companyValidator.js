@@ -69,11 +69,10 @@ module.exports = class CompanyValidator {
           }
 
           if (value.item) {
-            this.filteredCompanies.set(company.parameters.name, company);
+            this.filteredCompanies.set(company.parameters.id, company);
           } else {
-            this.filteredCompanies.delete(company.parameters.name);
-            this.rejectedCompanies.set(company.parameters.name, {
-              // message: `parametr ${value.name} not exist in database`,
+            this.filteredCompanies.delete(company.parameters.id);
+            this.rejectedCompanies.set(company.parameters.id, {
               message: `${value.name}`,
               company: company,
             });
@@ -97,14 +96,6 @@ module.exports = class CompanyValidator {
       (city) => city.name === company.parameters.city
     );
     yield { item: tmpCity, name: company.parameters.city };
-
-    let tmpVoivodeship = null;
-    if (company.parameters.voivodeship) {
-      tmpVoivodeship = this.voivodeshipsModel.find(
-        (voivodeship) => voivodeship.name === company.parameters.voivodeship
-      );
-      yield { item: tmpVoivodeship, name: company.parameters.voivodeship };
-    }
 
     let tmpCountry = this.countriesModel.find(
       (country) => country.name === company.parameters.country

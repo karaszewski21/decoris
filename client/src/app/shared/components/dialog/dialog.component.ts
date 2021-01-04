@@ -23,7 +23,6 @@ export class DialogComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.showConfirmButton = this.data.confirmButton.show;
     this.showRejectButton = this.data.confirmButton.show;
     this.showInformation = this.data.information.show;

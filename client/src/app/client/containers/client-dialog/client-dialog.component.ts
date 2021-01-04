@@ -222,7 +222,6 @@ export class ClientDialogComponent implements OnInit, OnDestroy {
   }
 
   dispatchCityByCountry(company) {
-    console.log(company);
     if (company) {
       this.store.dispatch(
         new GetCitiesByCountry({

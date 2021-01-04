@@ -112,6 +112,7 @@ export class SettingCityTabComponent implements OnInit {
 
   resetCity() {
     this.city = null;
+    this.selectedExistCity = false;
     this.cityControl.reset();
   }
 

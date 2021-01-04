@@ -122,7 +122,7 @@ module.exports = class CompanyUpdater {
     try {
       await models.companies.update(
         {
-          name: parameter.name,
+          name: parameter.name.trim(),
           nip: parameter.nip,
           address: parameter.address,
           email: parameter.email,

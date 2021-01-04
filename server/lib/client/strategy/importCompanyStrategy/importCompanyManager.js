@@ -24,20 +24,18 @@ module.exports = class ImportCompanyManager {
         let { done, value } = await this._strategy.importCompanies();
 
         if (done) {
-          this.importCompaniesToDatabase(value);
+          await this.importCompaniesToDatabase(value);
           break;
         } else {
-          this.importCompaniesToDatabase(value);
+          await this.importCompaniesToDatabase(value);
         }
       }
 
       resolve("Import copmanies is ready");
     });
   }
-  async importCompaniesToDatabase(company) {
-    const companyCreator = new CompanyCreator();
-    // await companyCreator.addCompaniesToDatabase(company, this.companyValidator);
 
+  async importCompaniesToDatabase(company) {
     try {
       let {
         approvedCompanies,
@@ -60,7 +58,7 @@ module.exports = class ImportCompanyManager {
     }
   }
 
-  saveRejectedCompaniesToFile(rejectedCompanies) {
+  async saveRejectedCompaniesToFile(rejectedCompanies) {
     return new Promise(async (resolve, reject) => {
       for (const row of rejectedCompanies.values()) {
         fs.appendFile(

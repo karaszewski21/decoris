@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const { v4: uuidv4 } = require("uuid");
+var iconv = require("iconv-lite");
 
 module.exports = class ImportCsvCompany {
   constructor() {
@@ -9,12 +11,11 @@ module.exports = class ImportCsvCompany {
   }
 
   async importCompanies() {
-    let pathToCsv = path.join(
-      __dirname,
-      "Klienci baza danych dla Patryka 06.10.csv"
-    );
+    let pathToCsv = path.join(__dirname, "ClientAll.csv");
 
-    const fileStream = fs.createReadStream(pathToCsv);
+    const fileStream = fs
+      .createReadStream(pathToCsv)
+      .pipe(iconv.decodeStream("win1250"));
     const rl = readline.createInterface({
       input: fileStream,
       crlfDelay: Infinity,
@@ -29,7 +30,7 @@ module.exports = class ImportCsvCompany {
       if (this.limit < this.row) {
         results.push(await this.orderCompanyParmater(line));
 
-        if (results.length === 10) {
+        if (results.length === 50) {
           this.limit = this.row;
           return { done: false, value: results };
         }
@@ -39,33 +40,32 @@ module.exports = class ImportCsvCompany {
   }
 
   orderCompanyParmater(line) {
-    let row = line.split(",");
+    let row = line.split(";");
 
-    let city = row[8] !== "ZAGRANICA" ? row[7] : "-";
-    let voivodeship = row[8] !== "ZAGRANICA" ? row[8] : null;
-    let country = row[8] === "ZAGRANICA" ? row[7] : "Polska";
+    let city = row[9] === "ZAGRANICA" ? "-" : row[8];
+    let country = row[9] === "ZAGRANICA" ? row[8] : "Polska";
 
     return new Promise((resolve, reject) => {
       let company = {
         parameters: {
+          id: uuidv4(),
           name: row[0],
           nip: null,
           email: null,
           web_page: null,
           phone_number: null,
-          address: row[5],
-          post_code: row[6],
+          address: row[6],
+          post_code: row[7],
           city: city,
-          voivodeship: voivodeship,
           country: country,
         },
         employees: [],
         notes: [],
         business_profiles: [row[1]],
-        aluminium_profiles: [row[9]],
-        aluminium_fittings: [row[10]],
-        pcv_profiles: [row[11]],
-        pcv_fittings: [row[12]],
+        aluminium_profiles: [row[11]],
+        aluminium_fittings: [row[12]],
+        pcv_profiles: [row[13]],
+        pcv_fittings: [row[14]],
       };
 
       resolve(company);

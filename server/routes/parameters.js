@@ -9,6 +9,13 @@ router.get(
   AuthJwt.verifyToken,
   parametersController.getParameters
 );
+
+router.get(
+  "/import/:fileType/:parameterType",
+  AuthJwt.verifyToken,
+  parametersController.import
+);
+
 router.post(
   "/get-cities",
   AuthJwt.verifyToken,

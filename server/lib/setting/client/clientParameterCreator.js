@@ -71,7 +71,7 @@ module.exports = class ClientParameterCreator {
       }
 
       let newCity = await models.cities.create({
-        name: city.value.name,
+        name: city.value.name.trim(),
         country_id: countryModel.id,
         voivodeship_id: voivodeshipModel ? voivodeshipModel.id : null,
       });
@@ -90,7 +90,7 @@ module.exports = class ClientParameterCreator {
 
   async createCountry(country) {
     let newCountry = await models.countries.create({
-      name: country.value.name,
+      name: country.value.name.trim(),
     });
 
     let modifiedCountry = await models.countries.findByPk(newCountry.id, {
@@ -104,7 +104,7 @@ module.exports = class ClientParameterCreator {
 
   async createVoivodeship(voivodeship) {
     let newVoivodeship = await models.voivodeships.create({
-      name: voivodeship.value.name,
+      name: voivodeship.value.name.trim(),
     });
 
     let modifiedVoivodeship = await models.voivodeships.findByPk(
@@ -122,7 +122,7 @@ module.exports = class ClientParameterCreator {
   async createBusinessProfile(businessProfile) {
     try {
       let newBusinessProfile = await models.business_profiles.create({
-        name: businessProfile.value.name,
+        name: businessProfile.value.name.trim(),
       });
 
       let modifiedBusinessProfile = await models.business_profiles.findByPk(
@@ -143,7 +143,7 @@ module.exports = class ClientParameterCreator {
   async createAluminiumProfile(aluminiumProfile) {
     try {
       let newAluminiumProfile = await models.aluminium_profiles.create({
-        name: aluminiumProfile.value.name,
+        name: aluminiumProfile.value.name.trim(),
       });
 
       let modifiedAluminiumProfile = await models.aluminium_profiles.findByPk(
@@ -164,7 +164,7 @@ module.exports = class ClientParameterCreator {
   async createAluminiumFitting(aluminiumFitting) {
     try {
       let newAluminiumFitting = await models.aluminium_fittings.create({
-        name: aluminiumFitting.value.name,
+        name: aluminiumFitting.value.name.trim(),
       });
 
       let modifiedAluminiumFitting = await models.aluminium_fittings.findByPk(
@@ -185,7 +185,7 @@ module.exports = class ClientParameterCreator {
   async createPcvProfile(pcvProfile) {
     try {
       let newPcvProfile = await models.pcv_profiles.create({
-        name: pcvProfile.value.name,
+        name: pcvProfile.value.name.trim(),
       });
 
       let modifiedPcvProfile = await models.pcv_profiles.findByPk(
@@ -206,7 +206,7 @@ module.exports = class ClientParameterCreator {
   async createPcvFitting(pcvFitting) {
     try {
       let newPcvFitting = await models.pcv_fittings.create({
-        name: pcvFitting.value.name,
+        name: pcvFitting.value.name.trim(),
       });
 
       let modifiedPcvFitting = await models.pcv_fittings.findByPk(
@@ -227,7 +227,7 @@ module.exports = class ClientParameterCreator {
   async createPositionEmployee(positionEmployee) {
     try {
       let newPositionEmployee = await models.position_empolyees.create({
-        name: positionEmployee.value.name,
+        name: positionEmployee.value.name.trim(),
       });
 
       let modifiedPositionEmployee = await models.position_empolyees.findByPk(

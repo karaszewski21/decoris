@@ -24,9 +24,8 @@ import { ClientEmployeesModalComponent } from "./components/dialog/information/c
 import { ClientProfilesFittingsModalComponent } from "./components/dialog/information/client-profiles-fittings-modal/client-profiles-fittings-modal.component";
 import { SearchMobileModalComponent } from "./components/dialog/mobile/search-mobile-modal/search-mobile-modal.component";
 import { FilterMobileModalComponent } from "./components/dialog/mobile/filter-mobile-modal/filter-mobile-modal.component";
-
 import { reducers, ClientEffects, CLIENT_KEY } from "./store";
-import { ClientBaseModalComponent } from './components/dialog/information/client-base-modal/client-base-modal.component';
+import { ClientBaseModalComponent } from "./components/dialog/information/client-base-modal/client-base-modal.component";
 
 @NgModule({
   declarations: [
