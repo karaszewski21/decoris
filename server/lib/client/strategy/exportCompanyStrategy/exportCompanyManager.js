@@ -12,8 +12,19 @@ module.exports = class ExportCompanyManager {
     return this._strategy;
   }
 
-  async exportCompanies(limit) {
-    const totalCountCompany = await new CompanyProvder().getCountCompanies();
+  async exportCompanies(
+    limit,
+    selectedColumns,
+    selectedColumnsExtended,
+    selectedCompaniesIds
+  ) {
+    let totalCountCompany;
+    if (selectedCompaniesIds === null) {
+      totalCountCompany = await new CompanyProvder().getCountCompanies();
+    } else {
+      totalCountCompany = selectedCompaniesIds.length;
+    }
+
     let pages = Math.floor(totalCountCompany / limit);
     const rest = totalCountCompany % limit;
 
@@ -21,30 +32,47 @@ module.exports = class ExportCompanyManager {
       pages++;
     }
 
-    let bodyQuery = {
-      limit: limit,
-      offset: 0,
-      name: [],
-      business_profiles: [],
-      voivodeships: [],
-      cities: [],
-      country: "all",
-    };
+    if (selectedCompaniesIds === null) {
+      let bodyQuery;
+      for (let index = 0; index < pages; index++) {
+        if (index === pages - 1) {
+          bodyQuery = { limit: rest, offset: index * limit };
+        } else {
+          bodyQuery = { offset: index * limit };
+        }
 
-    for (let index = 0; index < pages; index++) {
-      if (index === pages - 1) {
-        bodyQuery = { ...bodyQuery, limit: rest, offset: index * limit };
-      } else {
-        bodyQuery = { ...bodyQuery, offset: index * limit };
+        let companies = await new CompanyProvder().getCompaniesListToExport(
+          bodyQuery,
+          selectedColumns,
+          selectedColumnsExtended
+        );
+
+        let componentList = companies.companies.map((value) => value.toJSON());
+
+        await this._strategy.convert(componentList);
       }
+    } else {
+      let partialCompaniesIds = [];
 
-      let companies = await new CompanyProvder().getFilteredClientsListByParametrs(
-        bodyQuery
-      );
+      for (let index = 0; index < pages; index++) {
+        if (index === pages - 1) {
+          bodyQuery = { ...bodyQuery, limit: rest, offset: index * limit };
+          partialCompaniesIds = selectedCompaniesIds.slice(index * limit, rest);
+        } else {
+          bodyQuery = { ...bodyQuery, offset: index * limit };
+          partialCompaniesIds = selectedCompaniesIds.slice(index * limit);
+        }
 
-      let componentList = companies.companies.map((value) => value.toJSON());
+        let companies = await new CompanyProvder().getCompaniesListToExport(
+          bodyQuery,
+          selectedColumns,
+          partialCompaniesIds
+        );
 
-      this._strategy.convert(componentList);
+        let componentList = companies.companies.map((value) => value.toJSON());
+
+        await this._strategy.convert(componentList);
+      }
     }
 
     return this._strategy.pathToFile;

@@ -176,4 +176,98 @@ module.exports = class CompanyProvder {
       return await models.companies.count();
     }
   }
+
+  async getCompaniesListToExport(
+    bodyQuery,
+    selectedColumns,
+    selectedColumnsExtended,
+    selectedCompaniesIds = null
+  ) {
+    models.companies.associate(models);
+    models.empolyees.associate(models);
+    models.cities.associate(models);
+
+    let bodyQuery = { include: [] };
+
+    for (const item of selectedColumnsExtended) {
+      switch (item) {
+        case "country":
+          bodyQuery.include.push({
+            model: models.countries,
+            required: true,
+          });
+          break;
+        case "city":
+          bodyQuery.include.push({
+            model: models.cities,
+            required: true,
+          });
+          break;
+        case "voivodeship":
+          bodyQuery.include.push({
+            model: models.cities,
+            include: [models.voivodeships],
+            required: true,
+          });
+          break;
+        case "employee":
+          bodyQuery.include.push({
+            model: models.empolyees,
+            include: [
+              {
+                model: models.position_empolyees,
+              },
+            ],
+          });
+          break;
+        case "note":
+          bodyQuery.include.push({ model: models.notes });
+          break;
+        case "business_profile":
+          bodyQuery.include.push({
+            model: models.business_profiles,
+            through: { attributes: [] },
+          });
+          break;
+        case "aluminium_profile":
+          bodyQuery.include.push({
+            model: models.aluminium_profiles,
+            through: { attributes: [] },
+          });
+          break;
+        case "aluminium_fitting":
+          bodyQuery.include.push({
+            model: models.aluminium_fittings,
+            through: { attributes: [] },
+          });
+          break;
+        case "pcv_fitting":
+          bodyQuery.include.push({
+            model: models.pcv_fittings,
+            through: { attributes: [] },
+          });
+          break;
+        case "pcv_profile":
+          bodyQuery.include.push({
+            model: models.pcv_profiles,
+            through: { attributes: [] },
+          });
+          break;
+        default:
+          break;
+      }
+    }
+
+    bodyQuery.where =
+      selectedCompaniesIds === null ? null : { id: selectedCompaniesIds };
+
+    return await await models.companies.findAll({
+      attributes: selectedColumns,
+      include: bodyQuery.include,
+      where: bodyQuery.where,
+      limit: bodyQuery.limit,
+      offset: bodyQuery.offset,
+      order: ["name"],
+    });
+  }
 };

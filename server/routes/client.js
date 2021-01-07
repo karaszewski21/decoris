@@ -9,12 +9,16 @@ router.get(
   AuthJwt.verifyToken,
   clientController.getClientById
 );
+
+router.get("/import", AuthJwt.verifyToken, clientController.importClient);
+
 router.post(
   "/get-clients",
   AuthJwt.verifyToken,
   clientController.getFilteredClientsListByParametrs
 );
 router.post("/add-client", AuthJwt.verifyToken, clientController.createClient);
+router.post("/export", AuthJwt.verifyToken, clientController.exportClient);
 router.put(
   "/update-client",
   AuthJwt.verifyToken,
@@ -25,7 +29,5 @@ router.delete(
   AuthJwt.verifyToken,
   clientController.deleteClientById
 );
-router.get("/import", AuthJwt.verifyToken, clientController.importClient);
-router.get("/export/:type", AuthJwt.verifyToken, clientController.exportClient);
 
 module.exports = router;

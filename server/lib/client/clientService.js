@@ -60,7 +60,7 @@ module.exports = class ClientsService {
     return await new CompanyImporter().importCompanies("csv");
   }
 
-  async exportClient(type) {
-    return await new CompanyExporter().exportCompanies(type);
+  async exportClient(body) {
+    return await new CompanyExporter().exportCompanies(body);
   }
 };

@@ -81,9 +81,7 @@ class ClientsController {
 
   async exportClient(req, res) {
     try {
-      const pathToFile = await new clientsService().exportClient(
-        req.params.type
-      );
+      const pathToFile = await new clientsService().exportClient(req.body);
       res.download(pathToFile);
     } catch (error) {
       res.status(404).send(`message: ${error.message}`);

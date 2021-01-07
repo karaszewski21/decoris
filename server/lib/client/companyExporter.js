@@ -6,7 +6,7 @@ const ExportCsvCompany = require("./strategy/exportCompanyStrategy/exportCsvComp
 module.exports = class CompanyExporter {
   constructor() {}
 
-  async exportCompanies(type) {
+  async exportCompanies(body) {
     try {
       let pathToFile = path.join(__dirname, "..", "..", "download");
       let fileName = `export-client-${Date.now()}`;
@@ -17,18 +17,23 @@ module.exports = class CompanyExporter {
 
       const exportCompanyManager = new ExportCompanyManager();
 
-      switch (type) {
+      switch (body.typeFile) {
         case "csv":
           const exportCsvCompany = new ExportCsvCompany(pathToFile, fileName);
+
           exportCompanyManager.strategy = exportCsvCompany;
           break;
 
         default:
           throw new Error(`type file "${type}" not opereted`);
-          break;
       }
 
-      return await exportCompanyManager.exportCompanies(limit);
+      return await exportCompanyManager.exportCompanies(
+        limit,
+        body.selectedColumns,
+        body.selectedColumnsExtended,
+        body.selectedCompaniesIds
+      );
     } catch (error) {
       throw error;
     }
